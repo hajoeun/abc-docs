@@ -51,7 +51,7 @@
 <script src="//rawgit.com/marpple/abc-functional-javascript/master/etc/abc.all.js"></script>
 <script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-<script src="//underscorejs.org/underscore-min.js"></script>
+<script src="//rawgit.com/marpple/abc-functional-javascript/master/example/js/underscore.js"></script>
 <script>
 
 //  var funcs = _.filter(_.keys(F), function(val) { return val !== 'F' && val !== 'G' });
@@ -131,7 +131,7 @@
 
   function update_section_list(str) {
 
-    if (str == "") return $('li').css("display", "list-item");          // 반드시 수정할 것
+    if (str == "") return $('#sidebar li').css("display", "list-item");
 
     var str_re = new RegExp(str, "i");
 
