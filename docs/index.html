@@ -131,7 +131,7 @@
 
   function update_section_list(str) {
 
-    if (str == "") return ;
+    if (str == "") return $('li').css("display", "list-item");          // 반드시 수정할 것
 
     var str_re = new RegExp(str, "i");
 
