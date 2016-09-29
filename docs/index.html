@@ -1,25 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    <title>ABC Project</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <title>ABC Project</title>
+  <style>
+    div#sidebar {
+      background-color: whitesmoke;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 350px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 15px 0px 30px 30px;
+      border-right: 1px solid grey;
+    }
+    div#searchbar {
+      background-color: whitesmoke;
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 200px;
+      padding: 15px 30px 0px 30px;
+      border-right: 1px solid grey;
+    }
+    div.container {
+      width: 550px;
+      margin: 40px 0 50px 260px;
+      padding-left: 150px;
+    }
+    section {
+      height: 200px;
+      background-color : mistyrose;
+      border-bottom: 2px solid blue;
+    }
+
+    li {
+      display: list-item;
+    }
+
+    ul {
+      list-style: none;
+    }
+  </style>
 </head>
 <body>
-    <script src="https://rawgit.com/marpple/abc-functional-javascript/master/etc/abc.all.js"></script>
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-    <script>
-        C([H('','\
-            h1 H template test!!!!\
-            a[href=https://joeunha.github.io/abc-docs/template] test1\
-            a[href=template] test2\
-        '),
-        $,
-        B.M('appendTo', 'body')]);
+<script src="https://rawgit.com/marpple/abc-functional-javascript/master/etc/abc.all.js"></script>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script src="http://underscorejs.org/underscore-min.js"></script>
+<script>
+
+//  var funcs = _.filter(_.keys(F), function(val) { return val !== 'F' && val !== 'G' });
+  var funcs = _.filter(_.keys(F), function(val) { return C.sneq(val, 'F') && C.sneq(val, 'G')});
+
+  G.sections = {
+    $A : '\
+        section#A \
+          p 나는 세션 A\
+          p A 함수를 설명하지\
+          p 함수는 블라블라~~~\
+        ',
+    $B : '\
+        section#B \
+          p 나는 세션 B\
+          p B 함수를 설명하지\
+          p 함수는 블라블라~~~\
+        ',
+    $CB : '\
+        section#CB \
+          p 나는 세션 CB\
+          p CB 함수를 설명하지\
+          p 함수는 블라블라~~~\
+        ',
+    $B2 : '\
+        section#B2 \
+          p 나는 세션 B2\
+          p B2 함수를 설명하지\
+          p 함수는 블라블라~~~\
+        ',
+    $H : '\
+        section#H \
+          p 나는 세션 H\
+          p H 함수를 설명하지\
+          p 함수는 블라블라~~~\
+        '
+  };
 
 
 
-    </script>
+  var section_list = C(funcs, H.each('func', '\
+      li[data=!{func}!]\
+        a[href=#!{func}!]\
+          h3 !{func}!\
+        ul.method_list.!{func}!\
+          {{{C(_.keys(!{func}!),', H.each("method", "\
+          li[data=!{method}!]\
+            a[href=#!{method}!]\
+              span !{method}!"), ')}}}'));
+
+
+  C(funcs, [H('funcs','\
+    div.interface#sidebar\
+      ul.func_list\
+        {{{section_list}}}\
+    div.container\
+      {{{C(_.values(G.sections), ', H.each('section', '\
+        div {{{C(H("", section))}}}'), ')}}}\
+    div#searchbar\
+      input.#search[type=text placeholder=search]\
+    '),
+    $,
+    B.M('appendTo', 'body')]);
+
+
+
+  $('#search').on('keyup', function(e) {
+    if (e.which === 13) {
+      $('li#_B').attr('style', 'display: none');
+    }
+
+    var str = $(e.target).val();
+
+
+    update_section_list(str); //search_str
+
+  });
+
+  function update_section_list(str) {
+
+    var str_re = new RegExp(str, "i");
+
+    var $func_li = _.filter($('ul.func_list > li'), function(func) {
+      return !$(func).attr('data').match(str_re);
+    });
+
+
+    var res = _.map($func_li, function(v) {
+      var $v = $(v);
+
+      if (!v.innerText.match(str_re)) {
+        $v.css("display", "none");
+        return false;
+      }
+
+      $v.css("display", "list-item");
+      return $v.children('ul')[0].childNodes;
+    });
+
+
+    console.log(res);
+    _.each(res, function(v) {
+
+      if (!v) return;
+
+      _.each(v, function(iv) {
+        if (iv.innerText.match(str_re)) {
+          return $(iv).css("display", "list-item");
+        }
+        return $(iv).css("display", "none");
+      })
+    });
+
+
+  }
+
+
+
+</script>
 </body>
 </html>
