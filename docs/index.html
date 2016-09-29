@@ -48,10 +48,10 @@
   </style>
 </head>
 <body>
-<script src="https://rawgit.com/marpple/abc-functional-javascript/master/etc/abc.all.js"></script>
-<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-<script src="http://underscorejs.org/underscore-min.js"></script>
+<script src="//rawgit.com/marpple/abc-functional-javascript/master/etc/abc.all.js"></script>
+<script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script src="//underscorejs.org/underscore-min.js"></script>
 <script>
 
 //  var funcs = _.filter(_.keys(F), function(val) { return val !== 'F' && val !== 'G' });
@@ -125,12 +125,13 @@
 
     var str = $(e.target).val();
 
-
     update_section_list(str); //search_str
 
   });
 
   function update_section_list(str) {
+
+    if (str == "") return ;
 
     var str_re = new RegExp(str, "i");
 
@@ -155,7 +156,7 @@
     console.log(res);
     _.each(res, function(v) {
 
-      if (!v) return;
+      if (!v) return; // 자신에게도 없고 자식에게도 없는 경우
 
       _.each(v, function(iv) {
         if (iv.innerText.match(str_re)) {
