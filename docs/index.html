@@ -6,9 +6,16 @@
 </head>
 <body>
     <h1>hello!!</h1>
-    <a href="https://joeunha.github.io/abc-docs/template">test1</a>
-    <a href="https://joeunha.github.io/abc-docs/template.html">test2</a>
-    <a href="template.html">test3</a>
-    <a href="/template.html">test4</a>
+    <script src="/abc.all.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script>
+        C([H('','\
+            h1 H template test!!!!\
+            a[href=https://joeunha.github.io/abc-docs/template] test1\
+            a[herf=template] test2\
+        '),
+        $,
+        B.M('appendTo', 'body')]);
+    </script>
 </body>
 </html>
