@@ -11,7 +11,7 @@
       top: 0;
       left: 0;
       bottom: 0;
-      width: 350px;
+      width: 320px;
       overflow-y: auto;
       overflow-x: hidden;
       padding: 15px 0px 30px 30px;
@@ -54,7 +54,7 @@
 <script src="//rawgit.com/marpple/abc-functional-javascript/master/example/js/underscore.js"></script>
 <script>
 
-//  var funcs = _.filter(_.keys(F), function(val) { return val !== 'F' && val !== 'G' });
+  //  var funcs = _.filter(_.keys(F), function(val) { return val !== 'F' && val !== 'G' });
   var funcs = _.filter(_.keys(F), function(val) { return C.sneq(val, 'F') && C.sneq(val, 'G')});
 
   G.sections = {
@@ -119,58 +119,42 @@
 
 
   $('#search').on('keyup', function(e) {
-    if (e.which === 13) {
-      $('li#_B').attr('style', 'display: none');
-    }
-
-    var str = $(e.target).val();
-
-    update_section_list(str); //search_str
-
+    update_section_list($(e.target).val()); //search_str
   });
 
   function update_section_list(str) {
+    if (str) {
+      var str_re = new RegExp(str, "i");
 
-    if (str == "") return $('#sidebar li').css("display", "list-item");
+      var $func_li = _.filter($('ul.func_list > li'),
+        function(func) {
+          return !$(func).attr('data').match(str_re);
+        });
 
-    var str_re = new RegExp(str, "i");
+      var res = _.map($func_li, function(v) {
+        var $v = $(v);
+        return v.innerText.match(str_re) ? (function() { $v.show(); return $v.children('ul')[0].childNodes; })() : $v.hide();
+      });
 
-    var $func_li = _.filter($('ul.func_list > li'), function(func) {
-      return !$(func).attr('data').match(str_re);
-    });
+      _.each(res, function(v) {
 
-
-    var res = _.map($func_li, function(v) {
-      var $v = $(v);
-
-      if (!v.innerText.match(str_re)) {
-        $v.css("display", "none");
-        return false;
-      }
-
-      $v.css("display", "list-item");
-      return $v.children('ul')[0].childNodes;
-    });
-
-
-    console.log(res);
-    _.each(res, function(v) {
-
-      if (!v) return; // 자신에게도 없고 자식에게도 없는 경우
-
-      _.each(v, function(iv) {
-        if (iv.innerText.match(str_re)) {
-          return $(iv).css("display", "list-item");
+        if (v) {
+          _.each(v, function (iv) {
+            if (iv.innerText.match(str_re)) {
+              return $(iv).show();
+            }
+            return $(iv).hide();
+          })
         }
-        return $(iv).css("display", "none");
-      })
-    });
 
+        return;
+      });
 
+      return;
+    }
+
+    return $('#sidebar li').show(); // a
   }
-
-
-
 </script>
 </body>
 </html>
