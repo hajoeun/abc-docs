@@ -1,51 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
   <title>ABC Project</title>
-  <style>
-    div#sidebar {
-      background-color: whitesmoke;
-      position: fixed;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      width: 320px;
-      overflow-y: auto;
-      overflow-x: hidden;
-      padding: 15px 0px 30px 30px;
-      border-right: 1px solid grey;
-    }
-    div#searchbar {
-      background-color: whitesmoke;
-      position: fixed;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      width: 200px;
-      padding: 15px 30px 0px 30px;
-      border-right: 1px solid grey;
-    }
-    div.container {
-      width: 550px;
-      margin: 40px 0 50px 260px;
-      padding-left: 150px;
-    }
-    section {
-      height: 200px;
-      background-color : mistyrose;
-      border-bottom: 2px solid blue;
-    }
-
-    li {
-      display: list-item;
-    }
-
-    ul {
-      list-style: none;
-    }
-  </style>
 </head>
 <body>
 <script src="//rawgit.com/marpple/abc-functional-javascript/master/etc/abc.all.js"></script>
@@ -54,8 +13,7 @@
 <script src="//rawgit.com/marpple/abc-functional-javascript/master/example/js/underscore.js"></script>
 <script>
 
-  //  var funcs = _.filter(_.keys(F), function(val) { return val !== 'F' && val !== 'G' });
-  var funcs = _.filter(_.keys(F), function(val) { return C.sneq(val, 'F') && C.sneq(val, 'G')});
+  var funcs = _.filter(_.keys(F), function(val) { return val !== 'F' && val !== 'G' });
 
   G.sections = {
     $A : '\
@@ -90,70 +48,64 @@
         '
   };
 
-
-
-  var section_list = C(funcs, H.each('func', '\
-      li[data=!{func}!]\
-        a[href=#!{func}!]\
-          h3 !{func}!\
-        ul.method_list.!{func}!\
-          {{{C(_.keys(!{func}!),', H.each("method", "\
-          li[data=!{method}!]\
-            a[href=#!{method}!]\
-              span !{method}!"), ')}}}'));
-
-
+  // body 내부 HTML
   C(funcs, [H('funcs','\
-    div.interface#sidebar\
+    div.bar#side_bar\
+      h3 ABC JS \
+        br\
+        small Functional JavaScript\
+      a.small[href=https://github.com/marpple/abc-functional-javascript] GitHub Repository\
+      div.input-group\
+        input.form-control#search[type=text placeholder=Search]\
+        span.input-group-addon\
+          span.glyphicon.glyphicon-search\
       ul.func_list\
-        {{{section_list}}}\
-    div.container\
-      {{{C(_.values(G.sections), ', H.each('section', '\
-        div {{{C(H("", section))}}}'), ')}}}\
-    div#searchbar\
-      input.#search[type=text placeholder=search]\
+        {{{C(funcs, ', H.each('func', '\
+        li[data=!{func}!]\
+          a[href=#!{func}!]\
+            h3\
+              u !{func}!\
+          ul.method_list.!{func}!\
+            {{{C(_.keys(!{func}!),', H.each("method", "\
+            li[data=!{method}!]\
+              a[href=#!{method}!] !{method}!"), ')}}}'
+        ),')}}}\
+    div.container#section_container\
+        {{{C(_.values(G.sections), ', H.each("section", "\
+         div {{{H('', section)()}}}\
+        "), ')}}}\
     '),
     $,
     B.M('appendTo', 'body')]);
 
-
-
-  $('#search').on('keyup', function(e) {
+  $('#search').keyup(function(e) {
     update_section_list($(e.target).val()); //search_str
   });
 
   function update_section_list(str) {
     if (str) {
-      var str_re = new RegExp(str, "i");
+      var reg = new RegExp(str, "i");
 
-      var $func_li = _.filter($('ul.func_list > li'),
-        function(func) {
-          return !$(func).attr('data').match(str_re);
+      var $func_li = _.filter($('ul.func_list > li'), function(func){
+          return !$(func).attr('data').match(reg);
         });
 
-      var res = _.map($func_li, function(v) {
-        var $v = $(v);
-        return v.innerText.match(str_re) ? (function() { $v.show(); return $v.children('ul')[0].childNodes; })() : $v.hide();
+      var res = _.map($func_li, function(li) {
+        var $li = $(li);
+        return li.innerText.match(reg) ? (function() { $li.show(); return $li.children('ul')[0].childNodes; })() : $li.hide();
       });
 
-      _.each(res, function(v) {
-
-        if (v) {
-          _.each(v, function (iv) {
-            if (iv.innerText.match(str_re)) {
-              return $(iv).show();
-            }
-            return $(iv).hide();
-          })
+      _.each(res, function(li) {
+        if (li) {
+          _.each(li, function (inner_li) { return inner_li.innerText.match(reg) ? $(inner_li).show() : $(inner_li).hide(); });
         }
-
         return;
       });
 
       return;
     }
 
-    return $('#sidebar li').show(); // a
+    return $('#side_bar li').show();
   }
 </script>
 </body>

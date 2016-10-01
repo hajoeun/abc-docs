@@ -1,0 +1,50 @@
+li {
+    display: list-item;
+}
+
+ul {
+    list-style: none;
+}
+
+a {
+    color: black;
+}
+
+section {
+    height: 200px;
+    background-color : mistyrose;
+    border-bottom: 2px solid blue;
+}
+
+div#side_bar {
+    background-color: whitesmoke;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 15px 30px 30px 30px;
+}
+
+div#section_container {
+    width: 550px;
+    margin: 40px 0 50px 260px;
+    padding-left: 150px;
+}
+
+.input-group {
+    margin-top: 20px;
+}
+
+/*div#searchbar {*/
+/*background-color: whitesmoke;*/
+/*position: fixed;*/
+/*top: 0;*/
+/*right: 0;*/
+/*bottom: 0;*/
+/*width: 200px;*/
+/*padding: 15px 30px 0px 30px;*/
+/*border-right: 1px solid grey;*/
+/*}*/
