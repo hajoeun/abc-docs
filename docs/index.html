@@ -66,9 +66,9 @@
             h3\
               u !{func}!\
           ul.method_list.!{func}!\
-            {{{C(_.keys(!{func}!),', H.each("method", "\
+            {{{C(_.keys(!{func}!), "!{func}!", ', H.each("method, k, l, func", '\
             li[data=!{method}!]\
-              a[href=#!{method}!] !{method}!"), ')}}}'
+              a[href=#!{func}!_!{method}!] !{method}!'), ')}}}'
         ),')}}}\
     div.container#section_container\
         {{{C(_.values(G.sections), ', H.each("section", "\
@@ -92,7 +92,7 @@
 //      return !$(func).attr('data').match(reg);
     });
 
-    var res = _.map($func_li, function(li) { //메소드 조사
+    var res = _.map($func_li, function(li) {
       var $li = $(li);
       return li.innerText.match(reg) ? (function() {
         $li.show();

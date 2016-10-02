@@ -4,6 +4,8 @@ li {
 
 ul {
     list-style: none;
+    font-size: 13px;
+    padding-left: 10px;
 }
 
 a {
