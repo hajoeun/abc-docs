@@ -130,30 +130,29 @@
   });
 
   function update_section_list(str) {
-    if (str) {
-      var reg = new RegExp(str, "i");
+    if (!str) return $('#side_bar li').show();
 
-      var $func_li = _.filter($('ul.func_list > li'), function(func){
-          return !$(func).attr('data').match(reg);
-        });
+    var reg = new RegExp(str, "i");
 
-      var res = _.map($func_li, function(li) {
-        var $li = $(li);
-        return li.innerText.match(reg) ? (function() { $li.show(); return $li.children('ul')[0].childNodes; })() : $li.hide();
-      });
+    var $func_li = _.filter($('ul.func_list > li'), function(func){
+      return $(func).attr('data').match(reg) ? !$('ul.func_list li').show() : true;
+    });
 
-      _.each(res, function(li) {
-        if (li) {
-          _.each(li, function (inner_li) { return inner_li.innerText.match(reg) ? $(inner_li).show() : $(inner_li).hide(); });
-        }
-        return;
-      });
+    var res = _.map($func_li, function(li) { //메소드 조사
+      var $li = $(li);
+      return li.innerText.match(reg) ? (function() {
+        $li.show();
+        return $li.children('ul')[0].childNodes; })() : $li.hide();
+    });
 
-      return;
-    }
+    _.each(res, function(li) {
+      if (li) {
+        _.each(li, function (inner_li) { return inner_li.innerText.match(reg) ? $(inner_li).show() : $(inner_li).hide(); });
+      }
 
-    return $('#side_bar li').show();
+    });
   }
+
 </script>
 </body>
 </html>
