@@ -3,8 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <!--<link href='http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.css' rel='stylesheet' type='text/css'/>-->
+    <style>
+        div {
+            border : 1px solid black;
+        }
+        textarea {
+            width:300px;
+            height: 200px;
+        }
+
+    </style>
 </head>
-<body>
-    <h1>야~~~~~~~~~~~~~~~~</h1>
+
+<script src="//rawgit.com/marpple/abc-functional-javascript/master/etc/abc.all.js"></script>
+<script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script src="//rawgit.com/marpple/abc-functional-javascript/master/example/js/underscore.js"></script>
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+<!--<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?autoload=true&amp;skin=sunburst&amp;lang=css" defer="defer"></script>-->
+
+
+<h1>야~~~~~~~~~~~~~~~~</h1>
+<script>
+    // TAB 설정
+    // C(H('', ' ~~~~ '))
+
+
+  C([H('','\
+    form.tab_size tab size\
+      input[type=radio name="tab" value=2 checked] 2\
+      input[type=radio name="tab" value=4] 4\
+    div#test\
+      h1 basic\
+      textarea.input\
+//      pre.prettyprint.output.html\
+//        code\
+      textarea.prettyprint.output.html[readonly]\
+      div.output.dom as\
+    '),
+      $,
+      B.M('appendTo', 'body')]);
+
+
+  $('.tab_size').on('click', function(e) {                              // tab_size 변경 할 때에도 output 형태 업그레이드 해줘야 !!
+      console.log("클릭!");
+      H.TAB_SIZE = C.parseInt($(':radio[name="tab"]:checked').val());
+  }).click();
+
+  function TAB() { return "( {" + H.TAB_SIZE + "}|\\t)"; }; // "( {4}|\\t)"
+  function TABS() { return TAB() + "+"; };
+
+
+    $('.input').keydown(function(e) {
+      if(e.keyCode === 9) { // tab was pressed
+          var start = this.selectionStart;
+          var end = this.selectionEnd;
+
+          var $this = $(this);
+          var value = $this.val();
+
+          $this.val(value.substring(0, start)
+            + H.TAB_SIZE == 2 ? "  " : "    " // 탭
+            + value.substring(end));
+
+          this.selectionStart = this.selectionEnd = start + H.TAB_SIZE;
+
+          e.preventDefault();
+      }
+
+  })
+
+    function my_pretty(code) {
+        var stack = [];
+//        code = code.replace(/(<\w+ ?>)/, "$1\n"); // 여는 태그
+//        code = code.replace(/(<(\w+) ?[\s\S]*?>[\s\S]*?)(<\w+ ?[\s\S]*?>)/g, function(match, $1, $2, $3) { stack.push($2); return $1+"\n"+$3; }); // 여는 태그
+        code = code.replace(/(<\w+ ?[\s\S]*?>)([\s\S])*/g, "$1\n$2"); // 여는 태그
+        code = code.replace(/(<\/\w+>)/g, "$1\n"); // 닫는 태그
+        console.log(stack)
+        return code;
+    }
+
+  $('#test .input').keyup(function(e) {
+
+      var res = C(H('', $(e.target).val()));
+
+      console.log("H 결과 : ", res);
+      // html에 그리기
+//      var res = $('#test .dom')[0].innerHTML.replace(/&lt;script src[\s\S]*?&gt;&lt;\/script&gt;|&lt;!--\?[\s\S]*?--&gt;|&lt;pre\b[\s\S]*?&lt;\/pre&gt;/g,
+//        '<span class="operative">$&</span>');
+//      $('#test .html')[0].innerHTML = _.escape(res);
+
+
+//      $('#test .html')[0].innerHTML = my_pretty(res);
+      $('#test .html')[0].innerText = my_pretty(res);
+//      $('#test .html')[0].val(my_pretty(res));
+
+
+
+      // 돔 dom에다가 그리기
+      $('#test .dom')[0].innerHTML = res;
+
+
+
+      ////////////////////////////////////////////
+
+
+      /*
+      $('#test .html').val($('#test .dom')[0].innerHTML);
+      $('#test .html')[0].val($('#test .dom')[0].innerHTML);
+      $('#test .html').innerText = _.escape($('#test .dom')[0].innerHTML);
+      $('#test .html')[0].innerHTML = _.escape($('#test .dom')[0].innerHTML);
+      */
+
+
+
+
+
+//      document.getElementById("quine").innerHTML = _.escape("<div><sapn></sapn></div>");
+
+//
+//      $('#test .html').val(C([
+//        H('', $(e.target).val()),
+//        $,
+//          B.all(
+//            B.method('appendTo', '#test .dom'),
+//            htmlConvert
+//          )
+//      ]));
+
+    function htmlConvert(elem) { //dom => pretty html
+//        console.log(elem[0].outerHTML);
+//        console.log($('#test')[0].getElementsByClassName("html")[0])
+//        $('#test')[0].getElementsByClassName("html")[0].innerHTML = _.escape(elem[0].outerHTML);
+//        $('#test')[0].getElementsByClassName("html")[0].value = _.escape(elem[0].outerHTML);
+        $('#test .html').val(elem.outerHTML);
+        console.log($('#test .html'), elem);
+    }
+
+  });
+
+</script>
+
 </body>
 </html>
