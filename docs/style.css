@@ -1,52 +1,52 @@
+/*나눔고딕 폰트 적용 예시*/
+/*@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);*/
+/*body {*/
+/*font-family: 'Nanum Gothic', serif;*/
+/*}*/
+
 li {
-    display: list-item;
+  display: list-item;
 }
 
 ul {
-    list-style: none;
-    font-size: 13px;
-    padding-left: 10px;
+  list-style: none;
+  font-size: 13px;
+  padding-left: 10px;
 }
 
 a {
-    color: black;
+  color: black;
+}
+
+u {
+  text-decoration: none;
 }
 
 section {
-    height: 200px;
-    background-color : mistyrose;
-    border-bottom: 2px solid blue;
+  width: 600px;
+  padding: 20px 50px;
+  background-color : whitesmoke;
+  border-bottom: 1px solid gainsboro;
 }
 
 div#side_bar {
-    background-color: whitesmoke;
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 300px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding: 15px 30px 30px 30px;
+  background-color: whitesmoke;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 15px 30px 30px 30px;
 }
 
 div#section_container {
-    width: 550px;
-    margin: 40px 0 50px 260px;
-    padding-left: 150px;
+  width: 550px;
+  margin: 40px 0 50px 260px;
+  padding-left: 150px;
 }
 
 .input-group {
-    margin-top: 20px;
+  margin-top: 20px;
 }
-
-/*div#searchbar {*/
-/*background-color: whitesmoke;*/
-/*position: fixed;*/
-/*top: 0;*/
-/*right: 0;*/
-/*bottom: 0;*/
-/*width: 200px;*/
-/*padding: 15px 30px 0px 30px;*/
-/*border-right: 1px solid grey;*/
-/*}*/

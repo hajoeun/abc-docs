@@ -11,6 +11,7 @@
 <script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <script src="//rawgit.com/marpple/abc-functional-javascript/master/example/js/underscore.js"></script>
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=desert" defer="defer"></script>
 <script>
 
   var funcs = _.filter(_.keys(F), function(val) { return val !== 'F' && val !== 'G' });
@@ -18,21 +19,67 @@
   G.sections = {
     $A : '\
         section#A \
-          p 나는 세션 A\
-          p A 함수를 설명하지\
-          p 함수는 블라블라~~~\
+          h4 A\
+          p <code>A</code>는 <code>apply</code>와 비슷합니다. 배열이나 객체를 사용할 수 있습니다.\
+          pre.prettyprint\
+            |function add(a, b) {\
+            |__return a + b; \
+            |}\
+            |\
+            |var r1 = A([20,2], add);\
+            |console.log(r1); // 22\
+          p 왼쪽에서 오른쪽, 위에서 아래로 읽는게 편안합니다. 그래서 <code>A</code>는 인자와 함수 사용에 대한 방향을 바꾸었습니다.\
+          pre.prettyprint\
+            |function minus(a, b) {\
+            |__return a - b;\
+            |}\
+            |\
+            |var r2 = A([20, 5], function() {\
+            |__return A(arguments, minus);\
+            |});\
+            |console.log(r2); // 15\
         ',
     $B : '\
         section#B \
-          p 나는 세션 B\
-          p B 함수를 설명하지\
-          p 함수는 블라블라~~~\
+          h4 B\
+          p <code>B</code>는 <code>this</code>를 제외한 <code>bind</code>라고 생각하면 쉽습니다. 혹은 underscore의 <code>_.partial</code>과 유사합니다.\
+          pre.prettyprint\
+            |function minus(a, b) {\
+            |__return a - b;\
+            |}\
+            |\
+            |var f1 = B(10, minus);\
+            |var f2 = f1(20);\
+            |console.log(r1); // -10\
+          p <code>B</code>를 <code>X</code>와 함께 사용해보세요. <code>X</code>를 통해 이후 실행시에 받게될 인자의 자리를 지정해둘 수 있습니다.\
+          pre.prettyprint\
+            |var f2 = B(X, 10, minus);\
+            |var r2 = f2(20);\
+            |\
+            |console.log(r2); // 10\
+            |\
+            |function minus2(a, b, c, d) {\
+            |__return a - b - c - d;\
+            |}\
+            |\
+            |var f3 = B(4, X, X, 1, minus2);\
+            |var r3 = f3(3, 2);\
+            |console.log(r3); // -2\
         ',
-    $CB : '\
-        section#CB \
-          p 나는 세션 CB\
-          p CB 함수를 설명하지\
-          p 함수는 블라블라~~~\
+    $C : '\
+        section#C \
+          h4 C\
+          p <code>C</code>는 <code>this</code>를 제외한 <code>call</code>이라고 생각하면 쉽습니다.\
+          pre.prettyprint\
+            |function minus(a, b) {\
+            |__return a - b;\
+            |}\
+            |\
+            |var r1 = C(10, 20, minus);\
+            |console.log(r1); // -10\
+            |\
+            |var r2 = C(20, 10, minus);\
+            |console.log(r2); // 10\
         ',
     $B2 : '\
         section#B2 \
@@ -72,11 +119,16 @@
         ),')}}}\
     div.container#section_container\
         {{{C(_.values(G.sections), ', H.each("section", "\
-         div {{{H('', section)()}}}\
+         div {{{H('', replace_(section) )()}}}\
         "), ')}}}\
     '),
     $,
     B.M('appendTo', 'body')]);
+
+
+  function replace_(str) {
+    return str.replace(/\|(_+)/g, function(m, u) { return "|" + u.replace(/_/g, '&nbsp;'); });
+  }
 
   $('#search').keyup(function(e) {
     update_section_list($(e.target).val()); //search_str
@@ -89,10 +141,9 @@
 
     var $func_li = _.filter($('ul.func_list > li'), function(func){
       return $(func).attr('data').match(reg) ? !$('ul.func_list li').show() : true;
-//      return !$(func).attr('data').match(reg);
     });
 
-    var res = _.map($func_li, function(li) {
+    var res = _.map($func_li, function(li) { //메소드 조사
       var $li = $(li);
       return li.innerText.match(reg) ? (function() {
         $li.show();
@@ -103,12 +154,10 @@
       if (li) {
         _.each(li, function (inner_li) { return inner_li.innerText.match(reg) ? $(inner_li).show() : $(inner_li).hide(); });
       }
-//      return;
+
     });
-
-//    return;
-
   }
+
 </script>
 </body>
 </html>
