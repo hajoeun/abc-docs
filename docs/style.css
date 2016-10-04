@@ -1,11 +1,15 @@
+/*나눔고딕 폰트 적용 예시*/
+/*@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);*/
+/*body {*/
+    /*font-family: 'Nanum Gothic', serif;*/
+/*}*/
+
 li {
     display: list-item;
 }
 
 ul {
     list-style: none;
-    font-size: 13px;
-    padding-left: 10px;
 }
 
 a {
@@ -13,9 +17,10 @@ a {
 }
 
 section {
-    height: 200px;
-    background-color : mistyrose;
-    border-bottom: 2px solid blue;
+    width: 600px;
+    padding: 20px 50px;
+    background-color : whitesmoke;
+    border-bottom: 1px solid gainsboro;
 }
 
 div#side_bar {
