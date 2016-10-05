@@ -3,6 +3,9 @@
 /*body {*/
 /*font-family: 'Nanum Gothic', serif;*/
 /*}*/
+body {
+  background-color: whitesmoke;
+}
 
 li {
   display: list-item;
@@ -22,23 +25,35 @@ u {
   text-decoration: none;
 }
 
-section {
+div.outer_section {
   width: 600px;
   padding: 20px 50px;
+  margin: 30px 0 30px 0;
   background-color : whitesmoke;
   border-bottom: 1px solid gainsboro;
+  -webkit-box-shadow: 0 0 20px #ccc;
+  -moz-box-shadow: 0 0 20px #ccc;
+  box-shadow: 0 0 20px #ccc;
+}
+
+div.inner_section {
+  margin-top: 30px;
+  border-top: 1px solid gainsboro;
 }
 
 div#side_bar {
-  background-color: whitesmoke;
+  background-color: white;
   position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
-  width: 300px;
+  width: 280px;
   overflow-y: auto;
   overflow-x: hidden;
   padding: 15px 30px 30px 30px;
+  -webkit-box-shadow: 0 0 20px #ccc;
+  -moz-box-shadow: 0 0 20px #ccc;
+  box-shadow: 0 0 20px #ccc;
 }
 
 div#section_container {

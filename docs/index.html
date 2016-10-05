@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <!--<link rel="stylesheet" href="prettyify_theme.min.css">-->
   <link rel="stylesheet" href="style.css">
   <title>ABC Project</title>
 </head>
@@ -12,15 +13,17 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <script src="//rawgit.com/marpple/abc-functional-javascript/master/example/js/underscore.js"></script>
 <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=desert" defer="defer"></script>
+<!--<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>-->
 <script>
+
 
   var funcs = _.filter(_.keys(F), function(val) { return val !== 'F' && val !== 'G' });
 
   G.sections = {
     $A : '\
-        section#A \
-          h4 A\
-          p <code>A</code>는 <code>apply</code>와 비슷합니다. 배열이나 객체를 사용할 수 있습니다.\
+        div.outer_section#A\
+          h3.func_title A\
+          p `A`는 `apply`와 비슷합니다. 배열이나 객체를 사용할 수 있습니다.\
           pre.prettyprint\
             |function add(a, b) {\
             |__return a + b; \
@@ -28,7 +31,7 @@
             |\
             |var r1 = A([20,2], add);\
             |console.log(r1); // 22\
-          p 왼쪽에서 오른쪽, 위에서 아래로 읽는게 편안합니다. 그래서 <code>A</code>는 인자와 함수 사용에 대한 방향을 바꾸었습니다.\
+          p 왼쪽에서 오른쪽, 위에서 아래로 읽는게 편안합니다. 그래서 `A`는 인자와 함수 사용에 대한 방향을 바꾸었습니다.\
           pre.prettyprint\
             |function minus(a, b) {\
             |__return a - b;\
@@ -40,9 +43,9 @@
             |console.log(r2); // 15\
         ',
     $B : '\
-        section#B \
-          h4 B\
-          p <code>B</code>는 <code>this</code>를 제외한 <code>bind</code>라고 생각하면 쉽습니다. 혹은 underscore의 <code>_.partial</code>과 유사합니다.\
+        div.outer_section#B\
+          h3.func_title B\
+          p `B`는 `this`를 제외한 `bind`라고 생각하면 쉽습니다. 혹은 underscore의 `_.partial`과 유사합니다.\
           pre.prettyprint\
             |function minus(a, b) {\
             |__return a - b;\
@@ -51,7 +54,7 @@
             |var f1 = B(10, minus);\
             |var f2 = f1(20);\
             |console.log(r1); // -10\
-          p <code>B</code>를 <code>X</code>와 함께 사용해보세요. <code>X</code>를 통해 이후 실행시에 받게될 인자의 자리를 지정해둘 수 있습니다.\
+          p `B`를 `X`와 함께 사용해보세요. `X`를 통해 이후 실행시에 받게될 인자의 자리를 지정해둘 수 있습니다.\
           pre.prettyprint\
             |var f2 = B(X, 10, minus);\
             |var r2 = f2(20);\
@@ -65,11 +68,37 @@
             |var f3 = B(4, X, X, 1, minus2);\
             |var r3 = f3(3, 2);\
             |console.log(r3); // -2\
+          div.inner_section#B_args\
+            h4.method_title B.args\
+            p `B.args`는 인덱스 값에 맞춰 매개변수의 값을 반환하는 함수를 만듭니다.\
+            pre.prettyprint\
+              |var arg0 = B.args(0);\
+              |var r1 = arg0(10, 20, 30);\
+              |console.log(r1); // 10\
+              |\
+              |var arg3 = B.args(3);\
+              |var r2 = arg3(10, 20, 30, 40);\
+              |console.log(r2); // 40\
+              |\
+              |var arg0_3 = B.args(0, 3);\
+              |var r3 = arg0_3(10, 20, 30, 40);\
+              |console.log(r3); // [10, 40]\
+              |\
+              |C(\'hi\', 10, 20, [B.args(1, 2), function(a, b) { return a + b; }]);\
+              |var keys = B.map([B.args(1), I]);\
+              |var values = B.map([B.args(0), I]);\
+          div.inner_section#B_remove\
+            h4.method_title B.remove\
+            p `B.remove`는 뭐하는 함수?\
+            pre.prettyprint\
+              |var remove3 = B.remove(3);\
+              |var r1 = remove3([1, 2, 3, 4, 5]);\
+              |console.log(r1); // [1, 2, 4, 5]\
         ',
     $C : '\
-        section#C \
-          h4 C\
-          p <code>C</code>는 <code>this</code>를 제외한 <code>call</code>이라고 생각하면 쉽습니다.\
+        div.outer_section#C\
+          h3.func_title C\
+          p `C`는 `this`를 제외한 `call`이라고 생각하면 쉽습니다.\
           pre.prettyprint\
             |function minus(a, b) {\
             |__return a - b;\
@@ -82,16 +111,20 @@
             |console.log(r2); // 10\
         ',
     $B2 : '\
-        section#B2 \
-          p 나는 세션 B2\
-          p B2 함수를 설명하지\
-          p 함수는 블라블라~~~\
+        div.outer_section#H\
+          h3.func_title H\
+          p `H` 함수를 설명하지\
+          pre.prettyprint\
+            |function() {\
+            |__return arguments;\
+            |}\
         ',
     $H : '\
-        section#H \
-          p 나는 세션 H\
-          p H 함수를 설명하지\
-          p 함수는 블라블라~~~\
+        div.outer_section#I\
+          h3.func_title I\
+          p `I` 함수를 설명하지\
+          pre.prettyprint\
+            |console.log("hello!");\
         '
   };
 
@@ -119,7 +152,7 @@
         ),')}}}\
     div.container#section_container\
         {{{C(_.values(G.sections), ', H.each("section", "\
-         div {{{H('', replace_(section) )()}}}\
+         div {{{H('', replace_(section))()}}}\
         "), ')}}}\
     '),
     $,
@@ -127,7 +160,7 @@
 
 
   function replace_(str) {
-    return str.replace(/\|(_+)/g, function(m, u) { return "|" + u.replace(/_/g, '&nbsp;'); });
+    return str.replace(/\|(_+)/g, function(m, u) { return "|" + u.replace(/_/g, '&nbsp;'); }).replace(/`(.*?)`/g, '<code>$1</code>');
   }
 
   $('#search').keyup(function(e) {
