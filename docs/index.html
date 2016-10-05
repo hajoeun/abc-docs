@@ -171,46 +171,46 @@
   };
 
 
-    'div.outer_section#'+ key +'\
-          h3.func_title '+ method.title +'\
-            small '+ method.usage +'\
-          p '+ method.egs[0].ds +'\
-          pre.prettyprint\
-            '+ method.egs[0].cd +'\
-          p `B`를 `X`와 함께 사용해보세요. `X`를 통해 이후 실행시에 받게될 인자의 자리를 지정해둘 수 있습니다.\
-          pre.prettyprint\
-            |var f2 = B(X, 10, minus);\
-            |var r2 = f2(20);\
-            |\
-            |console.log(r2); // 10\
-            |\
-            |function minus2(a, b, c, d) {\
-            |__return a - b - c - d;\
-            |}\
-            |\
-            |var f3 = B(4, X, X, 1, minus2);\
-            |var r3 = f3(3, 2);\
-            |console.log(r3); // -2\
-          div.inner_section#B_args\
-            h4.method_title B.args \
-              small.eg B.args(index)(v1, v2 ...)\
-            p `B.args`는 인덱스 값에 맞춰 매개변수의 값을 반환하는 함수를 만듭니다.\
-            pre.prettyprint\
-              |var arg0 = B.args(0);\
-              |var r1 = arg0(10, 20, 30);\
-              |console.log(r1); // 10\
-              |\
-              |var arg3 = B.args(3);\
-              |var r2 = arg3(10, 20, 30, 40);\
-              |console.log(r2); // 40\
-              |\
-              |var arg0_3 = B.args(0, 3);\
-              |var r3 = arg0_3(10, 20, 30, 40);\
-              |console.log(r3); // [10, 40]\
-              |\
-              |C(\'hi\', 10, 20, [B.args(1, 2), function(a, b) { return a + b; }]);\
-              |var keys = B.map([B.args(1), I]);\
-              |var values = B.map([B.args(0), I]);\'
+//    'div.outer_section#'+ key +'\
+//          h3.func_title '+ method.title +'\
+//            small '+ method.usage +'\
+//          p '+ method.egs[0].ds +'\
+//          pre.prettyprint\
+//            '+ method.egs[0].cd +'\
+//          p `B`를 `X`와 함께 사용해보세요. `X`를 통해 이후 실행시에 받게될 인자의 자리를 지정해둘 수 있습니다.\
+//          pre.prettyprint\
+//            |var f2 = B(X, 10, minus);\
+//            |var r2 = f2(20)
+//            |\
+//            |console.log(r2); // 10\
+//            |\
+//            |function minus2(a, b, c, d) {\
+//            |__return a - b - c - d;\
+//            |}\
+//            |\
+//            |var f3 = B(4, X, X, 1, minus2);\
+//            |var r3 = f3(3, 2);\
+//            |console.log(r3); // -2\
+//          div.inner_section#B_args\
+//            h4.method_title B.args \
+//              small.eg B.args(index)(v1, v2 ...)\
+//            p `B.args`는 인덱스 값에 맞춰 매개변수의 값을 반환하는 함수를 만듭니다.\
+//            pre.prettyprint\
+//              |var arg0 = B.args(0);\
+//              |var r1 = arg0(10, 20, 30);\
+//              |console.log(r1); // 10\
+//              |\
+//              |var arg3 = B.args(3);\
+//              |var r2 = arg3(10, 20, 30, 40);\
+//              |console.log(r2); // 40\
+//              |\
+//              |var arg0_3 = B.args(0, 3);\
+//              |var r3 = arg0_3(10, 20, 30, 40);\
+//              |console.log(r3); // [10, 40]\
+//              |\
+//              |C(\'hi\', 10, 20, [B.args(1, 2), function(a, b) { return a + b; }]);\
+//              |var keys = B.map([B.args(1), I]);\
+//              |var values = B.map([B.args(0), I]);\'
 
 //  _.keys(G2.sections) // funcs들
 
@@ -232,7 +232,7 @@
 
   }
 
-  C(H('', str));
+//  C(H('', str));
 
 
   var G2 = {};
