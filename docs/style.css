@@ -25,6 +25,11 @@ u {
   text-decoration: none;
 }
 
+code {
+  color: #333;
+  background-color: #fff;
+}
+
 div.outer_section {
   width: 600px;
   padding: 20px 50px;
