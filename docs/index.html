@@ -12,345 +12,197 @@
 <script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <script src="//rawgit.com/marpple/abc-functional-javascript/master/example/js/underscore.js"></script>
-<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=default" defer="defer"></script>
-<!--<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>-->
+<!--<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=desert" defer="defer"></script>-->
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
 <script>
-
-
   var funcs = _.filter(_.keys(F), function(val) { return val !== 'F' && val !== 'G' });
 
-  G.sections = {
-    $A : '\
-        div.outer_section#A\
-          h3.func_title A\
-          p `A`는 `apply`와 비슷합니다. 배열이나 객체를 사용할 수 있습니다.\
-          pre.prettyprint\
-            |function add(a, b) {\
-            |__return a + b; \
-            |}\
-            |\
-            |var r1 = A([20,2], add);\
-            |console.log(r1); // 22\
-          p 왼쪽에서 오른쪽, 위에서 아래로 읽는게 편안합니다. 그래서 `A`는 인자와 함수 사용에 대한 방향을 바꾸었습니다.\
-          pre.prettyprint\
-            |function minus(a, b) {\
-            |__return a - b;\
-            |}\
-            |\
-            |var r2 = A([20, 5], function() {\
-            |__return A(arguments, minus);\
-            |});\
-            |console.log(r2); // 15\
-        ',
-    $B : '\
-        div.outer_section#B\
-          h3.func_title B\
-          p `B`는 `this`를 제외한 `bind`라고 생각하면 쉽습니다. 혹은 underscore의 `_.partial`과 유사합니다.\
-          pre.prettyprint\
-            |function minus(a, b) {\
-            |__return a - b;\
-            |}\
-            |\
-            |var f1 = B(10, minus);\
-            |var f2 = f1(20);\
-            |console.log(r1); // -10\
-          p `B`를 `X`와 함께 사용해보세요. `X`를 통해 이후 실행시에 받게될 인자의 자리를 지정해둘 수 있습니다.\
-          pre.prettyprint\
-            |var f2 = B(X, 10, minus);\
-            |var r2 = f2(20);\
-            |\
-            |console.log(r2); // 10\
-            |\
-            |function minus2(a, b, c, d) {\
-            |__return a - b - c - d;\
-            |}\
-            |\
-            |var f3 = B(4, X, X, 1, minus2);\
-            |var r3 = f3(3, 2);\
-            |console.log(r3); // -2\
-          div.inner_section#B_args\
-            h4.method_title B.args \
-              small.eg B.args(index)(v1, v2 ...)\
-            p `B.args`는 인덱스 값에 맞춰 매개변수의 값을 반환하는 함수를 만듭니다.\
-            pre.prettyprint\
-              |var arg0 = B.args(0);\
-              |var r1 = arg0(10, 20, 30);\
-              |console.log(r1); // 10\
-              |\
-              |var arg3 = B.args(3);\
-              |var r2 = arg3(10, 20, 30, 40);\
-              |console.log(r2); // 40\
-              |\
-              |var arg0_3 = B.args(0, 3);\
-              |var r3 = arg0_3(10, 20, 30, 40);\
-              |console.log(r3); // [10, 40]\
-              |\
-              |C(\'hi\', 10, 20, [B.args(1, 2), function(a, b) { return a + b; }]);\
-              |var keys = B.map([B.args(1), I]);\
-              |var values = B.map([B.args(0), I]);\
-          div.inner_section#B_remove\
-            h4.method_title B.remove\
-              small.eg B.remove(target)(array)\
-            p `B.remove`는 매개변수로 전달된 배열 중에서 최초로 발견한 값 하나를 제거하는 함수를 만듭니다.\
-            pre.prettyprint\
-              |var r1 = C([10, 20, 30], [B.remove(10), B.args(2)]);\
-              |console.log(r1); // [20, 30]\
-          div.inner_section#B_unset\
-            h4.method_title B.unset\
-            p `B.unset`은 뭐하는거야?\
-            pre.prettyprint\
-              |\
-        ',
-    $C : '\
-        div.outer_section#C\
-          h3.func_title C\
-          p `C`는 `this`를 제외한 `call`이라고 생각하면 쉽습니다.\
-          pre.prettyprint\
-            |function minus(a, b) {\
-            |__return a - b;\
-            |}\
-            |\
-            |var r1 = C(10, 20, minus);\
-            |console.log(r1); // -10\
-            |\
-            |var r2 = C(20, 10, minus);\
-            |console.log(r2); // 10\
-        ',
-    $B2 : '\
-        div.outer_section#H\
-          h3.func_title H\
-          p `H` 함수를 설명하지\
-          pre.prettyprint\
-            |function() {\
-            |__return arguments;\
-            |}\
-        ',
-    $H : {
-      H : {
-        title : 'H',
-        usage : 'H("var name...", H template code)(args)',
-        desc : {
-          ds1 : '`H`함수는 블라블라',
-          ds2 : '그리고 블라브라' },
-        code : {
-          cd1 : '\
-                |console.log("H!!");\
-                |__return a + b;',
-          cd2 : '\
-                |console.log("H!!");\
-                |__return a + b;' }
+  var section_data = {
+    A : {
+      func : {
+        title : 'A',
+        usage : 'A()',
+        egs : [{
+          ds: '`A`는 `apply`와 비슷합니다. 배열이나 객체를 사용할 수 있습니다.',
+          cd: '\
+                  |function add(a, b) {\
+                  |__return a + b; \
+                  |}\
+                  |\
+                  |var r1 = A([20,2], add);\
+                  |console.log(r1); // 22'}, {
+          ds : '왼쪽에서 오른쪽, 위에서 아래로 읽는게 편안합니다. 그래서 `A`는 인자와 함수 사용에 대한 방향을 바꾸었습니다.',
+          cd : '\
+                  |function minus(a, b) {\
+                  |__return a - b;\
+                  |}\
+                  |\
+                  |var r2 = A([20, 5], function() {\
+                  |__return A(arguments, minus);\
+                  |});\
+                  |console.log(r2); // 15'}]
       },
-      TAB_SIZE : {
-        title : 'H.TAB_SIZE',
-        usage : 'H("var name...", H template code)(args)',
-        desc : {
-          ds1 : '`H`함수는 블라블라' },
-        code : {
-          cd1 : '\
-                |console.log("H!!");\
-                |__return a + b;' }
-
+      methods: {}
+    },
+    B : {
+      func : {
+        title : 'B',
+        usage : 'B()',
+        egs : [{
+          ds: '`B`는 `this`를 제외한 `bind`라고 생각하면 쉽습니다. 혹은 underscore의 `_.partial`과 유사합니다.',
+          cd: '\
+                  |var f2 = B(X, 10, minus);\
+                  |var r2 = f2(20);\
+                  |\
+                  |console.log(r2); // 10\
+                  |\
+                  |function minus2(a, b, c, d) {\
+                  |__return a - b - c - d;\
+                  |}\
+                  |\
+                  |var f3 = B(4, X, X, 1, minus2);\
+                  |var r3 = f3(3, 2);\
+                  |console.log(r3); // -2'}, {
+          ds : '`B`를 `X`와 함께 사용해보세요. `X`를 통해 이후 실행시에 받게될 인자의 자리를 지정해둘 수 있습니다.',
+          cd : '\
+                  |var f2 = B(X, 10, minus);\
+                  |var r2 = f2(20);\
+                  |\
+                  |console.log(r2); // 10\
+                  |\
+                  |function minus2(a, b, c, d) {\
+                  |__return a - b - c - d;\
+                  |}\
+                  |\
+                  |var f3 = B(4, X, X, 1, minus2);\
+                  |var r3 = f3(3, 2);\
+                  |console.log(r3); // -2'}]
       },
-      each : {
-        title : 'H.each',
-        usage : 'H("var name...", H template code)(args)',
-        desc : {
-          ds1 : '`H`함수는 블라블라',
-          ds2 : '그리고 블라브라' },
-        code : {
-          cd1 : '\
-                |console.log("H!!");\
-                |__return a + b;',
-          cd2 : '\
-                |console.log("H!!");\
-                |__return a + b;' }
-      },
-
-    }
-
-  };
-
-
-//    'div.outer_section#'+ key +'\
-//          h3.func_title '+ method.title +'\
-//            small '+ method.usage +'\
-//          p '+ method.egs[0].ds +'\
-//          pre.prettyprint\
-//            '+ method.egs[0].cd +'\
-//          p `B`를 `X`와 함께 사용해보세요. `X`를 통해 이후 실행시에 받게될 인자의 자리를 지정해둘 수 있습니다.\
-//          pre.prettyprint\
-//            |var f2 = B(X, 10, minus);\
-//            |var r2 = f2(20)
-//            |\
-//            |console.log(r2); // 10\
-//            |\
-//            |function minus2(a, b, c, d) {\
-//            |__return a - b - c - d;\
-//            |}\
-//            |\
-//            |var f3 = B(4, X, X, 1, minus2);\
-//            |var r3 = f3(3, 2);\
-//            |console.log(r3); // -2\
-//          div.inner_section#B_args\
-//            h4.method_title B.args \
-//              small.eg B.args(index)(v1, v2 ...)\
-//            p `B.args`는 인덱스 값에 맞춰 매개변수의 값을 반환하는 함수를 만듭니다.\
-//            pre.prettyprint\
-//              |var arg0 = B.args(0);\
-//              |var r1 = arg0(10, 20, 30);\
-//              |console.log(r1); // 10\
-//              |\
-//              |var arg3 = B.args(3);\
-//              |var r2 = arg3(10, 20, 30, 40);\
-//              |console.log(r2); // 40\
-//              |\
-//              |var arg0_3 = B.args(0, 3);\
-//              |var r3 = arg0_3(10, 20, 30, 40);\
-//              |console.log(r3); // [10, 40]\
-//              |\
-//              |C(\'hi\', 10, 20, [B.args(1, 2), function(a, b) { return a + b; }]);\
-//              |var keys = B.map([B.args(1), I]);\
-//              |var values = B.map([B.args(0), I]);\'
-
-//  _.keys(G2.sections) // funcs들
-
-  function section_maker(sections) {
-    return _.map(_.keys(sections), function(key) { //$H
-//    G2.sections[key] // $H
-//    _.keys(G2.sections[key]) // method:  H H.each H.TAB_SIZE
-//    _.keys(G2.sections[key]) // method:  H H.each H.TAB_SIZE
-      return _.map(sections[key], function(method) { //$H 객체
-        return '\
-              div.outer_section#'+ key +'\
-                h3.func_title '+ method.title +'\
-                  small '+ method.usage +'\
-                p '+ method.egs[0].ds +'\
-                pre.prettyprint'
-          + method.egs[0].cd ;
-      }).join('');
-    });
-
-  }
-
-//  C(H('', str));
-
-
-  var G2 = {};
-  G2.sections = {
-    $H : {
-      H : {
-        title : 'H',
-        usage : 'H("var name...", H template code)(args)',
-        egs : [
-          { ds : "sdfdfasdfasdfsfsdfsdfs", // 내려가면 안됨
-            cd : "\
-                  |adfasdf\
-                  |asdfasdfsfad\
-                  |dfadsfsdf" },
-          { ds : "sdfdfasdfasdfsfsdfsdfs", // 내려가면 안됨
-            cd : "\
-                  |adfasdf\
-                  |asdfasdfsfad\
-                  |dfadsfsdf" }]
-      },
-
-      TAB_SIZE : {
-        title : 'H.TAB_SIZE',
-        usage : 'H("var name...", H template code)(args)',
-        egs : [
-          { ds : "sdfdfasdfasdfsfsdfsdfs", // 내려가면 안됨
-            cd : "\
-                  |adfasdf\
-                  |asdfasdfsfad\
-                  |dfadsfsdf" },
-          { ds : "sdfdfasdfasdfsfsdfsdfs", // 내려가면 안됨
-            cd : "\
-                  |adfasdf\
-                  |asdfasdfsfad\
-                  |dfadsfsdf" }]
-      },
-      each : {
-        title : 'H.each',
-        usage : 'H("var name...", H template code)(args)',
-        egs : [
-          { ds : "sdfdfasdfasdfsfsdfsdfs", // 내려가면 안됨
-            cd : "\
-                  |adfasdf\
-                  |asdfasdfsfad\
-                  |dfadsfsdf" },
-          { ds : "sdfdfasdfasdfsfsdfsdfs", // 내려가면 안됨
-            cd : "\
-                  |adfasdf\
-                  |asdfasdfsfad\
-                  |dfadsfsdf" }]
-      }
-
-    }
-  };
-
-
-
-
-
-
-
-
-  var G2 = {};
-  G2.sections = {
-    $H : {
-      H : {
-        title : 'H',
-        usage : 'H("var name...", H template code)(args)',
-        egs : [
-          { ds : "sdfdfasdfasdfsfsdfsdfs", // 내려가면 안됨
-            cd : "\
-                  |adfasdf\
-                  |asdfasdfsfad\
-                  |dfadsfsdf" },
-          { ds : "sdfdfasdfasdfsfsdfsdfs", // 내려가면 안됨
-            cd : "\
-                  |adfasdf\
-                  |asdfasdfsfad\
-                  |dfadsfsdf" }]
-      },
-
-      method: {
-        TAB_SIZE : {
-          title : 'H.TAB_SIZE',
-          usage : 'H("var name...", H template code)(args)',
-          egs : [
-            { ds : "sdfdfasdfasdfsfsdfsdfs", // 내려가면 안됨
-              cd : "\
-                    |adfasdf\
-                    |asdfasdfsfad\
-                    |dfadsfsdf" },
-            { ds : "sdfdfasdfasdfsfsdfsdfs", // 내려가면 안됨
-              cd : "\
-                    |adfasdf\
-                    |asdfasdfsfad\
-                    |dfadsfsdf" }]
+      methods: {
+        args :
+        {
+          title : 'args',
+          usage : 'B.args(index)(v1, v2 ...)',
+          egs : [{
+            ds: '`B.args`는 인덱스 값에 맞춰 매개변수의 값을 반환하는 함수를 만듭니다.',
+            cd: '\
+                  |var arg0 = B.args(0);\
+                  |var r1 = arg0(10, 20, 30);\
+                  |console.log(r1); // 10\
+                  |\
+                  |var arg3 = B.args(3);\
+                  |var r2 = arg3(10, 20, 30, 40);\
+                  |console.log(r2); // 40\
+                  |\
+                  |var arg0_3 = B.args(0, 3);\
+                  |var r3 = arg0_3(10, 20, 30, 40);\
+                  |console.log(r3); // [10, 40]\
+                  |\
+                  |C(\'hi\', 10, 20, [B.args(1, 2), function(a, b) { return a + b; }]);\
+                  |var keys = B.map([B.args(1), I]);\
+                  |var values = B.map([B.args(0), I]);'}]
         },
-        each : {
-          title : 'H.each',
-          usage : 'H("var name...", H template code)(args)',
-          egs : [
-            { ds : "sdfdfasdfasdfsfsdfsdfs", // 내려가면 안됨
-              cd : "\
-                    |adfasdf\
-                    |asdfasdfsfad\
-                    |dfadsfsdf" },
-            { ds : "sdfdfasdfasdfsfsdfsdfs", // 내려가면 안됨
-              cd : "\
-                    |adfasdf\
-                    |asdfasdfsfad\
-                    |dfadsfsdf" }]
+        remove :
+        {
+          title : 'remove',
+          usage : 'B.remove(target)(array)',
+          egs : [{
+            ds: '`B.remove`는 매개변수로 전달된 배열 중에서 최초로 발견한 값 하나를 제거하는 함수를 만듭니다.',
+            cd: '\
+                  |var r1 = C([10, 20, 30], [B.remove(10), B.args(2)]);\
+                  |console.log(r1); // [20, 30]'}]
+        },
+        unset :
+        {
+          title : 'unset',
+          usage : 'B.unset()',
+          egs : [{
+            ds: '`B.unset`은 뭐하는거야?',
+            cd: '\
+                  |var r1 = C([10, 20, 30], [B.remove(10), B.args(2)]);\
+                  |console.log(r1); // [20, 30]'}]
+        }
+      }
+    },
+    H : {
+      func : {
+        title : 'H',
+        usage : 'H("var name...", H template code)(args)',
+        egs : [{
+          ds: "이 `H`함수는 ~하는 함수 입니다.",
+          cd: "\
+                  |function() {\
+                  |__return arguments;\
+                  |}"}, {
+          ds : "이렇게도 사용할 수 있습니다.",
+          cd : "\
+                  |function() {\
+                  |__return arguments[0];\
+                  |}"}]
+      },
+      methods: {
+        TAB_SIZE :
+        {
+          title : 'TAB_SIZE',
+          usage : '`TAB_SIZE`는 이렇게 씁니다.',
+          egs : [{
+            ds: "이 함수는 ~하는 함수 입니다.",
+            cd: "\
+                  |function() {\
+                  |__return arguments;\
+                  |}"}]
+        },
+        each :
+        {
+          title : 'each',
+          usage : '`H.each`는 이렇게 씁니다.',
+          egs : [{
+            ds: "이 `H.each`함수는 ~하는 함수 입니다.",
+            cd: "\
+                  |function() {\
+                  |__return arguments;\
+                  |}"}, {
+            ds : "이렇게도 사용할 수 있습니다.",
+            cd : "\
+                  |function() {\
+                  |__return arguments[0];\
+                  |}"}]
         }
       }
     }
   };
 
+  function section_bulider(temp_section) {
+    return _.map(_.keys(temp_section), function(key) { // key = $A | $B | $C |... | $H
 
+      var section_values = _.values(temp_section[key]);
+      var func = section_values[0],
+          methods = section_values[1];
 
+      return ['\
+            div.outer_section#'+key+'\
+              h3.func_title '+func.title+' \
+                small '+func.usage+'\
+              p '+func.egs[0].ds+'\
+              pre.prettyprint\
+                '+func.egs[0].cd+'\
+              p '+func.egs[1].ds+'\
+              pre.prettyprint\
+                '+func.egs[1].cd]
+          .concat(_.map(methods, function(method) {
+            return ['\
+              div.inner_section#'+key+'_'+method.title+'\
+                h4.method_title '+key+'.'+method.title+' \
+                  small '+method.usage]
+                .concat(_.map(method.egs, function(eg) {
+                  return ['\
+                p '+eg.ds+'\
+                pre.prettyprint\
+                  '+eg.cd]
+                })).join('');
+          })).join('');
+    });
+  }
 
 
   // body 내부 HTML
@@ -376,7 +228,7 @@
               a[href=#!{func}!_!{method}!] !{method}!'), ')}}}'
         ),')}}}\
     div.container#section_container\
-        {{{C(_.values(G.sections), ', H.each("section", "\
+        {{{C(G.sections = section_bulider(section_data), ', H.each("section", "\
          div {{{H('', replace_(section))()}}}\
         "), ')}}}\
     '),
