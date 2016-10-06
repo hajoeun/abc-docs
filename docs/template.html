@@ -5,12 +5,14 @@
     <title>Title</title>
     <!--<link href='http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.css' rel='stylesheet' type='text/css'/>-->
     <style>
-        div {
-            border : 1px solid black;
-        }
+
         textarea {
             width:300px;
             height: 200px;
+        }
+        .dom {
+          min-height: 200px;
+          border: 1px solid blue;
         }
 
     </style>
@@ -24,27 +26,47 @@
 <!--<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?autoload=true&amp;skin=sunburst&amp;lang=css" defer="defer"></script>-->
 
 
-<h1>야~~~~~~~~~~~~~~~~</h1>
+<h1>H Template Syntax</h1>
 <script>
     // TAB 설정
     // C(H('', ' ~~~~ '))
 
 
   C([H('','\
-    form.tab_size tab size\
+    form.tab_size 탭 사이즈 선택 : \
       input[type=radio name="tab" value=2 checked] 2\
       input[type=radio name="tab" value=4] 4\
     div#test\
       h1 basic\
-      textarea.input\
-//      pre.prettyprint.output.html\
-//        code\
-      textarea.prettyprint.output.html[readonly]\
-      div.output.dom as\
+      div\
+        h3 H 코드 입력\
+        textarea.input[tabindex=-1]\
+        input.run_btn[type=button value=run]\
+      div\
+        h3 변환된 html 코드\
+        textarea.output.html[readonly]\
+      div\
+        h3 화면 출력 모양\
+        div.output.dom\
     '),
       $,
       B.M('appendTo', 'body')]);
 
+    var test;
+    $('.run_btn').on('click', function(e) {
+      var code = $('.input').val();
+      code = code.replace(/\n/g, '');
+      console.log("run!!", test = code );
+      console.log((new Function( "return " + code))());
+
+      // 돔 그리기
+
+      $('#test .dom')[0].innerHTML = (new Function("return " + code))();
+
+      // 돔에서 가져와서 html 코드 출력
+      $('#test .html')[0].innerText = my_pretty($('#test .dom')[0].innerHTML);
+
+    });
 
   $('.tab_size').on('click', function(e) {                              // tab_size 변경 할 때에도 output 형태 업그레이드 해줘야 !!
       console.log("클릭!");
@@ -55,93 +77,220 @@
   function TABS() { return TAB() + "+"; };
 
 
-    $('.input').keydown(function(e) {
-      if(e.keyCode === 9) { // tab was pressed
-          var start = this.selectionStart;
-          var end = this.selectionEnd;
+  $('#test .input').keydown(function(e) {
+    var T = H.TAB_SIZE == 2 ? "  " : "    ";
+    if ((e.keyCode||e.which) === 9) { // tab was pressed
 
-          var $this = $(this);
-          var value = $this.val();
+      var start = this.selectionStart;
+      var end = this.selectionEnd;
 
-          $this.val(value.substring(0, start)
-            + H.TAB_SIZE == 2 ? "  " : "    " // 탭
-            + value.substring(end));
+      var $this = $(this);
+      var value = $this.val();
 
-          this.selectionStart = this.selectionEnd = start + H.TAB_SIZE;
+      $this.val(value.substring(0, start)
+      + T // 탭
+      + value.substring(end));
 
-          e.preventDefault();
-      }
+      this.selectionStart = this.selectionEnd = start + H.TAB_SIZE;
+      e.preventDefault();
 
-  })
-
-    function my_pretty(code) {
-        var stack = [];
-//        code = code.replace(/(<\w+ ?>)/, "$1\n"); // 여는 태그
-//        code = code.replace(/(<(\w+) ?[\s\S]*?>[\s\S]*?)(<\w+ ?[\s\S]*?>)/g, function(match, $1, $2, $3) { stack.push($2); return $1+"\n"+$3; }); // 여는 태그
-        code = code.replace(/(<\w+ ?[\s\S]*?>)([\s\S])*/g, "$1\n$2"); // 여는 태그
-        code = code.replace(/(<\/\w+>)/g, "$1\n"); // 닫는 태그
-        console.log(stack)
-        return code;
     }
 
-  $('#test .input').keyup(function(e) {
-
-      var res = C(H('', $(e.target).val()));
-
-      console.log("H 결과 : ", res);
-      // html에 그리기
-//      var res = $('#test .dom')[0].innerHTML.replace(/&lt;script src[\s\S]*?&gt;&lt;\/script&gt;|&lt;!--\?[\s\S]*?--&gt;|&lt;pre\b[\s\S]*?&lt;\/pre&gt;/g,
-//        '<span class="operative">$&</span>');
-//      $('#test .html')[0].innerHTML = _.escape(res);
-
-
-//      $('#test .html')[0].innerHTML = my_pretty(res);
-      $('#test .html')[0].innerText = my_pretty(res);
-//      $('#test .html')[0].val(my_pretty(res));
-
-
-
-      // 돔 dom에다가 그리기
-      $('#test .dom')[0].innerHTML = res;
-
-
-
-      ////////////////////////////////////////////
-
-
-      /*
-      $('#test .html').val($('#test .dom')[0].innerHTML);
-      $('#test .html')[0].val($('#test .dom')[0].innerHTML);
-      $('#test .html').innerText = _.escape($('#test .dom')[0].innerHTML);
-      $('#test .html')[0].innerHTML = _.escape($('#test .dom')[0].innerHTML);
-      */
-
-
-
-
-
-//      document.getElementById("quine").innerHTML = _.escape("<div><sapn></sapn></div>");
+//      switch (e.keyCode) {
+//        case 13 : $this.val($this.val() + '\\'); //enter
+//                  break;
+//        case  9 : $this.val($this.val() + T); //tab
+//                  e.preventDefault();
+//      }
+  });
 
 //
-//      $('#test .html').val(C([
-//        H('', $(e.target).val()),
-//        $,
-//          B.all(
-//            B.method('appendTo', '#test .dom'),
-//            htmlConvert
-//          )
-//      ]));
+//  $('#test .input').keyup(function(e) {
+//    var res = C(H('', $(e.target).val()));
+//    // 돔 그리기
+//    $('#test .dom')[0].innerHTML = res;
+//    // 돔에서 가져와서 html 코드 출력
+//    $('#test .html')[0].innerText = my_pretty($('#test .dom')[0].innerHTML);
+//  });
 
-    function htmlConvert(elem) { //dom => pretty html
-//        console.log(elem[0].outerHTML);
-//        console.log($('#test')[0].getElementsByClassName("html")[0])
-//        $('#test')[0].getElementsByClassName("html")[0].innerHTML = _.escape(elem[0].outerHTML);
-//        $('#test')[0].getElementsByClassName("html")[0].value = _.escape(elem[0].outerHTML);
-        $('#test .html').val(elem.outerHTML);
-        console.log($('#test .html'), elem);
-    }
 
-  });
+
+  $('#test .input').innerText = '\
+    div\
+      div\
+        div\
+          span dsf\
+          span ㅋㅋㅋㅋㅋ';
+
+  function my_pretty(code) {
+    var T = (H.TAB_SIZE==2) ? '  ' : '    '; // 우리 페이지에선 2,4 두 경우밖에 없으니까
+
+    var stack = []; // tag_stack
+    var tab;
+    var is_string= false;
+
+    return code.replace(/<(\/?)(\w+)>/g, function(match, flag, tag) {
+      tab="";
+      if (flag) { // 닫는 태그
+
+        stack.pop(); // 돔에서 가져올꺼기 때문에 무조건 차례로 들어가있음 - 나중에 br같은건 걸러주기
+        for(var i=0; i<H.TAB_SIZE*stack.length; i++) tab+= T;
+        return '\n' + tab + match;
+
+      } else { // 여는 태그
+
+        for (var i=0; i<H.TAB_SIZE*stack.length; i++) tab+= T;
+        stack.push(tag);
+        return '\n' + tab + match + '\n' + tab + T ; // stack.length만큼의 탭 + match + '\n'
+      }
+
+    });
+  }
+
+//    function my_pretty(code) {
+//      var stack = []; // tag_stack
+//
+//      var r =  code.replace(/<(\/?)\w+>/g, function(match, flag) {
+//        var tab="";
+//        var res;
+//        if (flag) { // 닫는 태그
+//          stack.pop(); // 일단 잘 들어갔다는 가정 하 => 아님 다음 태그 닫힐 때까지 먹혔다가, 그때 닫아주어야 함
+//          for(var i=0; i<H.TAB_SIZE*stack.length; i++) tab+= "  ";
+//          res = '\n' + tab + match;
+//
+//        } else { // 여는 태그
+//          for (var i=0; i<H.TAB_SIZE*stack.length; i++) tab+= "  ";
+//          stack.push(1);
+////                res = tab + match + '\n'; // stack.length만큼의 탭 + match + '\n'
+////                res = '\n' + tab + match; // stack.length만큼의 탭 + match + '\n'
+//          res = '\n' + tab + match + '\n' + tab + "  " ; // stack.length만큼의 탭 + match + '\n'
+//        }
+//        return res;
+//      });
+//      console.log(r);
+//      return r.replace(/\n *\n/g, "\n");
+//    }
+//    $('textarea.output.html')[0].innerText = my_pretty($('.tttt')[0].outerHTML); // 이거!!!
+
+
+
+
+
+
+    // 돔 통해서 만드는 거.. 아깝당
+//    var str = "<div class='tttt'><span>스판1 <em>ㅋㅋㅋㅋㅋ</em></span><span>스판2 ㅋㅋㅋㅋㅋ</span></div>"
+//    $('body').append(str);
+//
+//    var s = "<div class='tttt'><span>스판1 <em>ㅋㅋㅋㅋㅋ</em></span><span>스판2 ㅋㅋㅋㅋㅋ</span></div>"
+//    $('body').append(s);
+//
+//    function pretty(nodeList) { // 배열 형태
+//      var res = '';
+//      for(var i=0; i<nodeList.length; i++) {
+//        for(var j=0; j<nodeList[i].length; j++) {
+//          if (nodeList[i].childNodes[j].childNodes) res += pretty(nodeList[i]);
+//          else res += nodeList[i].outerHTML
+//        }
+//        console.log(res);
+//      }
+//      return res;
+//    }
+
+
+    //    nodeList[0].childNodes[0].childNodes
+    //    // 얘가 없으면
+    //    nodeList[0].outerHTML // 얘를 출력
+    //
+    //
+    //
+    //    $('.tttt')[0].childNodes[0].childNodes[0].childNodes
+    //    // 얘가 없으면
+    //    $('.tttt')[0].childNodes[0].outerHTML // 얘를 출력
+    //
+    //
+    //
+    //
+    //
+
+
+
+//    //    console.log(my_pretty(str) + '\n\n');
+//
+//    $('body').append('<div class="result"></div>');
+//    console.log($('.tttt')[0].childNodes[0]);
+//    $('.result').append($('.tttt')[0].childNodes[0])
+//
+//    //    //        code = code.replace(/(<\w+ ?>)/, "$1\n"); // 여는 태그
+    //    //        code = code.replace(/(<(\w+) ?[\s\S]*?>[\s\S]*?)(<\w+ ?[\s\S]*?>)/g, function(match, $1, $2, $3) { stack.push($2); return $1+"\n"+$3; }); // 여는 태그
+    //    code = code.replace(/(<\w+ ?[\s\S]*?>)([\s\S])*/g, "$1\n$2"); // 여는 태그
+    //    code = code.replace(/(<\/\w+>)/g, "$1\n"); // 닫는 태그
+    //    console.log(stack)
+    //    return code;
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*
+     function print_DOM(nodeList) { //배열형태
+     console.log("들어옴", nodeList);
+     //        if (!nodeList) return nodeList; //처음부터 자식노드가 없을 경우 - 마지막에 처리하기
+
+     var res = "";
+     for (var i=0; i<nodeList.length; i++) {
+     //            res += nodeList[i].childNodes ? print_DOM(nodeList[i].childNodes) : nodeList[i];
+
+     if (!_.isEmpty(nodeList[i].childNodes)) {
+     console.log("childNodes가 있는 경우 ; ", nodeList[i], nodeList[i].childNodes);
+     res += print_DOM(nodeList[i].childNodes);
+     } else {
+     console.log("childNodes가 없는 경우 ; ", nodeList[i], nodeList[i].childNodes, nodeList[i].outerHTML);
+     console.log(" ========== ", nodeList[i]);
+     //                return nodeList[i];
+     res += "추가된!"+nodeList[i].outerHTML;
+     //                console.log(" ========== ", res);
+     }
+
+     }
+     return res;
+     }
+
+
+     function pretty_print1(nodeList) { // 안배열 형태 로 반드시!! 애초에 보내주기!!
+     var res = '';
+     if (nodeList.childNodes) {
+     for (var i=0; i<nodeList.childNodes.length; i++) {
+     res += pretty_print(nodeList.childNodes[i]);
+     }
+     } else {
+     res += nodeList[0].outerHTML;
+     }
+     return res;
+     }
+
+     function pretty_print(nodeList, tab) { // 안배열 형태 로 반드시!! 애초에 보내주기!!
+     tab = tab ? tab+'  ' : ''; // if (!tab) tab = '';
+     var res = '';
+     if (nodeList.childNodes) {
+     for (var i=0; i<nodeList.childNodes.length; i++) {
+     res += pretty_print(nodeList.childNodes[i], tab);
+     }
+     } else {
+     res += nodeList[0].outerHTML;
+     }
+     return res;
+     }
+     */
+
+
 
 </script>
 
