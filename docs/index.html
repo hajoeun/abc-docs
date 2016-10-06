@@ -2,18 +2,17 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-  <!--<link rel="stylesheet" href="prettyify_theme.min.css">-->
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="prettify_theme.css">
   <link rel="stylesheet" href="style.css">
   <title>ABC Project</title>
 </head>
 <body>
 <script src="//rawgit.com/marpple/abc-functional-javascript/master/etc/abc.all.js"></script>
 <script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>-->
 <script src="//rawgit.com/marpple/abc-functional-javascript/master/example/js/underscore.js"></script>
-<!--<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=desert" defer="defer"></script>-->
-<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+<script src="//cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
 <script>
   /*Functions List variable declaration*/
   var funcs = _.filter(_.keys(F), function(val) { return val !== 'F' && val !== 'G' });
@@ -324,12 +323,14 @@
 
       var depth = parseInt($section[0].style.boxShadow.match(/([0-9]*)px$/)[1]) + 5;
 
+      // shadow on
       if (depth < 70) {
         $section.css('box-shadow', ' #ccc 0 0 '+ depth +'px');
         _.delay(arguments.callee, 30);
       }
       else {
         $section.css('box-shadow', '#ccc 0 0 '+ depth +'px');
+        // shadow off
         (function() {
           var depth = parseInt($section[0].style.boxShadow.match(/([0-9]*)px$/)[1]) - 10;
           if (depth > 0) {
