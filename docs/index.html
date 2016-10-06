@@ -15,8 +15,10 @@
 <!--<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=desert" defer="defer"></script>-->
 <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
 <script>
+  /*Functions List variable declaration*/
   var funcs = _.filter(_.keys(F), function(val) { return val !== 'F' && val !== 'G' });
 
+  /*Section Data declaration*/
   var section_data = {
     A : {
       func : {
@@ -79,8 +81,7 @@
                   |console.log(r3); // -2'}]
       },
       methods: {
-        args :
-        {
+        args : {
           title : 'args',
           usage : 'B.args(index)(v1, v2 ...)',
           egs : [{
@@ -102,8 +103,7 @@
                   |var keys = B.map([B.args(1), I]);\
                   |var values = B.map([B.args(0), I]);'}]
         },
-        remove :
-        {
+        remove : {
           title : 'remove',
           usage : 'B.remove(target)(array)',
           egs : [{
@@ -112,16 +112,52 @@
                   |var r1 = C([10, 20, 30], [B.remove(10), B.args(2)]);\
                   |console.log(r1); // [20, 30]'}]
         },
-        unset :
-        {
+        unset : {
           title : 'unset',
           usage : 'B.unset()',
           egs : [{
             ds: '`B.unset`은 뭐하는거야?',
             cd: '\
-                  |var r1 = C([10, 20, 30], [B.remove(10), B.args(2)]);\
-                  |console.log(r1); // [20, 30]'}]
+                  |-----------------------------------\
+                  |-----------------------------------'}]
+        },
+        set : {
+          title : 'set',
+          usage : 'B.set()',
+          egs : [{
+            ds: '`B.set`은 뭐하는거야?',
+            cd: '\
+                  |-----------------------------------\
+                  |-----------------------------------'}]
+        },
+        extend : {
+          title : 'extend',
+          usage : 'B.extend()',
+          egs : [{
+            ds: '`B.extend`은 뭐하는거야?',
+            cd: '\
+                  |-----------------------------------\
+                  |-----------------------------------'}]
+        },
+        defaults : {
+          title : 'defaults',
+          usage : 'B.defaults()',
+          egs : [{
+            ds: '`B.defauls`은 뭐하는거야?',
+            cd: '\
+                  |-----------------------------------\
+                  |-----------------------------------'}]
+        },
+        select : {
+          title : 'select',
+          usage : 'B.select()',
+          egs : [{
+            ds: '`B.select`은 뭐하는거야?',
+            cd: '\
+                  |-----------------------------------\
+                  |-----------------------------------'}]
         }
+
       }
     },
     H : {
@@ -144,7 +180,7 @@
         TAB_SIZE :
         {
           title : 'TAB_SIZE',
-          usage : '`TAB_SIZE`는 이렇게 씁니다.',
+          usage : 'H.TAB_SIZE()',
           egs : [{
             ds: "이 함수는 ~하는 함수 입니다.",
             cd: "\
@@ -155,7 +191,7 @@
         each :
         {
           title : 'each',
-          usage : '`H.each`는 이렇게 씁니다.',
+          usage : 'H.each()',
           egs : [{
             ds: "이 `H.each`함수는 ~하는 함수 입니다.",
             cd: "\
@@ -172,8 +208,48 @@
     }
   };
 
+  /*HTML Rendering*/
+  C(funcs, [H('funcs','\
+    div.bar#bar_wrapper\
+      div#logo\
+        h3 ABC JS \
+          br\
+          small Functional JavaScript\
+      div#list_bar\
+        div.input-group\
+          input.form-control#search[type=text placeholder=Search]\
+          span.input-group-addon\
+            span.glyphicon.glyphicon-search\
+        ul.func_list\
+          {{{C(funcs, ', H.each('func', '\
+          li[data=!{func}!]\
+            h4\
+              a[href=#!{func}!] !{func}!\
+            ul.method_list.!{func}!\
+              {{{C(_.keys(!{func}!), "!{func}!", ', H.each("method, k, l, func", '\
+              li[data=!{method}!]\
+                a[href=#!{func}!_!{method}!] !{method}!'), ')}}}'
+  ),')}}}\
+      div#about_us\
+        p Mapple ©\
+        ul\
+          li\
+            a[href=http://www.marpple.com] Marpple\
+          li\
+            a[href=https://github.com/marpple/abc-functional-javascript] Repository\
+    div.container\
+      div#section_container\
+          {{{C(G.sections = section_bulider(section_data), ', H.each("section", "\
+           div {{{H('', replace_(section))()}}}\
+          "), ')}}}\
+    '),
+    $,
+    B.M('appendTo', 'body')]);
+
+
+  /*General functions*/
   function section_bulider(temp_section) {
-    return _.map(_.keys(temp_section), function(key) { // key = $A | $B | $C |... | $H
+    return _.map(_.keys(temp_section), function(key) {
 
       var section_values = _.values(temp_section[key]);
       var func = section_values[0],
@@ -204,48 +280,12 @@
     });
   }
 
-
-  // body 내부 HTML
-  C(funcs, [H('funcs','\
-    div.bar#side_bar\
-      h3 ABC JS \
-        br\
-        small Functional JavaScript\
-      a.small[href=https://github.com/marpple/abc-functional-javascript] GitHub Repository\
-      div.input-group\
-        input.form-control#search[type=text placeholder=Search]\
-        span.input-group-addon\
-          span.glyphicon.glyphicon-search\
-      ul.func_list\
-        {{{C(funcs, ', H.each('func', '\
-        li[data=!{func}!]\
-          a[href=#!{func}!]\
-            h3\
-              u !{func}!\
-          ul.method_list.!{func}!\
-            {{{C(_.keys(!{func}!), "!{func}!", ', H.each("method, k, l, func", '\
-            li[data=!{method}!]\
-              a[href=#!{func}!_!{method}!] !{method}!'), ')}}}'
-        ),')}}}\
-    div.container#section_container\
-        {{{C(G.sections = section_bulider(section_data), ', H.each("section", "\
-         div {{{H('', replace_(section))()}}}\
-        "), ')}}}\
-    '),
-    $,
-    B.M('appendTo', 'body')]);
-
-
   function replace_(str) {
     return str.replace(/\|(_+)/g, function(m, u) { return "|" + u.replace(/_/g, '&nbsp;'); }).replace(/`(.*?)`/g, '<code>$1</code>');
   }
 
-  $('#search').keyup(function(e) {
-    update_section_list($(e.target).val()); //search_str
-  });
-
   function update_section_list(str) {
-    if (!str) return $('#side_bar li').show();
+    if (!str) return $('#list_bar li').show();
 
     var reg = new RegExp(str, "i");
 
@@ -267,6 +307,42 @@
 
     });
   }
+
+
+  /*Event listener functions*/
+  // search function
+  $('#search').keyup(function(e) {
+    update_section_list($(e.target).val());
+  });
+
+  // focus effect
+  $('#list_bar li a').on('click', function(e) {
+    var $section = $(e.target.href.match(/#([A-Z])(_([a-z]+))?/)[0]);
+
+    (function() {
+      if (!$section[0].style.boxShadow) $section[0].style.boxShadow = "#ccc 0 0 1px";
+
+      var depth = parseInt($section[0].style.boxShadow.match(/([0-9]*)px$/)[1]) + 5;
+
+      if (depth < 70) {
+        $section.css('box-shadow', ' #ccc 0 0 '+ depth +'px');
+        _.delay(arguments.callee, 30);
+      }
+      else {
+        $section.css('box-shadow', '#ccc 0 0 '+ depth +'px');
+        (function() {
+          var depth = parseInt($section[0].style.boxShadow.match(/([0-9]*)px$/)[1]) - 10;
+          if (depth > 0) {
+            $section.css('box-shadow', '#ccc 0 0 '+ depth +'px');
+            _.delay(arguments.callee, 30);
+          } else {
+            $section.css('box-shadow', '#ccc 0 0 0px');
+          }
+        })();
+      }
+    })();
+
+  });
 
 </script>
 </body>
