@@ -2,10 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Try H template</title>
+  <title>TRY H</title>
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
   <style>
-
+    .set_sections {
+      background-color: whitesmoke;
+    }
+    .settings div {
+      display: inline-block;
+      margin-right: 20px;
+    }
+    .section {
+      background-color: whitesmoke;
+    }
     .run_btn {
       float: right;
     }
@@ -29,8 +38,6 @@
       padding-bottom: 20px;
       border-bottom: 1px solid #ccc;
     }
-
-
   </style>
 </head>
 <body>
@@ -43,17 +50,23 @@
 <script>
   C([H('','\
     div.container#try_H\
-      h2 Try H template\
+      h1 TRY H\
       div.set_sections\
         h4 Settings\
         div.settings\
           div#tab_set\
-            h5 Select TAB size\
+            label Select TAB size\
             form.tab_size\
               input[type=radio name="tab" value=2 checked] 2\
               input[type=radio name="tab" value=4] 4\
           div#css_set\
-             h5 Select CSS theme\
+            label Select Library\
+            form.library\
+              input[type=checkbox value=bootstrap] Bootstrap\
+              input[type=checkbox value=jqeury] jQuery\
+        div#about_this_page\
+          h5 Try H 활용법\
+          p `Ctrl + Enter`로 실행할 수 있습니다.\
       div.try_sections\
         div.section#basic\
           div.section_header\
@@ -85,47 +98,58 @@
     B.M('appendTo', 'body')]);
 
 
+
+  $('.tab_size').on('click', function(e) {                              // tab_size 변경 할 때에도 output 형태 업그레이드 해줘야 !!
+    H.TAB_SIZE = C.parseInt($(':radio[name="tab"]:checked').val());
+    console.log(H.TAB_SIZE + "%c tab 설정 완료!", "color:green;");
+  }).click();
+
+
   $('.run_btn').on('click', function(e) {
     var t_id = e.target.id;
     var code = $('#test_' + t_id + ' .input').val().replace(/\n/g, '');
 
-    // 돔 그리기
-    $('#test_' + t_id + ' .dom')[0].innerHTML = (new Function("return " + code))();
+    try {
+      $('#test_' + t_id + ' .dom')[0].innerHTML = (new Function("return " + code))();
+    } catch (e) {
+      console && console.log && console.log('Syntax Error...')
+    }
 
-//      // 돔에서 가져와서 html 코드 출력
-//      $('#test .html')[0].innerText = my_pretty($('#test .dom')[0].innerHTML);
-  });
-
-
-  $('.tab_size').on('click', function(e) {                              // tab_size 변경 할 때에도 output 형태 업그레이드 해줘야 !!
-    console.log("Tab size 변경!");
-    H.TAB_SIZE = C.parseInt($(':radio[name="tab"]:checked').val());
+    console.log(e.target.id + "%c 번 코드 실행!", "color:green;");
   }).click();
 
-
-  //tab 키 허용
+  /*Key event handler*/
+  var keys = {};
   $('#try_H .input').keydown(function(e) {
     var T = H.TAB_SIZE == 2 ? "  " : "    ";
-    if ((e.keyCode||e.which) === 9) { // tab was pressed
 
+    keys[e.which] = true;
+
+    if (keys[9]) { // tab was pressed
       var start = this.selectionStart;
       var end = this.selectionEnd;
 
       var $this = $(this);
       var value = $this.val();
 
-      $this.val(value.substring(0, start)
-      + T // 탭
-      + value.substring(end));
+      $this.val(value.substring(0, start) + T + value.substring(end));
 
       this.selectionStart = this.selectionEnd = start + H.TAB_SIZE;
       e.preventDefault();
     }
+    else if (keys[13] && keys[17]) {
+      $('#' + e.target.parentNode.parentNode.id + ' .run_btn').click();
+      delete keys[13]; delete keys[17];
+    }
   });
 
+  $('#try_H .input').keyup(function(e) { delete keys[e.which]; });
+  $(document).keyup(function(e) { delete keys[e.which]; });
 
 
-//  function TAB() { return "( {" + H.TAB_SIZE + "}|\\t)"; }; // "( {4}|\\t)"
+
+
+  //  function TAB() { return "( {" + H.TAB_SIZE + "}|\\t)"; }; // "( {4}|\\t)"
 //  function TABS() { return TAB() + "+"; };
 //
 //  function my_pretty(code) {
