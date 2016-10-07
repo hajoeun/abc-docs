@@ -1,83 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <!--<link href='http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.css' rel='stylesheet' type='text/css'/>-->
-    <style>
+  <meta charset="UTF-8">
+  <title>Try H template</title>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <style>
 
-        textarea {
-            width:300px;
-            height: 200px;
-        }
-        .dom {
-          min-height: 200px;
-          border: 1px solid blue;
-        }
+    .run_btn {
+      float: right;
+    }
+    textarea.input {
+      cursor: text;
+      font-size: 15px;
+      font-family: Menlo, "Bitstream Vera Sans Mono", "DejaVu Sans Mono", Monaco, Consolas, monospace;
+      width: 100%;
+      height: 300px;
+      margin: 0;
+      color: whitesmoke;
+      background-color: #333333;
+    }
+    .output.dom {
+      width: 100%;
+      height: 300px;
+      margin: 0;
+      border: 1px solid #ccc;
+    }
+    .section {
+      padding-bottom: 20px;
+      border-bottom: 1px solid #ccc;
+    }
 
-    </style>
+
+  </style>
 </head>
+<body>
 
 <script src="//rawgit.com/marpple/abc-functional-javascript/master/etc/abc.all.js"></script>
 <script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <script src="//rawgit.com/marpple/abc-functional-javascript/master/example/js/underscore.js"></script>
-<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
-<!--<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?autoload=true&amp;skin=sunburst&amp;lang=css" defer="defer"></script>-->
-
-
-<h1>H Template Syntax</h1>
+<script src="//cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+<!--<script src="//cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>-->
 <script>
-    // TAB 설정
-    // C(H('', ' ~~~~ '))
-
-
   C([H('','\
-    form.tab_size 탭 사이즈 선택 : \
-      input[type=radio name="tab" value=2 checked] 2\
-      input[type=radio name="tab" value=4] 4\
-    div#test\
-      h1 basic\
-      div\
-        h3 H 코드 입력\
-        textarea.input[tabindex=-1]\
-        input.run_btn[type=button value=run]\
-      div\
-        h3 변환된 html 코드\
-        textarea.output.html[readonly]\
-      div\
-        h3 화면 출력 모양\
-        div.output.dom\
+    div.container#try_H\
+      h2 Try H template\
+      div.set_sections\
+        h4 Settings\
+        div.settings\
+          div#tab_set\
+            h5 Select TAB size\
+            form.tab_size\
+              input[type=radio name="tab" value=2 checked] 2\
+              input[type=radio name="tab" value=4] 4\
+          div#css_set\
+             h5 Select CSS theme\
+      div.try_sections\
+        div.section#basic\
+          div.section_header\
+            h3 Basic\
+            p `H` 함수 기본 사용법\
+          div.section_body.row#test_1\
+            div.col-md-4.s_test\
+              h4 Test Code\
+                button.btn.btn-sm.btn-success.run_btn#1 Run\
+              textarea.input\
+            div.col-md-8.s_result\
+              h4 Results\
+              div.output.dom\
+        div.section#basic2\
+          div.section_header\
+            h3 Basic2\
+            p `H` 함수 사용법 두번째\
+          div.section_body.row#test_2\
+            div.col-md-4.s_test\
+              h4 Test Code\
+                button.btn.btn-sm.btn-success.run_btn#2 Run\
+              textarea.input\
+            div.col-md-8.s_result\
+              h4 Results\
+              div.output.dom\
     '),
-      $,
-      B.M('appendTo', 'body')]);
+    '$.replace(/`(.*?)`/g, "<code>$1</code>")', // function(v) { return v.replace(/`(.*?)`/g, '<code>$1</code>'); },
+    $,
+    B.M('appendTo', 'body')]);
 
-    var test;
-    $('.run_btn').on('click', function(e) {
-      var code = $('.input').val();
-      code = code.replace(/\n/g, '');
-      console.log("run!!", test = code );
-      console.log((new Function( "return " + code))());
 
-      // 돔 그리기
+  $('.run_btn').on('click', function(e) {
+    var t_id = e.target.id;
+    var code = $('#test_' + t_id + ' .input').val().replace(/\n/g, '');
 
-      $('#test .dom')[0].innerHTML = (new Function("return " + code))();
+    // 돔 그리기
+    $('#test_' + t_id + ' .dom')[0].innerHTML = (new Function("return " + code))();
 
-      // 돔에서 가져와서 html 코드 출력
-      $('#test .html')[0].innerText = my_pretty($('#test .dom')[0].innerHTML);
+//      // 돔에서 가져와서 html 코드 출력
+//      $('#test .html')[0].innerText = my_pretty($('#test .dom')[0].innerHTML);
+  });
 
-    });
 
   $('.tab_size').on('click', function(e) {                              // tab_size 변경 할 때에도 output 형태 업그레이드 해줘야 !!
-      console.log("클릭!");
-      H.TAB_SIZE = C.parseInt($(':radio[name="tab"]:checked').val());
+    console.log("Tab size 변경!");
+    H.TAB_SIZE = C.parseInt($(':radio[name="tab"]:checked').val());
   }).click();
 
-  function TAB() { return "( {" + H.TAB_SIZE + "}|\\t)"; }; // "( {4}|\\t)"
-  function TABS() { return TAB() + "+"; };
 
-
-  $('#test .input').keydown(function(e) {
+  //tab 키 허용
+  $('#try_H .input').keydown(function(e) {
     var T = H.TAB_SIZE == 2 ? "  " : "    ";
     if ((e.keyCode||e.which) === 9) { // tab was pressed
 
@@ -93,59 +120,36 @@
 
       this.selectionStart = this.selectionEnd = start + H.TAB_SIZE;
       e.preventDefault();
-
     }
-
-//      switch (e.keyCode) {
-//        case 13 : $this.val($this.val() + '\\'); //enter
-//                  break;
-//        case  9 : $this.val($this.val() + T); //tab
-//                  e.preventDefault();
-//      }
   });
 
+
+
+//  function TAB() { return "( {" + H.TAB_SIZE + "}|\\t)"; }; // "( {4}|\\t)"
+//  function TABS() { return TAB() + "+"; };
 //
-//  $('#test .input').keyup(function(e) {
-//    var res = C(H('', $(e.target).val()));
-//    // 돔 그리기
-//    $('#test .dom')[0].innerHTML = res;
-//    // 돔에서 가져와서 html 코드 출력
-//    $('#test .html')[0].innerText = my_pretty($('#test .dom')[0].innerHTML);
-//  });
-
-
-
-  $('#test .input').innerText = '\
-    div\
-      div\
-        div\
-          span dsf\
-          span ㅋㅋㅋㅋㅋ';
-
-  function my_pretty(code) {
-    var T = (H.TAB_SIZE==2) ? '  ' : '    '; // 우리 페이지에선 2,4 두 경우밖에 없으니까
-
-    var stack = []; // tag_stack
-    var tab;
-    var is_string= false;
-
-    return code.replace(/<(\/?)(\w+)>/g, function(match, flag, tag) {
-      tab="";
-      if (flag) { // 닫는 태그
-
-        stack.pop(); // 돔에서 가져올꺼기 때문에 무조건 차례로 들어가있음 - 나중에 br같은건 걸러주기
-        for(var i=0; i<H.TAB_SIZE*stack.length; i++) tab+= T;
-        return '\n' + tab + match;
-
-      } else { // 여는 태그
-
-        for (var i=0; i<H.TAB_SIZE*stack.length; i++) tab+= T;
-        stack.push(tag);
-        return '\n' + tab + match + '\n' + tab + T ; // stack.length만큼의 탭 + match + '\n'
-      }
-
-    });
-  }
+//  function my_pretty(code) {
+//    var T = (H.TAB_SIZE==2) ? '  ' : '    '; // 우리 페이지에선 2,4 두 경우밖에 없으니까
+//
+//    var stack = []; // tag_stack
+//    var tab;
+//
+//    return code.replace(/<(\/?)(\w+)>/g, function(match, flag, tag) {
+//      tab="";
+//      if (flag) { // 닫는 태그
+//
+//        stack.pop(); // 돔에서 가져올꺼기 때문에 무조건 차례로 들어가있음 - 나중에 br같은건 걸러주기
+//        for(var i=0; i<H.TAB_SIZE*stack.length; i++) tab+= T;
+//        return '\n' + tab + match;
+//
+//      } else { // 여는 태그
+//
+//        for (var i=0; i<H.TAB_SIZE*stack.length; i++) tab+= T;
+//        stack.push(tag);
+//        return '\n' + tab + match + '\n' + tab + T ; // stack.length만큼의 탭 + match + '\n'
+//      }
+//    });
+//  }
 
 //    function my_pretty(code) {
 //      var stack = []; // tag_stack
@@ -171,9 +175,6 @@
 //      return r.replace(/\n *\n/g, "\n");
 //    }
 //    $('textarea.output.html')[0].innerText = my_pretty($('.tttt')[0].outerHTML); // 이거!!!
-
-
-
 
 
 
@@ -228,17 +229,6 @@
     //    return code;
 
 
-
-
-
-
-
-
-
-
-
-
-
     /*
      function print_DOM(nodeList) { //배열형태
      console.log("들어옴", nodeList);
@@ -289,9 +279,6 @@
      return res;
      }
      */
-
-
-
 </script>
 
 </body>
