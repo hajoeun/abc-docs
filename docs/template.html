@@ -4,41 +4,7 @@
   <meta charset="UTF-8">
   <title>TRY H</title>
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-  <style>
-    .set_sections {
-      background-color: whitesmoke;
-    }
-    .settings div {
-      display: inline-block;
-      margin-right: 20px;
-    }
-    .section {
-      background-color: whitesmoke;
-    }
-    .run_btn {
-      float: right;
-    }
-    textarea.input {
-      cursor: text;
-      font-size: 15px;
-      font-family: Menlo, "Bitstream Vera Sans Mono", "DejaVu Sans Mono", Monaco, Consolas, monospace;
-      width: 100%;
-      height: 300px;
-      margin: 0;
-      color: whitesmoke;
-      background-color: #333333;
-    }
-    .output.dom {
-      width: 100%;
-      height: 300px;
-      margin: 0;
-      border: 1px solid #ccc;
-    }
-    .section {
-      padding-bottom: 20px;
-      border-bottom: 1px solid #ccc;
-    }
-  </style>
+  <link rel="stylesheet" href="template_style.css">
 </head>
 <body>
 
@@ -46,8 +12,17 @@
 <script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
 <script src="//rawgit.com/marpple/abc-functional-javascript/master/example/js/underscore.js"></script>
 <script src="//cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
-<!--<script src="//cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>-->
 <script>
+
+  var examples = [
+      "C(H('','\n\
+        div.container\n\
+          h1 Hello H template!'));",
+      "A(['HA', 'JE'], H('users','\n\
+          div.container\n\
+            h4 First user: {{{users[0]}}}\n\
+            h4 Second user: {{{users[1]}}}'));" ];
+
   C([H('','\
     div.container#try_H\
       h1 TRY H\
@@ -73,30 +48,34 @@
             h3 Basic\
             p `H` 함수 기본 사용법\
           div.section_body.row#test_1\
-            div.col-md-4.s_test\
+            div.col-md-6.s_test\
               h4 Test Code\
                 button.btn.btn-sm.btn-success.run_btn#1 Run\
               textarea.input\
-            div.col-md-8.s_result\
+            div.col-md-6.s_result\
               h4 Results\
               div.output.dom\
         div.section#basic2\
           div.section_header\
             h3 Basic2\
-            p `H` 함수 사용법 두번째\
+            p `H` 함수 사용법: 데이터를 다루는 방법\
           div.section_body.row#test_2\
-            div.col-md-4.s_test\
+            div.col-md-6.s_test\
               h4 Test Code\
                 button.btn.btn-sm.btn-success.run_btn#2 Run\
               textarea.input\
-            div.col-md-8.s_result\
+            div.col-md-6.s_result\
               h4 Results\
               div.output.dom\
     '),
-    '$.replace(/`(.*?)`/g, "<code>$1</code>")', // function(v) { return v.replace(/`(.*?)`/g, '<code>$1</code>'); },
+    function(v) {
+      var i = 0;
+      return v.replace(/`(.*?)`/g, "<code>$1</code>")
+              .replace(/(<\/textarea>)/g, function(r) { return examples[i++] + r; })
+              .replace(/(\n)/g, '\\$1');
+    },
     $,
     B.M('appendTo', 'body')]);
-
 
 
   $('.tab_size').on('click', function(e) {                              // tab_size 변경 할 때에도 output 형태 업그레이드 해줘야 !!
@@ -112,11 +91,12 @@
     try {
       $('#test_' + t_id + ' .dom')[0].innerHTML = (new Function("return " + code))();
     } catch (e) {
-      console && console.log && console.log('Syntax Error...')
+      console && console.error && console.error('Syntax Error...')
     }
 
     console.log(e.target.id + "%c 번 코드 실행!", "color:green;");
   }).click();
+
 
   /*Key event handler*/
   var keys = {};
@@ -136,8 +116,7 @@
 
       this.selectionStart = this.selectionEnd = start + H.TAB_SIZE;
       e.preventDefault();
-    }
-    else if (keys[13] && keys[17]) {
+    } else if (keys[13] && keys[17]) {
       $('#' + e.target.parentNode.parentNode.id + ' .run_btn').click();
       delete keys[13]; delete keys[17];
     }
@@ -145,11 +124,10 @@
 
   $('#try_H .input').keyup(function(e) { delete keys[e.which]; });
   $(document).keyup(function(e) { delete keys[e.which]; });
+</script>
 
-
-
-
-  //  function TAB() { return "( {" + H.TAB_SIZE + "}|\\t)"; }; // "( {4}|\\t)"
+<script>
+//  function TAB() { return "( {" + H.TAB_SIZE + "}|\\t)"; }; // "( {4}|\\t)"
 //  function TABS() { return TAB() + "+"; };
 //
 //  function my_pretty(code) {
@@ -174,6 +152,7 @@
 //      }
 //    });
 //  }
+
 
 //    function my_pretty(code) {
 //      var stack = []; // tag_stack
@@ -303,7 +282,6 @@
      return res;
      }
      */
-</script>
-
+</script> <!--my_pretty code-->
 </body>
 </html>
