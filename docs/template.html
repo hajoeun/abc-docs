@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>TRY H</title>
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <!--<link rel="stylesheet" href="darcula.css">-->
   <link rel="stylesheet" href="template_style.css">
 </head>
 <body>
@@ -11,8 +12,7 @@
 <script src="//rawgit.com/marpple/abc-functional-javascript/master/etc/abc.all.js"></script>
 <script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
 <script src="//rawgit.com/marpple/abc-functional-javascript/master/example/js/underscore.js"></script>
-<script src="//cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
-<!--<script src="abc.all.js"></script>-->
+<!--<script src="highlight.pack.js"></script>-->
 <script>
 
   var examples = [
@@ -144,6 +144,13 @@
 
   $('#try_H .input').keyup(function(e) { delete keys[e.which]; });
   $(document).keyup(function(e) { delete keys[e.which]; });
+
+
+//  $(document).ready(function() {
+//    $('.input').each(function(i, block) {
+//      hljs.highlightBlock(block);
+//    });
+//  });
 </script>
 
 <script>
