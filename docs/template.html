@@ -8,39 +8,103 @@
 </head>
 <body>
 
-<script src="//rawgit.com/marpple/abc-functional-javascript/master/etc/abc.all.js"></script>
-<script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
 <script src="//rawgit.com/marpple/abc-functional-javascript/master/example/js/underscore.js"></script>
-<script src="//cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
-<!--<script src="abc.all.js"></script>-->
+<script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
+<!--<script src="//rawgit.com/marpple/abc-functional-javascript/master/etc/abc.all.js"></script>-->
+<!--<script src="//cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>-->
+<script src="abc.all.js"></script>
 <script>
 
-  var examples = [
-      "C(H('','\n\
+  var examples = ["C(H('','\n\
         div.container\n\
-          h1#hello Hello H template!'));",
-      "C(['HA', 'JE'], H('users','\n\
-          div.container\n\
-            h4 First user: {{{users[0]}}}\n\
-            h4 Second user: {{{users[1]}}}'));" ];
+          h1#hello Hello H template!\n\
+          a[href=https://www.marpple.com] www.marpple.com\n\
+          h3[style=\"color:red\"] 나는 한정판이다.'));",
+        "C(H('','\n\
+        p\n\
+          |동해물과 백두산이\n\
+          |마르고 닳도록\n\
+        p.\n\
+          이 기상과 이 맘으로\n\
+          충성을 다하여\n\
+        span 오구야'));",
+        "C(person, H('user','\n\
+              div.!{user.company}!\n\
+                h3 My name is {{user.name}}\n\
+                h3 {{user.age}} years old.\n\
+                h5 {{user.comment}}\n\
+                h5 {{{user.comment}}}\n\
+              '));",
+        "C(H('','\n\
+                h3 I am smart.\n\
+    //            h3 I am dummy.\n\
+                h3 I like cheeseburger\n\
+    /*          h3 and pizza\n\
+                h3 and chicken\n\
+                h3 and french-fried\n\
+                h3 and.. every food*/\n\
+                h4 I am honest.\n\
+                '));",
+        "C(songs, H('songs', '\n\
+              h3 Sing Street OST\n\
+              ul\n\
+                {{{C(songs, ', function (songs) {\n\
+                  return _.map(songs, function (song, i) {\n\
+                    return '<li>' + (i + 1) + '. ' + song + '</li>';\n\
+                  }).join('');\n\
+                }, ')}}}'))",
+        "C(post, S('p', \"update posts set body = '{{p.body}}' where id = {{p.id}};\"))"
+
+  ];
+
 
   var ex_ary = [
     {
-      class: "basic1",
-      title: "Basic1 <small>id, class</small>",
-      comment: "`H` 함수를 이용해 id와 class를 지정할 수 있습니다.",
-      code: "C(H('','\n\
-        div.container\n\
-          h1#hello Hello H template!'));"
+      class: "basic",
+      title: "Basic",
+      detail: "id, class, attribute",
+      comment: "`H` 함수를 사용하여 id와 class 등 다양한 속성을 지정할 수 있습니다."
     },
     {
-      class: "basic2",
-      title: "Basic2 <small>attribute</small>",
-      comment: "`H` 함수를 이용해 id와 class외의 다양한 속성도 지정할 수 있습니다.",
-      code: 'C(["HA", "JE"], H("users","\n\
-          div.container\n\
-            h4 First user: {{{users[0]}}}\n\
-            h4 Second user: {{users[1]}}"));'
+      class: "paragraph",
+      title: "Paragraph",
+      detail: "`.` 혹은 `|` 사용하기",
+      comment: "`.` 혹은 `|` 를 사용하여 개행을 포함한 문단을 작성할 수 있습니다."
+    },
+    {
+      class: "data",
+      title: "Data",
+      detail: "`!{}!`, `<<>>`, `<<<>>>`",
+      comment: "`!{}!`, `<<>>`, `<<<>>>`을 사용하여 데이터를 치환할 수 있습니다.",
+      data: "var person = { name: 'Cojamm', age: 32, company: 'marpple', comment:'<em>하이</em>' };"
+    },
+    {
+      class: "comments",
+      title: "Comments",
+      detail: "`//`, `/* */`",
+      comment: "`//`와 `/* */`를 사용하여 주석 처리를 할 수 있습니다."
+    },
+    {
+      class: "function",
+      title: "Function",
+      detail: "",
+      comment: "",
+      data: "var songs = [\
+          'The Riddle Of The Model',\
+          'Up',\
+          'To Find You',\
+          'A Beautiful Sea',\
+          'Drive It Like You Stole It',\
+          'Up (Bedroom Mix)',\
+          'Girls',\
+          'Brown Shoes'];"
+    },
+    {
+      class: "s",
+      title: "S",
+      detail: "",
+      comment: "`S` 함수는 `H` 템플릿 함수와 비슷하나, SQL문과 같은 일반 문자열을 다룰 때 사용 할 수 있습니다.",
+      data: "var post = {id: 5, body: 'foo bar'}"
     }
   ];
 
@@ -67,23 +131,24 @@
         {{{C(ex_ary, ', H.each('ex', '\
         div.section.!{ex.class}!\
           div.section_header\
-            h3 !{ex.title}!\
-            p !{ex.comment}!\
+            h3 {{ex.title}} <small>{{ex.detail}}</small>\
+            p {{ex.comment}}\
           div.section_body.row.!{ex.class}!\
             div.col-md-6.s_test\
               h4 Test Code\
                 button.btn.btn-sm.btn-success.run_btn.!{ex.class}!#!{ex.class}! Run\
-              textarea.input\
+              textarea.input.data[!{!!ex.data ? void 0 : hidden}!] {{ex.data}}\
+              textarea.input.code **here**\
             div.col-md-6.s_result\
               h4 Results\
               div.output.dom\
         '), ')}}}\
     '),
-    function(v) {
+    function(v) { // 이쁘게 출력
       var i = 0;
-      return v.replace(/`(.*?)`/g, "<code>$1</code>")
-              .replace(/<\/textarea>/g, function(r) { return examples[i++] + r; })
-              .replace(/(\n)/g, '\\$1');
+      return v.replace(/(&#x60;|`)(.*?)(&#x60;|`)/g, "<code>$2</code>")
+              .replace(/&lt;&lt;&lt;(.*?)&gt;&gt;&gt;/g,'{{{$1}}}').replace(/&lt;&lt;(.*?)&gt;&gt;/g,'{{$1}}')
+              .replace(/\*\*here\*\*/g, function() { return examples[i++]; }).replace(/(\n)/g, '\\$1');
     },
     $,
     B.M('appendTo', 'body')]);
@@ -104,10 +169,11 @@
   $('.run_btn').on('click', function(e) {
 
     var $section = $('.section' + '.' + e.target.id);
-    var code = $section.find('.input').val().replace(/\n/g, '');
+    var data = $section.find('.input.data').val().replace(/\n/g, '');
+    var code = $section.find('.input.code').val().replace(/\n/g, ''); // 이것 땜에 paragraph 적용 안되는 거!!!
 
     try {
-      $section.find('.dom')[0].innerHTML = (new Function("return " + code))();
+      $section.find('.dom')[0].innerHTML = (new Function(data + "; return " + code))();
     } catch (e) {
       console && console.error && console.error('Syntax Error...')
     }
