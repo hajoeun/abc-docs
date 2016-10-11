@@ -48,7 +48,7 @@
     B : {
       func : {
         title : 'B',
-        usage : 'B()',
+        usage : 'B(args..., function)',
         egs : [{
           ds: '`B`는 `this`를 제외한 `bind`라고 생각하면 쉽습니다. 혹은 underscore의 `_.partial`과 유사합니다.',
           cd: '\
@@ -82,7 +82,7 @@
       methods: {
         args : {
           title : 'args',
-          usage : 'B.args(index)(v1, v2 ...)',
+          usage : 'B.args(index)',
           egs : [{
             ds: '`B.args`는 인덱스 값에 맞춰 매개변수의 값을 반환하는 함수를 만듭니다.',
             cd: '\
@@ -104,7 +104,7 @@
         },
         remove : {
           title : 'remove',
-          usage : 'B.remove(target)(array)',
+          usage : 'B.remove(value)',
           egs : [{
             ds: '`B.remove`는 매개변수로 전달된 배열 중에서 최초로 발견한 값 하나를 제거하는 함수를 만듭니다.',
             cd: '\
@@ -113,7 +113,7 @@
         },
         unset : {
           title : 'unset',
-          usage : 'B.unset()',
+          usage : 'B.unset(key)',
           egs : [{
             ds: '`B.unset`은 뭐하는거야?',
             cd: '\
@@ -122,7 +122,7 @@
         },
         set : {
           title : 'set',
-          usage : 'B.set()',
+          usage : 'B.set(key, value)',
           egs : [{
             ds: '`B.set`은 뭐하는거야?',
             cd: '\
@@ -131,7 +131,7 @@
         },
         extend : {
           title : 'extend',
-          usage : 'B.extend()',
+          usage : 'B.extend(args...)',
           egs : [{
             ds: '`B.extend`은 뭐하는거야?',
             cd: '\
@@ -140,7 +140,7 @@
         },
         defaults : {
           title : 'defaults',
-          usage : 'B.defaults()',
+          usage : 'B.defaults(args...)',
           egs : [{
             ds: '`B.defauls`은 뭐하는거야?',
             cd: '\
@@ -149,7 +149,7 @@
         },
         select : {
           title : 'select',
-          usage : 'B.select()',
+          usage : 'B.select(selector)',
           egs : [{
             ds: '`B.select`은 뭐하는거야?',
             cd: '\
@@ -162,9 +162,9 @@
     H : {
       func : {
         title : 'H',
-        usage : 'H("var name...", H template code)(args)',
+        usage : 'H(\'value\', H template code)',
         egs : [{
-          ds: "이 `H`함수는 ~하는 함수 입니다.",
+          ds: "`H`는 HTML 템플릿을 쉽게 만들 수 있도록 돕습니다.",
           cd: "\
                   |function() {\
                   |__return arguments;\
@@ -245,6 +245,13 @@
     $,
     B.M('appendTo', 'body')]);
 
+  C([
+    H('', '\
+      a.btn.btn-sm.btn-info.pull-right#go_template[type=button href=template.html target=blank] try\
+    '),
+    $,
+    B.M('appendTo', 'div#H .func_title small')
+  ]);
 
   /*General functions*/
   function section_bulider(temp_section) {

@@ -1,12 +1,15 @@
-.set_sections {
+body {
   background-color: whitesmoke;
+}
+.set_sections {
+  /*background-color: whitesmoke;*/
 }
 .settings div {
   display: inline-block;
   margin-right: 20px;
 }
 .section {
-  background-color: whitesmoke;
+  background-color: white;
 }
 .run_btn {
   float: right;
@@ -31,6 +34,16 @@ div.output.dom {
   border: 1px solid #ccc;
 }
 .section {
-  padding-bottom: 20px;
+  padding: 5px 20px 5px 20px;
   border-bottom: 1px solid #ccc;
+  /*border: 2px solid green;*/
+}
+
+.section_body {
+  /*border: 1px solid blue;*/
+  /*margin: 10px;*/
+}
+.s_test, .s_result {
+  /*margin: 2px;*/
+  /*border: 1px solid red;*/
 }
