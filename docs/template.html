@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="template_style.css">
 </head>
 <body>
-
 <script src="//rawgit.com/marpple/abc-functional-javascript/master/etc/abc.all.js"></script>
 <script src="//rawgit.com/marpple/abc-functional-javascript/master/example/js/underscore.js"></script>
 <script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
@@ -22,10 +21,10 @@
           a[href=https://www.marpple.com] www.marpple.com\n\
           h3[style=\"color:red\"] 나는 한정판이다.'));",
         "C(H('','\n\
-        p\n\
+        textarea\n\
           |동해물과 백두산이\n\
           |마르고 닳도록\n\
-        p.\n\
+        textarea.\n\
           이 기상과 이 맘으로\n\
           충성을 다하여\n\
         span 오구야'));",
@@ -47,17 +46,16 @@
                 h4 I am honest.\n\
                 '));",
         "C(songs, H('songs', '\n\
-              h3 Sing Street OST\n\
-              ul\n\
-                {{{C(songs, ', function (songs) {\n\
-                  return _.map(songs, function (song, i) {\n\
-                    return '<li>' + (i + 1) + '. ' + song + '</li>';\n\
-                  }).join('');\n\
-                }, ')}}}'))",
+          h3 Sing Street OST\n\
+          ul\n\
+            {{{C(songs, ', function (songs) {*\\n\
+              return _.map(songs, function (song, i) {*\\n\
+                return '<li>' + (i + 1) + '. ' + song + '</li>';*\\n\
+              }).join('');*\\n\
+            }, ')}}}'))",
         "C(post, S('p', \"update posts set body = '{{p.body}}' where id = {{p.id}};\"))"
 
   ];
-
 
   var ex_ary = [
     {
@@ -90,14 +88,14 @@
       title: "Function",
       detail: "",
       comment: "",
-      data: "var songs = [\
-          'The Riddle Of The Model',\
-          'Up',\
-          'To Find You',\
-          'A Beautiful Sea',\
-          'Drive It Like You Stole It',\
-          'Up (Bedroom Mix)',\
-          'Girls',\
+      data: "var songs = [*\\n\
+          'The Riddle Of The Model',*\\n\
+          'Up',*\\n\
+          'To Find You',*\\n\
+          'A Beautiful Sea',*\\n\
+          'Drive It Like You Stole It',*\\n\
+          'Up (Bedroom Mix)',*\\n\
+          'Girls',*\\n\
           'Brown Shoes'];"
     },
     {
@@ -138,18 +136,20 @@
             div.col-md-6.s_test\
               h4 Test Code\
                 button.btn.btn-sm.btn-success.run_btn.!{ex.class}!#!{ex.class}! Run\
-              textarea.input.data[!{!!ex.data ? void 0 : hidden}!] {{ex.data}}\
+              textarea.input.data[!{!!ex.data ? void 0 : "hidden"}!] {{ex.data}}\
               textarea.input.code **here**\
             div.col-md-6.s_result\
               h4 Results\
               div.output.dom\
         '), ')}}}\
     '),
+
     function(v) { // 이쁘게 출력
       var i = 0;
-      return v.replace(/(&#x60;|`)(.*?)(&#x60;|`)/g, "<code>$2</code>")
+      return v.replace(/(&#x60;|`)(.*?)\1/g, "<code>$2</code>")
               .replace(/&lt;&lt;&lt;(.*?)&gt;&gt;&gt;/g,'{{{$1}}}').replace(/&lt;&lt;(.*?)&gt;&gt;/g,'{{$1}}')
-              .replace(/\*\*here\*\*/g, function() { return examples[i++]; }).replace(/(\n)/g, '\\$1');
+              .replace(/\*\*here\*\*/g, function() { return examples[i++]; })
+              .replace(/(\n)/g, '\\$1').replace(/\*\\n/g, "\n");
     },
     $,
     B.M('appendTo', 'body')]);
@@ -170,8 +170,8 @@
   $('.run_btn').on('click', function(e) {
 
     var $section = $('.section' + '.' + e.target.id);
-    var data = $section.find('.input.data').val().replace(/\n/g, '');
-    var code = $section.find('.input.code').val().replace(/\n/g, ''); // 이것 땜에 paragraph 적용 안되는 거!!!
+    var data = $section.find('.input.data').val(),
+        code = $section.find('.input.code').val();
 
     try {
       $section.find('.dom')[0].innerHTML = (new Function(data + "; return " + code))();
