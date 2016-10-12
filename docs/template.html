@@ -3,12 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <title>TRY H</title>
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <!--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">-->
   <link rel="stylesheet" href="lib/stylesheet/template_style.css">
 </head>
 <body>
-
-
 <script src="//rawgit.com/marpple/abc-functional-javascript/master/etc/abc.all.js"></script>
 <script src="//rawgit.com/marpple/abc-functional-javascript/master/example/js/underscore.js"></script>
 <script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
@@ -154,7 +152,7 @@
                 div.__set_sections__\
           div#__about_this_page__\
             p 코드 실행하기\
-            button.btn.btn-sm.btn-success["disabled"] Run \
+            button["disabled"] Run \
             `(Ctrl + Enter)`\
     div.container.__container__#__try_H__\
       h1 TRY H\
@@ -162,16 +160,16 @@
         {{{C(ex_ary, ', H.each('ex', '\
         div.__section__.__!{ex.title}!__#___!{ex.title}!__\
           div.__section_header__\
-            h3 {{ex.title}} <small>{{ex.detail}}</small>\
+            h2 {{ex.title}} <span class=__detail__>{{ex.detail}}</span>\
             p {{ex.comment}}\
-          div.__section_body__.row.__!{ex.title}!__\
-            div.col-md-6.__s_test__\
-              h4 Test Code\
-                button.btn.btn-sm.btn-success.__run_btn__.__!{ex.title}!__#__!{ex.title}!__ Run\
-              textarea.__input__.__data__[!{!!ex.data ? void 0 : "hidden"}!] {{ex.data}}\
+          div.__section_body__.__!{ex.title}!__\
+            div.__s_test__\
+              h3 Test Code\
+                button.__run_btn__.__!{ex.title}!__#__!{ex.title}!__ Run\
+              textarea.__input__.__data__[!{ex.data ? void 0 : "hidden"}!] {{ex.data}}\
               textarea.__input__.__code__ **here**\
-            div.col-md-6.__s_result__\
-              h4 Results\
+            div.__s_result__\
+              h3 Results\
               div.__output__.__dom__\
         '), ')}}}\
     '),
@@ -249,13 +247,6 @@
 
   $('#__try_H__ .__input__').keyup(function(e) { delete keys[e.which]; });
   $(document).keyup(function(e) { delete keys[e.which]; });
-
-
-//  $(document).ready(function() {
-//    $('.input').each(function(i, block) {
-//      hljs.highlightBlock(block);
-//    });
-//  });
 </script>
 
 <script>

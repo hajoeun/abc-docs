@@ -1,69 +1,13 @@
-
+/*global part*/
 body {
   background-color: whitesmoke;
 }
-.__set_sections__ {
-  /*background-color: whitesmoke;*/
-}
-.__setting__ div {
-  display: inline-block;
-  margin-right: 20px;
-}
-.__section__ {
-  background-color: white;
-}
+
 .__run_btn__ {
   float: right;
 }
-textarea.__input__ {
-  cursor: text;
-  font-size: 15px;
-  font-family: Menlo, "Bitstream Vera Sans Mono", "DejaVu Sans Mono", Monaco, Consolas, monospace;
-  width: 100%;
-  height: 300px;
-  margin: 0;
-  color: whitesmoke;
-  background-color: #333333;
-}
-textarea.__data__ {
-  height: 100px;
-}
-div.__output__.__dom__ {
-  width: 100%;
-  height: 400px;
-  margin: 0;
-  border: 1px solid #ccc;
-}
-.__section__ {
-  padding: 5px 20px 5px 20px;
-  border-bottom: 1px solid #ccc;
-  box-shadow: #ccc 0 0 3px;
-  /*border: 2px solid green;*/
-}
 
-.__section_body__ {
-  /*border: 1px solid blue;*/
-  /*margin: 10px;*/
-}
-
-
-.__s_test__, .___result__
-  {
-    /*margin: 2px;*/
-    /*border: 1px solid red;*/
-  }
-
-
-div.__container__ {
-  position: absolute;
-  bottom: 0;
-  top: 0;
-  left: 0;
-  right: 0;
-  margin: 0;
-  padding-left: 280px;
-}
-
+/*side bar part*/
 div.__left__ {
   position: fixed;
   left: 0;
@@ -73,8 +17,7 @@ div.__left__ {
 }
 
 div.__sidebar__ {
-  margin-top: 75px;
-  margin-left: 50px;
+  margin: 83px auto auto 30px;
   padding-left: 15px;
   background-color: white;
   /*border: 1px solid lightgrey;*/
@@ -82,17 +25,99 @@ div.__sidebar__ {
   /*-webkit-box-shadow: #ccc 0 0 15px;*/
 }
 
-ul {
+.__sidebar__ ul {
   font-size: 17px;
   list-style: none;
   padding-left: 0px;
 }
 
-li {
+.__sidebar__ li {
   box-shadow: #ccc 0 0 1px;
   padding: 5px;
 }
 
-a {
+.__sidebar__ a {
   color: black;
+}
+
+.__set_sections__ {
+  /*background-color: whitesmoke;*/
+}
+.__setting__ div {
+  display: inline-block;
+  margin-right: 20px;
+}
+
+
+
+/*container, section, input... etc part*/
+.__container__ {
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 0 30px 0 0;
+  padding-left: 280px;
+  max-width: 1000px;
+  overflow: auto;
+}
+
+.__section__ {
+  padding: 5px 20px 5px 20px;
+  box-shadow: #ccc 0 0 3px;
+  background-color: white;
+  overflow: auto;
+}
+
+.__section_header__ {
+}
+.__detail__ {
+  font-size: 65%;
+  color: #777;
+}
+
+.__section_body__ {
+}
+
+.__s_test__, .__s_result__ {
+  display: inline-block;
+}
+.__s_test__ {
+  float: left;
+  width: 54%;
+}
+.__s_result__ {
+  float: right;
+  width: 45%;
+}
+
+
+.__input__ {
+  cursor: text;
+  font-size: 15px;
+  font-family: Menlo, "Bitstream Vera Sans Mono", "DejaVu Sans Mono", Monaco, Consolas, monospace;
+  width: 95%;
+  margin: 0;
+  color: whitesmoke;
+  background-color: #333333;
+  resize: vertical;
+}
+.__input__.__data__ {
+  height: 100px;
+}
+.__input__.__code__ {
+  height: 280px;
+}
+
+.__output__.__dom__ {
+  width: 95%;
+  margin: 0;
+  min-height: 280px;
+  border: 1px solid #ccc;
+}
+
+div {
+  /*border: 1px dotted deeppink;*/
+  /*s_test width 55%으로 바꾸기!*/
 }
