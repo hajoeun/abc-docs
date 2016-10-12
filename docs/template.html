@@ -123,56 +123,56 @@
   ];
 
   C([H('','\
-    div.left\
-      div.sidebar\
+    div.__left__\
+      div.__sidebar__\
         ul\
           li\
-            a[href=#_Basic] Basic\
+            a[href=#___Basic__] Basic\
           li \
-            a[href=#_Paragraph] Paragraph\
+            a[href=#___Paragraph__] Paragraph\
           li \
-            a[href=#_Data] Data\
+            a[href=#___Data__] Data\
           li \
-            a[href=#_Comments] Comments\
+            a[href=#___Comments__] Comments\
           li \
-            a[href=#_Function1] Function1\
+            a[href=#___Function1__] Function1\
           li \
-            a[href=#_Function2] Function2\
+            a[href=#___Function2__] Function2\
           li \
-            a[href=#_S] S\
-        div.setting\
-          div#tab_set\
+            a[href=#___S__] S\
+        div.__setting__\
+          div#__tab_set__\
             label Select TAB size\
-            form.tab_size\
+            form.__tab_size__\
               input[type=radio name="tab" value=2 checked] 2\
               input[type=radio name="tab" value=4] 4\
-          div#css_set\
+          div#__css_set__\
             label Select Library\
-            form.library\
+            form.__library__\
               input[type=checkbox value=bootstrap] Bootstrap\
               input[type=checkbox value=jqeury] jQuery\
-                div.set_sections\
-          div#about_this_page\
+                div.__set_sections__\
+          div#__about_this_page__\
             p 코드 실행하기\
             button.btn.btn-sm.btn-success["disabled"] Run \
             `(Ctrl + Enter)`\
-    div.container#try_H\
+    div.container.__container__#__try_H__\
       h1 TRY H\
-      div.try_sections\
+      div.__try_sections__\
         {{{C(ex_ary, ', H.each('ex', '\
-        div.section.!{ex.title}!#_!{ex.title}!\
-          div.section_header\
+        div.__section__.__!{ex.title}!__#___!{ex.title}!__\
+          div.__section_header__\
             h3 {{ex.title}} <small>{{ex.detail}}</small>\
             p {{ex.comment}}\
-          div.section_body.row.!{ex.title}!\
-            div.col-md-6.s_test\
+          div.__section_body__.row.__!{ex.title}!__\
+            div.col-md-6.__s_test__\
               h4 Test Code\
-                button.btn.btn-sm.btn-success.run_btn.!{ex.title}!#!{ex.title}! Run\
-              textarea.input.data[!{!!ex.data ? void 0 : "hidden"}!] {{ex.data}}\
-              textarea.input.code **here**\
-            div.col-md-6.s_result\
+                button.btn.btn-sm.btn-success.__run_btn__.__!{ex.title}!__#__!{ex.title}!__ Run\
+              textarea.__input__.__data__[!{!!ex.data ? void 0 : "hidden"}!] {{ex.data}}\
+              textarea.__input__.__code__ **here**\
+            div.col-md-6.__s_result__\
               h4 Results\
-              div.output.dom\
+              div.__output__.__dom__\
         '), ')}}}\
     '),
 
@@ -186,11 +186,11 @@
     $,
     B.M('appendTo', 'body')]);
 
-  $('.tab_size').on('click', function(e) {                              // tab_size 변경 할 때에도 output 형태 업그레이드 해줘야 !!
+  $('.__tab_size__').on('click', function(e) {                              // tab_size 변경 할 때에도 output 형태 업그레이드 해줘야 !!
     H.TAB_SIZE = C.parseInt($(':radio[name="tab"]:checked').val());
 
-    C.each($('.section'), function(s) {
-      var $code = $(s).find('.input.code');
+    C.each($('.__section__'), function(s) {
+      var $code = $(s).find('.__input__.__code__');
       $code.val($code.val().replace(/ {2,}/g, function(m) {
         return H.TAB_SIZE == 4 ? m.replace(/  /g, "    ") : m.replace(/    /g, "  ");
       }));
@@ -201,19 +201,19 @@
 
   var error;
 
-  $('.run_btn').on('click', function(e) {
+  $('.__run_btn__').on('click', function(e) {
 
-    var $section = $('.section' + '.' + e.target.id);
-    var data = $section.find('.input.data').val(),
-        code = $section.find('.input.code').val();
+    var $section = $('.__section__' + '.' + e.target.id);
+    var data = $section.find('.__input__.__data__').val(),
+        code = $section.find('.__input__.__code__').val();
 
     try {
-      $section.find('.dom')[0].innerHTML = (new Function(data + "; return " + code))();
-      $section.find('.dom')[0].style.border = "1px solid #ccc";
+      $section.find('.__dom__')[0].innerHTML = (new Function(data + "; return " + code))();
+      $section.find('.__dom__')[0].style.border = "1px solid #ccc";
     } catch (e) {
       console && console.error && console.error('Syntax Error...');
-      $section.find('.dom')[0].innerHTML = e;
-      $section.find('.dom')[0].style.border = "2px solid red";
+      $section.find('.__dom__')[0].innerHTML = e;
+      $section.find('.__dom__')[0].style.border = "2px solid red";
       error = e;
     }
 
@@ -224,7 +224,7 @@
   /*Key event handler*/
   var test;
   var keys = {};
-  $('#try_H .input').keydown(function(e) {
+  $('#__try_H__ .__input__').keydown(function(e) {
     var T = H.TAB_SIZE == 2 ? "  " : "    ";
 
     keys[e.which] = true;
@@ -241,13 +241,13 @@
       this.selectionStart = this.selectionEnd = start + H.TAB_SIZE;
       e.preventDefault();
     } else if (keys[13] && keys[17]) {
-      $(e.target.parentNode.parentNode).find('.run_btn').click();
+      $(e.target.parentNode.parentNode).find('.__run_btn__').click();
       delete keys[13]; delete keys[17];
     }
 
   });
 
-  $('#try_H .input').keyup(function(e) { delete keys[e.which]; });
+  $('#__try_H__ .__input__').keyup(function(e) { delete keys[e.which]; });
   $(document).keyup(function(e) { delete keys[e.which]; });
 
 
