@@ -1,3 +1,4 @@
+
 body {
   background-color: whitesmoke;
 }
@@ -36,6 +37,7 @@ div.output.dom {
 .section {
   padding: 5px 20px 5px 20px;
   border-bottom: 1px solid #ccc;
+  box-shadow: #ccc 0 0 3px;
   /*border: 2px solid green;*/
 }
 
@@ -46,4 +48,36 @@ div.output.dom {
 .s_test, .s_result {
   /*margin: 2px;*/
   /*border: 1px solid red;*/
+}
+
+div.container {
+  padding-left: 250px;
+}
+
+div.left{
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 250px;
+}
+
+div.sidebar {
+  margin-top: 75px;
+  margin-left: 50px;
+  padding-left: 15px;
+  background-color: white;
+  /*border: 1px solid lightgrey;*/
+  box-shadow: #ccc 0 0 3px;
+  /*-webkit-box-shadow: #ccc 0 0 15px;*/
+}
+
+ul {
+  font-size: 17px;
+  list-style: none;
+  padding-left: 0px;
+}
+
+a {
+  color: black;
 }

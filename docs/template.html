@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="lib/stylesheet/template_style.css">
 </head>
 <body>
+
+
 <script src="//rawgit.com/marpple/abc-functional-javascript/master/etc/abc.all.js"></script>
 <script src="//rawgit.com/marpple/abc-functional-javascript/master/example/js/underscore.js"></script>
 <script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
@@ -51,41 +53,41 @@
             return '<li>' + (i + 1) + '. ' + song + '</li>';*\\n\
           }).join('');*\\n\
         }, ')}}}'))",
+    "C(songs, H('songs', '\n\
+      h3 Sing Street OST\n\
+      ul\n\
+        !{C(songs, ', H.each('song, i', '\n\
+        li {{i+1}}. {{song}}'), ')}!'))",
     "C(post, S('p', \"update posts set body = '{{p.body}}' where id = {{p.id}};\"))"
 
   ];
 
   var ex_ary = [
     {
-      class: "basic",
       title: "Basic",
       detail: "id, class, attribute",
       comment: "`H` 함수를 사용하여 id와 class 등 다양한 속성을 지정할 수 있습니다."
     },
     {
-      class: "paragraph",
       title: "Paragraph",
       detail: "`.` 혹은 `|` 사용하기",
       comment: "`.` 혹은 `|` 를 사용하여 개행을 포함한 문단을 작성할 수 있습니다."
     },
     {
-      class: "data",
       title: "Data",
       detail: "`!{}!`, `<<>>`, `<<<>>>`",
       comment: "`!{}!`, `<<>>`, `<<<>>>`을 사용하여 데이터를 치환할 수 있습니다.",
       data: "var person = { name: 'Cojamm', age: 32, company: 'marpple', comment:'<em>하이</em>' };"
     },
     {
-      class: "comments",
       title: "Comments",
       detail: "`//`, `/* */`",
       comment: "`//`와 `/* */`를 사용하여 주석 처리를 할 수 있습니다."
     },
     {
-      class: "function",
-      title: "Function",
+      title: "Function1",
       detail: "",
-      comment: "",
+      comment: "`!{}!`, `<<>>`, `<<<>>>`을 사용하여 함수를 실행할 수 있습니다.",
       data:
 "var songs = [*\\n\
     'The Riddle Of The Model',*\\n\
@@ -98,7 +100,21 @@
     'Brown Shoes' ];"
     },
     {
-      class: "s",
+      title: "Function2",
+      detail: "`H.each`",
+      comment: "",
+      data:
+        "var songs = [*\\n\
+            'The Riddle Of The Model',*\\n\
+            'Up',*\\n\
+            'To Find You',*\\n\
+            'A Beautiful Sea',*\\n\
+            'Drive It Like You Stole It',*\\n\
+            'Up (Bedroom Mix)',*\\n\
+            'Girls',*\\n\
+            'Brown Shoes' ];"
+    },
+    {
       title: "S",
       detail: "",
       comment: "`S` 함수는 `H` 템플릿 함수와 비슷하나, SQL문과 같은 일반 문자열을 다룰 때 사용 할 수 있습니다.",
@@ -107,11 +123,24 @@
   ];
 
   C([H('','\
-    div.container#try_H\
-      h1 TRY H\
-      div.set_sections\
-        h4 Settings\
-        div.settings\
+    div.left\
+      div.sidebar\
+        ul\
+          li\
+            a[href=#_Basic] Basic\
+          li \
+            a[href=#_Paragraph] Paragraph\
+          li \
+            a[href=#_Data] Data\
+          li \
+            a[href=#_Comments] Comments\
+          li \
+            a[href=#_Function1] Function1\
+          li \
+            a[href=#_Function2] Function2\
+          li \
+            a[href=#_S] S\
+        div.setting\
           div#tab_set\
             label Select TAB size\
             form.tab_size\
@@ -122,19 +151,23 @@
             form.library\
               input[type=checkbox value=bootstrap] Bootstrap\
               input[type=checkbox value=jqeury] jQuery\
-        div#about_this_page\
-          h5 Try H 활용법\
-          p `Ctrl + Enter`로 실행할 수 있습니다.\
+                div.set_sections\
+          div#about_this_page\
+            p 코드 실행하기\
+            button.btn.btn-sm.btn-success["disabled"] Run \
+            `(Ctrl + Enter)`\
+    div.container#try_H\
+      h1 TRY H\
       div.try_sections\
         {{{C(ex_ary, ', H.each('ex', '\
-        div.section.!{ex.class}!\
+        div.section.!{ex.title}!#_!{ex.title}!\
           div.section_header\
             h3 {{ex.title}} <small>{{ex.detail}}</small>\
             p {{ex.comment}}\
-          div.section_body.row.!{ex.class}!\
+          div.section_body.row.!{ex.title}!\
             div.col-md-6.s_test\
               h4 Test Code\
-                button.btn.btn-sm.btn-success.run_btn.!{ex.class}!#!{ex.class}! Run\
+                button.btn.btn-sm.btn-success.run_btn.!{ex.title}!#!{ex.title}! Run\
               textarea.input.data[!{!!ex.data ? void 0 : "hidden"}!] {{ex.data}}\
               textarea.input.code **here**\
             div.col-md-6.s_result\
@@ -157,14 +190,16 @@
     H.TAB_SIZE = C.parseInt($(':radio[name="tab"]:checked').val());
 
     C.each($('.section'), function(s) {
-      var $input = $(s).find('.input');
-      $input.val($input.val().replace(/ {2,}/g, function(m) {
+      var $code = $(s).find('.input.code');
+      $code.val($code.val().replace(/ {2,}/g, function(m) {
         return H.TAB_SIZE == 4 ? m.replace(/  /g, "    ") : m.replace(/    /g, "  ");
       }));
     });
 
     console.log(H.TAB_SIZE + "%c tab 설정 완료!", "color:green;");
   });
+
+  var error;
 
   $('.run_btn').on('click', function(e) {
 
@@ -174,8 +209,12 @@
 
     try {
       $section.find('.dom')[0].innerHTML = (new Function(data + "; return " + code))();
+      $section.find('.dom')[0].style.border = "1px solid #ccc";
     } catch (e) {
-      console && console.error && console.error('Syntax Error...')
+      console && console.error && console.error('Syntax Error...');
+      $section.find('.dom')[0].innerHTML = e;
+      $section.find('.dom')[0].style.border = "2px solid red";
+      error = e;
     }
 
     console.log(e.target.id + "%c 코드 실행!", "color:green;");
