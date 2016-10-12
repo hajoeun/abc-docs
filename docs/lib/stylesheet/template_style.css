@@ -2,52 +2,75 @@
 body {
   background-color: whitesmoke;
 }
+.__chip__ {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+  font-family: Menlo, "Bitstream Vera Sans Mono", "DejaVu Sans Mono", Monaco, Consolas, monospace;
+}
 
-.__run_btn__ {
-  float: right;
+.__btn__ {
+  font-size: 13px;
+  padding: 7px;
+  color: #fff;
+  background-color: #5cb85c;
+  border-style: none;
+  border-radius: 10%;
+  outline: none;
+  box-shadow: #ccc 1px 3px 3px;
+}
+.__btn__:hover {
+  background-color: #449d44;
+  box-shadow: #ccc 0px 0px 0px;
 }
 
 /*side bar part*/
 div.__left__ {
   position: fixed;
   left: 0;
-  top: 0;
+  top: 65px;
   bottom: 0;
   width: 250px;
 }
 
-div.__sidebar__ {
-  margin: 83px auto auto 30px;
-  padding-left: 15px;
+.__sidebar__ {
+
+}
+
+.__link__, .__setting__ {
+  margin: 0 auto auto 30px;
+  /*padding-left: 15px;*/
   background-color: white;
-  /*border: 1px solid lightgrey;*/
   box-shadow: #ccc 0 0 3px;
-  /*-webkit-box-shadow: #ccc 0 0 15px;*/
 }
 
 .__sidebar__ ul {
   font-size: 17px;
   list-style: none;
-  padding-left: 0px;
+  padding: 15px 0;
 }
 
 .__sidebar__ li {
-  box-shadow: #ccc 0 0 1px;
   padding: 5px;
+  padding-left: 20px;
 }
+
+.__sidebar__ li:hover {
+  background-color: whitesmoke;
+}
+
 
 .__sidebar__ a {
   color: black;
+  text-decoration: none;
 }
 
-.__set_sections__ {
-  /*background-color: whitesmoke;*/
-}
-.__setting__ div {
+.__tab_size__ {
+  margin-left: 20px;
   display: inline-block;
-  margin-right: 20px;
 }
-
 
 
 /*container, section, input... etc part*/
@@ -61,6 +84,7 @@ div.__sidebar__ {
   padding-left: 280px;
   max-width: 1000px;
   overflow: auto;
+  /*z-index: 2;*/
 }
 
 .__section__ {
@@ -92,6 +116,10 @@ div.__sidebar__ {
   width: 45%;
 }
 
+.__s_test__ h3 {
+  padding-right: 20px;
+}
+
 
 .__input__ {
   cursor: text;
@@ -107,7 +135,13 @@ div.__sidebar__ {
   height: 100px;
 }
 .__input__.__code__ {
+  /*overflow-x: scroll;*/
+  white-space: nowrap;
   height: 280px;
+}
+
+.__run_btn__ {
+  float: right;
 }
 
 .__output__.__dom__ {

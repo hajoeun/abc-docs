@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>TRY H</title>
-  <!--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">-->
   <link rel="stylesheet" href="lib/stylesheet/template_style.css">
 </head>
 <body>
@@ -16,7 +15,7 @@
     "C(H('','\n\
     div.container\n\
       h1#hello Hello H template!\n\
-      a[href=https://www.marpple.com] www.marpple.com\n\
+      a[href=https://www.marpple.com] Marpple Go!\n\
       h3[style=\"color:red\"] 나는 한정판이다.'));",
     "C(H('','\n\
     textarea\n\
@@ -121,39 +120,6 @@
   ];
 
   C([H('','\
-    div.__left__\
-      div.__sidebar__\
-        ul\
-          li\
-            a[href=#___Basic__] Basic\
-          li \
-            a[href=#___Paragraph__] Paragraph\
-          li \
-            a[href=#___Data__] Data\
-          li \
-            a[href=#___Comments__] Comments\
-          li \
-            a[href=#___Function1__] Function1\
-          li \
-            a[href=#___Function2__] Function2\
-          li \
-            a[href=#___S__] S\
-        div.__setting__\
-          div#__tab_set__\
-            label Select TAB size\
-            form.__tab_size__\
-              input[type=radio name="tab" value=2 checked] 2\
-              input[type=radio name="tab" value=4] 4\
-          div#__css_set__\
-            label Select Library\
-            form.__library__\
-              input[type=checkbox value=bootstrap] Bootstrap\
-              input[type=checkbox value=jqeury] jQuery\
-                div.__set_sections__\
-          div#__about_this_page__\
-            p 코드 실행하기\
-            button["disabled"] Run \
-            `(Ctrl + Enter)`\
     div.container.__container__#__try_H__\
       h1 TRY H\
       div.__try_sections__\
@@ -165,18 +131,46 @@
           div.__section_body__.__!{ex.title}!__\
             div.__s_test__\
               h3 Test Code\
-                button.__run_btn__.__!{ex.title}!__#__!{ex.title}!__ Run\
+                button.__btn__.__run_btn__.__!{ex.title}!__#__!{ex.title}!__ Run\
               textarea.__input__.__data__[!{ex.data ? void 0 : "hidden"}!] {{ex.data}}\
               textarea.__input__.__code__ **here**\
             div.__s_result__\
               h3 Results\
               div.__output__.__dom__\
         '), ')}}}\
+    div.__left__\
+      div.__sidebar__\
+        div.__link__\
+          ul\
+            li\
+              a[href=#___Basic__] Basic\
+            li \
+              a[href=#___Paragraph__] Paragraph\
+            li \
+              a[href=#___Data__] Data\
+            li \
+              a[href=#___Comments__] Comments\
+            li \
+              a[href=#___Function1__] Function1\
+            li \
+              a[href=#___Function2__] Function2\
+            li \
+              a[href=#___S__] S\
+        div.__setting__\
+          ul\
+            li TAB size\
+              form.__tab_size__\
+                input[type=radio name="tab" value=2 checked] 2\
+                input[type=radio name="tab" value=4] 4\
+            li\
+            li\
+              button.__btn__["disabled"] Run \
+              <small> `(Ctrl + Enter)`</small>\
     '),
 
     function(v) { // 이쁘게 출력
       var i = 0;
-      return v.replace(/(&#x60;|`)(.*?)\1/g, "<code>$2</code>")
+      return v.replace(/(&#x60;|`)(.*?)\1/g, "<code class='__chip__'>$2</code>")
               .replace(/&lt;&lt;&lt;(.*?)&gt;&gt;&gt;/g,'{{{$1}}}').replace(/&lt;&lt;(.*?)&gt;&gt;/g,'{{$1}}')
               .replace(/\*\*here\*\*/g, function() { return examples[i++]; })
               .replace(/(\n)/g, '\\$1').replace(/\*\\n/g, "\n");
