@@ -5,7 +5,7 @@
   <title>TRY H</title>
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
   <!--<link rel="stylesheet" href="darcula.css">-->
-  <link rel="stylesheet" href="template_style.css">
+  <link rel="stylesheet" href="lib/stylesheet/template_style.css">
 </head>
 <body>
 
@@ -16,12 +16,13 @@
 
 <script>
 
-  var examples = ["C(H('','\n\
+  var examples = [
+    "C(H('','\n\
         div.container\n\
           h1#hello Hello H template!\n\
           a[href=https://www.marpple.com] www.marpple.com\n\
           h3[style=\"color:red\"] 나는 한정판이다.'));",
-        "C(H('','\n\
+    "C(H('','\n\
         p\n\
           |동해물과 백두산이\n\
           |마르고 닳도록\n\
@@ -29,33 +30,32 @@
           이 기상과 이 맘으로\n\
           충성을 다하여\n\
         span 오구야'));",
-        "C(person, H('user','\n\
-              div.!{user.company}!\n\
-                h3 My name is {{user.name}}\n\
-                h3 {{user.age}} years old.\n\
-                h5 {{user.comment}}\n\
-                h5 {{{user.comment}}}\n\
-              '));",
-        "C(H('','\n\
-                h3 I am smart.\n\
-    //            h3 I am dummy.\n\
-                h3 I like cheeseburger\n\
-    /*          h3 and pizza\n\
-                h3 and chicken\n\
-                h3 and french-fried\n\
-                h3 and.. every food*/\n\
-                h4 I am honest.\n\
-                '));",
-        "C(songs, H('songs', '\n\
-              h3 Sing Street OST\n\
-              ul\n\
-                {{{C(songs, ', function (songs) {\n\
-                  return _.map(songs, function (song, i) {\n\
-                    return '<li>' + (i + 1) + '. ' + song + '</li>';\n\
-                  }).join('');\n\
-                }, ')}}}'))",
-        "C(post, S('p', \"update posts set body = '{{p.body}}' where id = {{p.id}};\"))"
-
+    "C(person, H('user','\n\
+          div.!{user.company}!\n\
+            h3 My name is {{user.name}}\n\
+            h3 {{user.age}} years old.\n\
+            h5 {{user.comment}}\n\
+            h5 {{{user.comment}}}\n\
+          '));",
+    "C(H('','\n\
+            h3 I am smart.\n\
+//            h3 I am dummy.\n\
+            h3 I like cheeseburger\n\
+/*          h3 and pizza\n\
+            h3 and chicken\n\
+            h3 and french-fried\n\
+            h3 and.. every food*/\n\
+            h4 I am honest.\n\
+            '));",
+    "C(songs, H('songs', '\n\
+          h3 Sing Street OST\n\
+          ul\n\
+            {{{C(songs, ', function (songs) {\n\
+              return _.map(songs, function (song, i) {\n\
+                return '<li>' + (i + 1) + '. ' + song + '</li>';\n\
+              }).join('');\n\
+            }, ')}}}'))",
+    "C(post, S('p', \"update posts set body = '{{p.body}}' where id = {{p.id}};\"))"
   ];
 
 
@@ -91,14 +91,14 @@
       detail: "",
       comment: "",
       data: "var songs = [\
-          'The Riddle Of The Model',\
-          'Up',\
-          'To Find You',\
-          'A Beautiful Sea',\
-          'Drive It Like You Stole It',\
-          'Up (Bedroom Mix)',\
-          'Girls',\
-          'Brown Shoes'];"
+              'The Riddle Of The Model',\
+              'Up',\
+              'To Find You',\
+              'A Beautiful Sea',\
+              'Drive It Like You Stole It',\
+              'Up (Bedroom Mix)',\
+              'Girls',\
+              'Brown Shoes'];"
     },
     {
       class: "s",
