@@ -4,56 +4,54 @@
   <meta charset="UTF-8">
   <title>TRY H</title>
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-  <!--<link rel="stylesheet" href="darcula.css">-->
-  <link rel="stylesheet" href="template_style.css">
+  <link rel="stylesheet" href="lib/stylesheet/template_style.css">
 </head>
 <body>
 <script src="//rawgit.com/marpple/abc-functional-javascript/master/etc/abc.all.js"></script>
 <script src="//rawgit.com/marpple/abc-functional-javascript/master/example/js/underscore.js"></script>
 <script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
-<!--<script src="highlight.pack.js"></script>-->
-
 <script>
 
-  var examples = ["C(H('','\n\
-        div.container\n\
-          h1#hello Hello H template!\n\
-          a[href=https://www.marpple.com] www.marpple.com\n\
-          h3[style=\"color:red\"] 나는 한정판이다.'));",
-        "C(H('','\n\
-        textarea\n\
-          |동해물과 백두산이\n\
-          |마르고 닳도록\n\
-        textarea.\n\
-          이 기상과 이 맘으로\n\
-          충성을 다하여\n\
-        span 오구야'));",
-        "C(person, H('user','\n\
-              div.!{user.company}!\n\
-                h3 My name is {{user.name}}\n\
-                h3 {{user.age}} years old.\n\
-                h5 {{user.comment}}\n\
-                h5 {{{user.comment}}}\n\
-              '));",
-        "C(H('','\n\
-                h3 I am smart.\n\
-    //            h3 I am dummy.\n\
-                h3 I like cheeseburger\n\
-    /*          h3 and pizza\n\
-                h3 and chicken\n\
-                h3 and french-fried\n\
-                h3 and.. every food*/\n\
-                h4 I am honest.\n\
-                '));",
-        "C(songs, H('songs', '\n\
-          h3 Sing Street OST\n\
-          ul\n\
-            {{{C(songs, ', function (songs) {*\\n\
-              return _.map(songs, function (song, i) {*\\n\
-                return '<li>' + (i + 1) + '. ' + song + '</li>';*\\n\
-              }).join('');*\\n\
-            }, ')}}}'))",
-        "C(post, S('p', \"update posts set body = '{{p.body}}' where id = {{p.id}};\"))"
+  var examples = [
+    "C(H('','\n\
+    div.container\n\
+      h1#hello Hello H template!\n\
+      a[href=https://www.marpple.com] www.marpple.com\n\
+      h3[style=\"color:red\"] 나는 한정판이다.'));",
+    "C(H('','\n\
+    textarea\n\
+      |동해물과 백두산이\n\
+      |마르고 닳도록\n\
+    textarea.\n\
+      이 기상과 이 맘으로\n\
+      충성을 다하여\n\
+    span 오구야'));",
+    "C(person, H('user','\n\
+          div.!{user.company}!\n\
+            h3 My name is {{user.name}}\n\
+            h3 {{user.age}} years old.\n\
+            h5 {{user.comment}}\n\
+            h5 {{{user.comment}}}\n\
+          '));",
+    "C(H('','\n\
+            h3 I am smart.\n\
+//            h3 I am dummy.\n\
+            h3 I like cheeseburger\n\
+/*          h3 and pizza\n\
+            h3 and chicken\n\
+            h3 and french-fried\n\
+            h3 and.. every food*/\n\
+            h4 I am honest.\n\
+            '));",
+    "C(songs, H('songs', '\n\
+      h3 Sing Street OST\n\
+      ul\n\
+        {{{C(songs, ', function (songs) {*\\n\
+          return _.map(songs, function (song, i) {*\\n\
+            return '<li>' + (i + 1) + '. ' + song + '</li>';*\\n\
+          }).join('');*\\n\
+        }, ')}}}'))",
+    "C(post, S('p', \"update posts set body = '{{p.body}}' where id = {{p.id}};\"))"
 
   ];
 
@@ -88,15 +86,16 @@
       title: "Function",
       detail: "",
       comment: "",
-      data: "var songs = [*\\n\
-          'The Riddle Of The Model',*\\n\
-          'Up',*\\n\
-          'To Find You',*\\n\
-          'A Beautiful Sea',*\\n\
-          'Drive It Like You Stole It',*\\n\
-          'Up (Bedroom Mix)',*\\n\
-          'Girls',*\\n\
-          'Brown Shoes'];"
+      data:
+"var songs = [*\\n\
+    'The Riddle Of The Model',*\\n\
+    'Up',*\\n\
+    'To Find You',*\\n\
+    'A Beautiful Sea',*\\n\
+    'Drive It Like You Stole It',*\\n\
+    'Up (Bedroom Mix)',*\\n\
+    'Girls',*\\n\
+    'Brown Shoes' ];"
     },
     {
       class: "s",
