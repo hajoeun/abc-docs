@@ -1,0 +1,39 @@
+.border-red {
+  /*border: 3px solid indianred;*/
+  border: 3px solid #e74c3c;
+}
+.border-yellow {
+  /*border: 3px solid khaki;*/
+  border: 3px solid #f1c40f;
+}
+.border-blue {
+  /*border: 3px solid cornflowerblue;*/
+  border: 3px solid #3498db;
+}
+.border-green {
+  /*border: 3px solid mediumseagreen;*/
+  border: 3px solid #1abc9c;
+}
+
+.bg-red {
+  /*background-color: indianred;*/
+  background-color: #e74c3c;
+}
+.bg-yellow {
+  /*background-color: khaki;*/
+  background-color: #f1c40f;
+}
+.bg-blue {
+  /*background-color: cornflowerblue;*/
+  background-color: #3498db;
+}
+.bg-green {
+  background-color: #1abc9c;
+}
+
+#txt-white {
+  color: white;
+}
+#txt-yellow {
+  color: black;
+}
