@@ -210,7 +210,6 @@
     console.log(H.TAB_SIZE + "%c tab 설정 완료!", "color:green;");
   });
 
-  var error;
 
   $('.run_btn').on('click', function(e) {
 
@@ -220,15 +219,13 @@
 
     try {
       $section.find('.dom')[0].innerHTML = (new Function(data + "; return (" + code + ");"))();
-      $section.find('.dom')[0].style.border = "1px solid #ccc";
+      console.log(e.target.id + "%c 코드 실행!", "color:green;");
+      $section.find('.dom')[0].style.border = "2px solid #1abc9c";
     } catch (e) {
       console && console.error && console.error('Syntax Error...');
       $section.find('.dom')[0].innerHTML = e;
-      $section.find('.dom')[0].style.border = "2px solid red";
-      error = e;
+      $section.find('.dom')[0].style.border = "2px solid #e74c3c";
     }
-
-    console.log(e.target.id + "%c 코드 실행!", "color:green;");
   }).click();
 
 
