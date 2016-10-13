@@ -21,7 +21,7 @@ body {
   outline: none;
   box-shadow: #ccc 1px 3px 3px;
 }
-.__btn__:hover {
+.__container__ .__btn__:hover {
   background-color: #449d44;
   box-shadow: #ccc 0px 0px 0px;
 }

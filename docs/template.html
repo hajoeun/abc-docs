@@ -141,8 +141,7 @@
     div.__left__\
       div.__sidebar__\
         div.__link__\
-          ul\
-            li\
+          ul\            li\
               a[href=#___Basic__] Basic\
             li \
               a[href=#___Paragraph__] Paragraph\
@@ -178,7 +177,7 @@
     $,
     B.M('appendTo', 'body')]);
 
-  $('.__tab_size__').on('click', function(e) {                              // tab_size 변경 할 때에도 output 형태 업그레이드 해줘야 !!
+  $('.__tab_size__').on('change', function(e) {                              // tab_size 변경 할 때에도 output 형태 업그레이드 해줘야 !!
     H.TAB_SIZE = C.parseInt($(':radio[name="tab"]:checked').val());
 
     C.each($('.__section__'), function(s) {
@@ -242,6 +241,16 @@
   $('#__try_H__ .__input__').keyup(function(e) { delete keys[e.which]; });
   $(document).keyup(function(e) { delete keys[e.which]; });
 </script>
+
+<script>
+  // 우리 코드 css 적용하는거
+
+
+</script>
+
+
+
+
 
 <script>
 //  function TAB() { return "( {" + H.TAB_SIZE + "}|\\t)"; }; // "( {4}|\\t)"
