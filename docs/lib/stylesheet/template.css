@@ -3,7 +3,8 @@ body {
   background-color: whitesmoke;
 }
 
-.section .chip, .setting .chip {
+.left > .sidebar > .setting > ul > li .chip,
+.container > .try_sections > .section > .section_header .chip {
   padding: 2px 4px;
   font-size: 90%;
   color: #c7254e;
@@ -12,7 +13,8 @@ body {
   font-family: Menlo, "Bitstream Vera Sans Mono", "DejaVu Sans Mono", Monaco, Consolas, monospace;
 }
 
-.left > .sidebar > .setting > ul > li > .btn, .section_body > .s_test .btn{
+.left > .sidebar > .setting > ul > li > .btn,
+.container > .try_sections > .section > .section_body > .s_test .btn{
   font-size: 13px;
   padding: 7px;
   color: #fff;
@@ -23,13 +25,18 @@ body {
   box-shadow: #ccc 1px 3px 3px;
 }
 
-.s_test .btn:hover {
+.container > .try_sections > .section > .section_body > .s_test .run_btn {
+  float: right;
+  margin-right: 4%;
+}
+
+.container > .try_sections > .section > .section_body > .s_test .btn:hover {
   background-color: #449d44;
   box-shadow: #ccc 0px 0px 0px;
 }
 
 /*side bar part*/
-div.left {
+body > .left {
   position: fixed;
   left: 0;
   top: 65px;
@@ -38,46 +45,48 @@ div.left {
   overflow: scroll;
 }
 
-.sidebar {
+body > .left > .sidebar {
 }
 
-.link, .setting, .attr_info {
+.left > .sidebar > .link,
+.left > .sidebar > .setting,
+.left > .sidebar > .attr_info {
   margin: 0 auto auto 30px;
   background-color: white;
   box-shadow: #ccc 0 0 3px;
 }
 
-.sidebar ul {
+.left > .sidebar ul {
   font-size: 17px;
   list-style: none;
   padding: 15px 0;
 }
 
-.sidebar li {
+.left > .sidebar ul > li {
   padding: 5px;
   padding-left: 20px;
 }
 
-.sidebar .link li:hover {
+.left > .sidebar > .link > ul > li:hover {
   background-color: whitesmoke;
 }
 
 
-.sidebar a {
+.left > .sidebar > .link > ul > li > a {
   color: black;
   text-decoration: none;
 }
 
-.tab_size {
+.left > .sidebar > .setting > ul > li > .tab_size {
   margin-left: 20px;
   display: inline-block;
 }
 
-.tab_size > input {
+.left > .sidebar > .setting > ul > li > .tab_size > input {
   display: none;
 }
 
-.tab_size > label {
+.left > .sidebar > .setting > ul > li > .tab_size > label {
   font-size: 16px;
   padding: 8px 16px 3px 16px;
   margin-right: 1px;
@@ -86,33 +95,28 @@ div.left {
   box-shadow: #ccc 1px 2px 2px;
 }
 
-/*.tab_size > label:hover {*/
-  /*background-color: whitesmoke;*/
-  /*box-shadow: #ccc 0px 0px 0px;*/
-/*}*/
-
-.tab_size input:checked + label {
+.left > .sidebar > .setting > ul > li > .tab_size > input:checked + label {
   background-color: whitesmoke;
   box-shadow: #ccc 1px 1px 1px;
   /*color: #5cb85c;*/
 }
 
 
-.tab_size > label:first-of-type {
+.left > .sidebar > .setting > ul > li > .tab_size > label:first-of-type {
   border-radius: 4px 0 0 4px;
 }
 
-.tab_size > label:last-of-type {
+.left > .sidebar > .setting > ul > li > .tab_size > label:last-of-type {
   border-radius: 0 4px 4px 0;
 }
 
-.attr_info ul {
+.left > .sidebar> .attr_info > ul {
   background-color: #d8d8d8;
   /*background-color: #bdc3c7;*/
   text-align: center;
 }
 
-.attr_info li {
+.left > .sidebar> .attr_info > ul > li {
   margin: 0 20px 0 20px;
   padding-left: 0;
 }
@@ -130,7 +134,7 @@ body > .container {
   overflow: auto;
 }
 
-.section {
+.container > .try_sections > .section {
   padding: 5px 20px 5px 20px;
   margin: 0 30px 10px 0;
   box-shadow: #ccc 0 0 3px;
@@ -139,29 +143,29 @@ body > .container {
   overflow: auto;
 }
 
-.section_header {
+.container > .try_sections > .section > .section_header {
 }
-.detail {
+
+.container > .try_sections > .section > .section_header > h2 > .detail {
   font-size: 65%;
   color: #777;
 }
 
-.section_body {
+.container > .try_sections > .section > .section_body {
 }
 
-.s_test, .s_result {
-  display: inline-block;
-}
-.s_test {
+.container > .try_sections > .section > .section_body > .s_test {
   float: left;
   width: 54%;
+  display: inline-block; /*s_result 와 함께 바꾸기*/
 }
-.s_result {
+.container > .try_sections > .section > .section_body > .s_result {
   float: right;
   width: 45%;
+  display: inline-block; /*s_test 와 함께 바꾸기*/
 }
 
-.input {
+.container > .try_sections > .section > .section_body > .s_test > .input {
   cursor: text;
   font-size: 15px;
   font-family: Menlo, "Bitstream Vera Sans Mono", "DejaVu Sans Mono", Monaco, Consolas, monospace;
@@ -171,20 +175,15 @@ body > .container {
   background-color: #333333;
   resize: vertical;
 }
-.input.data {
+.container > .try_sections > .section > .section_body > .s_test > .data {
   height: 100px;
 }
-.input.code {
+.container > .try_sections > .section > .section_body > .s_test > .code {
   white-space: nowrap;
   height: 280px;
 }
 
-.run_btn {
-  float: right;
-  margin-right: 4%;
-}
-
-.output.dom {
+.container > .try_sections > .section > .section_body > .s_result > .dom {
   width: 95%;
   margin: 0;
   min-height: 280px;
