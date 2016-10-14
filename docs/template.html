@@ -5,12 +5,16 @@
   <title>TRY H</title>
   <link rel="stylesheet" href="lib/stylesheet/template.css">
   <link rel="stylesheet" href="lib/stylesheet/customize.css">
+  <link rel="stylesheet" href="codemirror/lib/codemirror.css">
+  <link rel="stylesheet" href="codemirror/lib/monokai.css">
 </head>
 <body>
 
-<script src="//rawgit.com/marpple/abc-functional-javascript/master/etc/abc.all.js"></script>
+<script src="//rawgit.com/marpple/abc-functional-javascript/master/abc.js"></script>
 <script src="//rawgit.com/marpple/abc-functional-javascript/master/example/js/underscore.js"></script>
 <script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="codemirror/lib/codemirror.js"></script>
+<script src="codemirror/mode/javascript.js"></script>
 <script>
 
   var examples = [
@@ -51,13 +55,13 @@
           return _.map(songs, function (song, i) {*\\n\
             return '<li>' + (i + 1) + '. ' + song + '</li>';*\\n\
           }).join('');*\\n\
-        }, ')}}}'))",
+        }, ')}}}'));",
     "C(songs, H('songs', '\n\
       h3 Sing Street OST\n\
       ul\n\
         !{C(songs, ', H.each('song, i', '\n\
-        li {{i+1}}. {{song}}'), ')}!'))",
-    "C(post, S('p', \"update posts set body = '{{p.body}}' where id = {{p.id}};\"))"
+        li {{i+1}}. {{song}}'), ')}!'));",
+    "C(post, S('p', \"update posts set body = '{{p.body}}' where id = {{p.id}};\"));"
   ];
 
   var ex_ary = [
@@ -186,7 +190,6 @@
             li#txt-white #txt-white\
             li#txt-black #txt-black\
     '),
-
     function(v) { // 이쁘게 출력
       var i = 0;
       return v.replace(/(&#x60;|`)(.*?)\1/g, "<code class='chip'>$2</code>")
@@ -196,390 +199,108 @@
     },
     $,
     B.M('appendTo', 'body')]);
+</script>
 
-  $('.tab_size').on('change', function(e) {                              // tab_size 변경 할 때에도 output 형태 업그레이드 해줘야 !!
-    H.TAB_SIZE = C.parseInt($(':radio[name="tab"]:checked').val());
+<script>
+  $(document).ready(function() {
+    var $data_input = $('.s_test > .input.data'),
+        $code_input = $('.s_test > .input.code');
 
-    C.each($('.section'), function(s) {
-      var $code = $(s).find('.input.code');
-      $code.val($code.val().replace(/ {2,}/g, function(m) {
-        return H.TAB_SIZE == 4 ? m.replace(/  /g, "    ") : m.replace(/    /g, "  ");
-      }));
+    C.each($data_input, function(ele) {
+      if (!ele.hidden)
+        return replaceCodeMirror(ele);
     });
 
-    console.log(H.TAB_SIZE + "%c tab 설정 완료!", "color:green;");
-  });
+    C.each($code_input, function(ele) {
+      return replaceCodeMirror(ele);
+    });
 
-
-  $('.run_btn').on('click', function(e) {
-
-    var $section = $('.section' + '.' + e.target.id);
-    var data = $section.find('.input.data').val(),
-        code = $section.find('.input.code').val().replace(/;$/, "");
-
-    try {
-      $section.find('.dom')[0].innerHTML = (new Function(data + "; return (" + code + ");"))();
-      console.log(e.target.id + "%c 코드 실행!", "color:green;");
-      $section.find('.dom')[0].style.border = "2px solid #1abc9c";
-    } catch (e) {
-      console && console.error && console.error('Syntax Error...');
-      $section.find('.dom')[0].innerHTML = e;
-      $section.find('.dom')[0].style.border = "2px solid #e74c3c";
-    }
-  }).click();
-
-
-  /*Key event handler*/
-  var test;
-  var keys = {};
-  $('#try_H .input').keydown(function(e) {
-    var T = H.TAB_SIZE == 2 ? "  " : "    ";
-
-    keys[e.which] = true;
-
-    if (keys[9]) { // tab was pressed
-      var start = this.selectionStart;
-      var end = this.selectionEnd;
-
-      var $this = $(this);
-      var value = $this.val();
-
-      $this.val(value.substring(0, start) + T + value.substring(end));
-
-      this.selectionStart = this.selectionEnd = start + H.TAB_SIZE;
-      e.preventDefault();
-    } else if (keys[13] && keys[17]) {
-      $(e.target.parentNode.parentNode).find('.run_btn').click();
-      delete keys[13]; delete keys[17];
+    function replaceCodeMirror(ele) {
+      return CodeMirror(function(elt) {
+        elt.className += " " + ele.className;
+        ele.parentNode.replaceChild(elt, ele);
+      }, {
+        mode: "javascript",
+        value: ele.value,
+        theme: "monokai",
+        tabSize: 0
+      });
     }
 
+    $('.tab_size').on('change', function(e) {                              // tab_size 변경 할 때에도 output 형태 업그레이드 해줘야 !!
+      H.TAB_SIZE = C.parseInt($(':radio[name="tab"]:checked').val());
+
+      var $code_inputs = $('.section_body .s_test > .code');
+
+      C.each($code_inputs, function(code_input) {
+        var code = _.reduce($(code_input).find('pre.CodeMirror-line'), function(m, v) { return m + v.innerText }, '');
+        code = H.TAB_SIZE == 4 ? code.replace(/  /g, "    ") : code.replace(/    /g, "  ");
+
+        var cm = CodeMirror(function(elt) {
+          elt.className += " input code";
+          code_input.parentNode.replaceChild(elt, code_input);
+        }, {
+          mode: "javascript",
+          theme: "monokai",
+          tabSize: 0,
+          value: code.replace(new RegExp('((\\/\\*|\\/\\/)?'+TABS()+')', 'g'), '\n$1')
+        });
+      });
+
+      key_event();
+      console.log(H.TAB_SIZE + "%c tab 설정 완료!", "color:green;");
+    });
+
+    $('.run_btn').on('click', function(e) {
+
+      var $section = $('.section' + '.' + e.target.id);
+
+      var data = $section.find('.s_test > .data')[0].innerText,
+          code = $section.find('.s_test > .code')[0].innerText.replace(/;\s*$/, "");
+
+      try {
+        $section.find('.s_result > .dom')[0].innerHTML = (new Function(data + "; return (" + code + ");"))();
+        console.log(e.target.id + "%c 코드 실행!", "color:green;");
+        $section.find('.s_result > .dom')[0].style.border = "2px solid #1abc9c";
+      } catch (e) {
+        console && console.error && console.error('Syntax Error...');
+        $section.find('.s_result > .dom')[0].innerHTML = e;
+        $section.find('.s_result > .dom')[0].style.border = "2px solid #e74c3c";
+      }
+    }).click();
+
+    function TAB() { return "( {" + H.TAB_SIZE + "}|\\t)"; };
+    function TABS() { return TAB() + "+"; };
+
+    /*Key event handler*/
+    key_event();
+    function key_event() {
+      var keys = {};
+      $('.s_test > .data textarea, .s_test > .code textarea').keydown(function(e) {
+        var T = H.TAB_SIZE == 2 ? "  " : "    ";
+
+        keys[e.which] = true;
+        if (keys[9]) { // tab was pressed
+          var start = this.selectionStart;
+          var end = this.selectionEnd;
+
+          var $this = $(this);
+          var value = $this.val();
+
+          $this.val(value.substring(0, start) + T + value.substring(end));
+
+          this.selectionStart = this.selectionEnd = start + H.TAB_SIZE;
+          e.preventDefault();
+        } else if (keys[13] && keys[17]) {
+          $(e.target.parentNode.parentNode.parentNode).find('.run_btn').click();
+          delete keys[13]; delete keys[17];
+        }
+
+      });
+      $('.s_test > .data textarea, .s_test > .code textarea').keyup(function(e) { delete keys[e.which]; });
+      $(document).keyup(function(e) { delete keys[e.which]; });
+    };
   });
-
-  $('#try_H .input').keyup(function(e) { delete keys[e.which]; });
-  $(document).keyup(function(e) { delete keys[e.which]; });
 </script>
-
-
-
-
-
-
-
-
-
-<script>
-
-  function a() {
-    return "asdf";
-    sdfsd
-  }
-
-//  // 우리 코드 css 적용하는거
-//  var $container = $('.container');
-//  var $left = $('.left');
-//  var $sections = $container.find('.section');
-//
-//  $('.chip').css({
-//    'padding': '2px 4px',
-//    'font-size': '90%',
-//    'color': '#c7254e',
-//    'background-color': '#f9f2f4',
-//    'border-radius': '4px',
-//    'font-family': 'Menlo, "Bitstream Vera Sans Mono", "DejaVu Sans Mono", Monaco, Consolas, monospace'
-//  });
-//
-//  $('.btn').css({
-//    'font-size': '13px',
-//    'padding': '7px',
-//    'color': '#fff',
-//    'background-color': '#5cb85c',
-//    'border-style': 'none',
-//    'border-radius': '10%',
-//    'outline': 'none',
-//    'box-shadow': '#ccc 1px 3px 3px'
-//  });
-//
-//
-//  /*
-//    left
-//  */
-//  $left.css({
-//    'position': 'fixed',
-//    'left': '0',
-//    'top': '65px',
-//    'bottom': '0',
-//    'width': '250px'
-//  });
-//  $left.find('.link, .setting').css({
-//    'margin': '0 auto auto 30px',
-//    'background-color': 'white',
-//    'box-shadow': '#ccc 0 0 3px'
-//  });
-//  $left.find('ul').css({
-//    'font-size': '17px',
-//    'list-style': 'none',
-//    'padding': '15px 0'
-//  });
-//  $left.find('li').css({
-//    'padding': '5px',
-//    'padding-left': '20px'
-//  });
-//  $left.find('a').css({
-//    'color': 'black',
-//    'text-decoration': 'none'
-//  });
-//  $left.find('.tab_size').css({
-//    'margin-left': '20px',
-//    'display': 'inline-block'
-//  });
-//
-//  $left.find('.link li').hover(function() {
-//    $(this).css('background-color', 'whitesmoke');
-//  }, function() {
-//    $(this).css('background-color', 'white');
-//  });
-//
-//
-//
-//  /*
-//   container
-//  */
-//  $container.css({
-//    'position': 'absolute',
-//    'bottom': '0',
-//    'top': '0',
-//    'left': '0',
-//    'right': '0',
-//    'margin': '0',
-//    'padding-left': '280px',
-//    'overflow': 'auto'
-//  });
-//  $container.find('.btn').hover(function() {
-//    $(this).css({
-//      'background-color': '#449d44',
-//      'box-shadow': '#ccc 0px 0px 0px'
-//    });
-//  }, function() {
-//    $(this).css({
-//      'background-color': '#5cb85c',
-//      'box-shadow': '#ccc 1px 3px 3px'
-//    });
-//  });
-//
-//  $sections.css({
-//    'padding': '5px 20px 5px 20px',
-//    'margin': '0 30px 10px 0',
-//    'box-shadow': '#ccc 0 0 3px',
-//    'background-color': 'white',
-//    'max-width': '1000px',
-//    'overflow': 'auto'
-//  });
-//
-//  $sections.find('.detail').css({
-//    'font-size': '65%',
-//    'color': '#777'
-//  });
-//
-//
-//  $sections.find('.s_test, s_result').css({
-//    'display': 'inline-block'
-//  });
-//
-//  $sections.find('.s_result').css({
-//    'float': 'right',
-//    'width': '45%'
-//  });
-//  $sections.find('.s_test').css({
-//    'float': 'left',
-//    'width': '54%'
-//  });
-//  $sections.find('.s_test h3').css({
-//    'padding-right': '20px'
-//  });
-//
-//  $sections.find('.input').css({
-//    'cursor': 'text',
-//    'font-size': '15px',
-//    'font-family': 'Menlo, "Bitstream Vera Sans Mono", "DejaVu Sans Mono", Monaco, Consolas, monospace',
-//    'width': '95%',
-//    'margin': '0',
-//    'color': 'whitesmoke',
-//    'background-color': '#333333',
-//    'resize': 'vertical'
-//  });
-//
-//  $sections.find('.data').css('height', '100px');
-//  $sections.find('.code').css({
-//    'white-space': 'nowrap',
-//    'height': '280px'
-//  });
-//  $sections.find('.run_btn').css('float', 'right');
-//
-//  $sections.find('.dom').css({
-//    'width': '95%',
-//    'margin': '0',
-//    'min-height': '280px',
-//    'border': '1px solid #ccc'
-//  });
-</script>
-
-
-<script>
-//  function TAB() { return "( {" + H.TAB_SIZE + "}|\\t)"; }; // "( {4}|\\t)"
-//  function TABS() { return TAB() + "+"; };
-//
-//  function my_pretty(code) {
-//    var T = (H.TAB_SIZE==2) ? '  ' : '    '; // 우리 페이지에선 2,4 두 경우밖에 없으니까
-//
-//    var stack = []; // tag_stack
-//    var tab;
-//
-//    return code.replace(/<(\/?)(\w+)>/g, function(match, flag, tag) {
-//      tab="";
-//      if (flag) { // 닫는 태그
-//
-//        stack.pop(); // 돔에서 가져올꺼기 때문에 무조건 차례로 들어가있음 - 나중에 br같은건 걸러주기
-//        for(var i=0; i<H.TAB_SIZE*stack.length; i++) tab+= T;
-//        return '\n' + tab + match;
-//
-//      } else { // 여는 태그
-//
-//        for (var i=0; i<H.TAB_SIZE*stack.length; i++) tab+= T;
-//        stack.push(tag);
-//        return '\n' + tab + match + '\n' + tab + T ; // stack.length만큼의 탭 + match + '\n'
-//      }
-//    });
-//  }
-
-
-//    function my_pretty(code) {
-//      var stack = []; // tag_stack
-//
-//      var r =  code.replace(/<(\/?)\w+>/g, function(match, flag) {
-//        var tab="";
-//        var res;
-//        if (flag) { // 닫는 태그
-//          stack.pop(); // 일단 잘 들어갔다는 가정 하 => 아님 다음 태그 닫힐 때까지 먹혔다가, 그때 닫아주어야 함
-//          for(var i=0; i<H.TAB_SIZE*stack.length; i++) tab+= "  ";
-//          res = '\n' + tab + match;
-//
-//        } else { // 여는 태그
-//          for (var i=0; i<H.TAB_SIZE*stack.length; i++) tab+= "  ";
-//          stack.push(1);
-////                res = tab + match + '\n'; // stack.length만큼의 탭 + match + '\n'
-////                res = '\n' + tab + match; // stack.length만큼의 탭 + match + '\n'
-//          res = '\n' + tab + match + '\n' + tab + "  " ; // stack.length만큼의 탭 + match + '\n'
-//        }
-//        return res;
-//      });
-//      console.log(r);
-//      return r.replace(/\n *\n/g, "\n");
-//    }
-//    $('textarea.output.html')[0].innerText = my_pretty($('.tttt')[0].outerHTML); // 이거!!!
-
-
-
-    // 돔 통해서 만드는 거.. 아깝당
-//    var str = "<div class='tttt'><span>스판1 <em>ㅋㅋㅋㅋㅋ</em></span><span>스판2 ㅋㅋㅋㅋㅋ</span></div>"
-//    $('body').append(str);
-//
-//    var s = "<div class='tttt'><span>스판1 <em>ㅋㅋㅋㅋㅋ</em></span><span>스판2 ㅋㅋㅋㅋㅋ</span></div>"
-//    $('body').append(s);
-//
-//    function pretty(nodeList) { // 배열 형태
-//      var res = '';
-//      for(var i=0; i<nodeList.length; i++) {
-//        for(var j=0; j<nodeList[i].length; j++) {
-//          if (nodeList[i].childNodes[j].childNodes) res += pretty(nodeList[i]);
-//          else res += nodeList[i].outerHTML
-//        }
-//        console.log(res);
-//      }
-//      return res;
-//    }
-
-
-    //    nodeList[0].childNodes[0].childNodes
-    //    // 얘가 없으면
-    //    nodeList[0].outerHTML // 얘를 출력
-    //
-    //
-    //
-    //    $('.tttt')[0].childNodes[0].childNodes[0].childNodes
-    //    // 얘가 없으면
-    //    $('.tttt')[0].childNodes[0].outerHTML // 얘를 출력
-    //
-    //
-    //
-    //
-    //
-
-
-
-//    //    console.log(my_pretty(str) + '\n\n');
-//
-//    $('body').append('<div class="result"></div>');
-//    console.log($('.tttt')[0].childNodes[0]);
-//    $('.result').append($('.tttt')[0].childNodes[0])
-//
-//    //    //        code = code.replace(/(<\w+ ?>)/, "$1\n"); // 여는 태그
-    //    //        code = code.replace(/(<(\w+) ?[\s\S]*?>[\s\S]*?)(<\w+ ?[\s\S]*?>)/g, function(match, $1, $2, $3) { stack.push($2); return $1+"\n"+$3; }); // 여는 태그
-    //    code = code.replace(/(<\w+ ?[\s\S]*?>)([\s\S])*/g, "$1\n$2"); // 여는 태그
-    //    code = code.replace(/(<\/\w+>)/g, "$1\n"); // 닫는 태그
-    //    console.log(stack)
-    //    return code;
-
-
-    /*
-     function print_DOM(nodeList) { //배열형태
-     console.log("들어옴", nodeList);
-     //        if (!nodeList) return nodeList; //처음부터 자식노드가 없을 경우 - 마지막에 처리하기
-
-     var res = "";
-     for (var i=0; i<nodeList.length; i++) {
-     //            res += nodeList[i].childNodes ? print_DOM(nodeList[i].childNodes) : nodeList[i];
-
-     if (!_.isEmpty(nodeList[i].childNodes)) {
-     console.log("childNodes가 있는 경우 ; ", nodeList[i], nodeList[i].childNodes);
-     res += print_DOM(nodeList[i].childNodes);
-     } else {
-     console.log("childNodes가 없는 경우 ; ", nodeList[i], nodeList[i].childNodes, nodeList[i].outerHTML);
-     console.log(" ========== ", nodeList[i]);
-     //                return nodeList[i];
-     res += "추가된!"+nodeList[i].outerHTML;
-     //                console.log(" ========== ", res);
-     }
-
-     }
-     return res;
-     }
-
-
-     function pretty_print1(nodeList) { // 안배열 형태 로 반드시!! 애초에 보내주기!!
-     var res = '';
-     if (nodeList.childNodes) {
-     for (var i=0; i<nodeList.childNodes.length; i++) {
-     res += pretty_print(nodeList.childNodes[i]);
-     }
-     } else {
-     res += nodeList[0].outerHTML;
-     }
-     return res;
-     }
-
-     function pretty_print(nodeList, tab) { // 안배열 형태 로 반드시!! 애초에 보내주기!!
-     tab = tab ? tab+'  ' : ''; // if (!tab) tab = '';
-     var res = '';
-     if (nodeList.childNodes) {
-     for (var i=0; i<nodeList.childNodes.length; i++) {
-     res += pretty_print(nodeList.childNodes[i], tab);
-     }
-     } else {
-     res += nodeList[0].outerHTML;
-     }
-     return res;
-     }
-     */
-</script> <!--my_pretty code-->
 </body>
 </html>
