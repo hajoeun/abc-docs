@@ -39,13 +39,14 @@ body {
 body > .left {
   position: fixed;
   left: 0;
-  top: 65px;
+  top: 0;
   bottom: 0;
   width: 250px;
   overflow: scroll;
 }
 
 body > .left > .sidebar {
+  margin-top: 33%;
 }
 
 .left > .sidebar > .link,
