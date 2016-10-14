@@ -1,0 +1,201 @@
+/*global part*/
+body {
+  background-color: whitesmoke;
+}
+
+.left > .sidebar > .setting > ul > li .chip,
+.container > .try_sections > .section > .section_header .chip {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+  font-family: Menlo, "Bitstream Vera Sans Mono", "DejaVu Sans Mono", Monaco, Consolas, monospace;
+}
+
+.left > .sidebar > .setting > ul > li > .btn,
+.container > .try_sections > .section > .section_body > .s_test .btn{
+  font-size: 13px;
+  padding: 7px;
+  color: #fff;
+  background-color: #5cb85c;
+  border-style: none;
+  border-radius: 10%;
+  outline: none;
+  box-shadow: #ccc 1px 3px 3px;
+}
+
+.container > .try_sections > .section > .section_body > .s_test .run_btn {
+  float: right;
+  margin-right: 4%;
+}
+
+.container > .try_sections > .section > .section_body > .s_test .btn:hover {
+  background-color: #449d44;
+  box-shadow: #ccc 0px 0px 0px;
+}
+
+/*side bar part*/
+body > .left {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 250px;
+  overflow: scroll;
+}
+
+body > .left > .sidebar {
+  margin-top: 33%;
+}
+
+.left > .sidebar > .link,
+.left > .sidebar > .setting,
+.left > .sidebar > .attr_info {
+  margin: 0 auto auto 30px;
+  background-color: white;
+  box-shadow: #ccc 0 0 3px;
+}
+
+.left > .sidebar ul {
+  font-size: 17px;
+  list-style: none;
+  padding: 15px 0;
+}
+
+.left > .sidebar ul > li {
+  padding: 5px;
+  padding-left: 20px;
+}
+
+.left > .sidebar > .link > ul > li:hover {
+  background-color: whitesmoke;
+}
+
+
+.left > .sidebar > .link > ul > li > a {
+  color: black;
+  text-decoration: none;
+}
+
+.left > .sidebar > .setting > ul > li > .tab_size {
+  margin-left: 20px;
+  display: inline-block;
+}
+
+.left > .sidebar > .setting > ul > li > .tab_size > input {
+  display: none;
+}
+
+.left > .sidebar > .setting > ul > li > .tab_size > label {
+  font-size: 16px;
+  padding: 8px 16px 3px 16px;
+  margin-right: 1px;
+  border: 1px solid rgba(72, 72, 72, 0.1);
+  background-color: #ffffff;
+  box-shadow: #ccc 1px 2px 2px;
+}
+
+.left > .sidebar > .setting > ul > li > .tab_size > input:checked + label {
+  background-color: whitesmoke;
+  box-shadow: #ccc 1px 1px 1px;
+  /*color: #5cb85c;*/
+}
+
+
+.left > .sidebar > .setting > ul > li > .tab_size > label:first-of-type {
+  border-radius: 4px 0 0 4px;
+}
+
+.left > .sidebar > .setting > ul > li > .tab_size > label:last-of-type {
+  border-radius: 0 4px 4px 0;
+}
+
+.left > .sidebar> .attr_info > ul {
+  background-color: #d8d8d8;
+  /*background-color: #bdc3c7;*/
+  text-align: center;
+}
+
+.left > .sidebar> .attr_info > ul > li {
+  margin: 0 20px 0 20px;
+  padding-left: 0;
+}
+
+
+/*container, section, input... etc part*/
+body > .container {
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding-left: 280px;
+  overflow: auto;
+}
+
+.container > .try_sections > .section {
+  padding: 5px 20px 5px 20px;
+  margin: 0 30px 10px 0;
+  box-shadow: #ccc 0 0 3px;
+  background-color: white;
+  min-width: 800px;
+  overflow: auto;
+}
+
+.container > .try_sections > .section > .section_header {
+}
+
+.container > .try_sections > .section > .section_header > h2 > .detail {
+  font-size: 65%;
+  color: #777;
+}
+
+.container > .try_sections > .section > .section_body {
+}
+
+.container > .try_sections > .section > .section_body > .s_test {
+  float: left;
+  width: 54%;
+  display: inline-block; /*s_result 와 함께 바꾸기*/
+}
+.container > .try_sections > .section > .section_body > .s_result {
+  float: right;
+  width: 45%;
+  display: inline-block; /*s_test 와 함께 바꾸기*/
+}
+
+.container > .try_sections > .section > .section_body > .s_test > .input {
+  cursor: text;
+  font-size: 15px;
+  font-family: Menlo, "Bitstream Vera Sans Mono", "DejaVu Sans Mono", Monaco, Consolas, monospace;
+  width: 95%;
+  margin: 0;
+  color: whitesmoke;
+  background-color: #333333;
+  resize: vertical;
+}
+.container > .try_sections > .section > .section_body > .s_test > .data {
+  height: 100px;
+}
+.container > .try_sections > .section > .section_body > .s_test > .code {
+  white-space: nowrap;
+  height: 280px;
+}
+
+.container > .try_sections > .section > .section_body > .s_result > .dom {
+  width: 95%;
+  margin: 0;
+  min-height: 280px;
+  border: 1px solid #ccc;
+}
+
+/*.code::-webkit-resizer {*/
+  /*!*border: 1px solid yellow;*!*/
+  /*!*outline: 1px solid yellow;*!*/
+  /*!*background: yellow;*!*/
+
+  /*!*!*box-shadow: 0 0 5px 5px blue;*!*!*/
+  /*!*color : yellow;*!*/
+/*}*/

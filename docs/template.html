@@ -3,33 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <title>TRY H</title>
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-  <!--<link rel="stylesheet" href="darcula.css">-->
-  <link rel="stylesheet" href="lib/stylesheet/template_style.css">
+  <link rel="stylesheet" href="lib/stylesheet/template.css">
+  <link rel="stylesheet" href="lib/stylesheet/customize.css">
 </head>
 <body>
 
 <script src="//rawgit.com/marpple/abc-functional-javascript/master/etc/abc.all.js"></script>
 <script src="//rawgit.com/marpple/abc-functional-javascript/master/example/js/underscore.js"></script>
 <script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
-<!--<script src="highlight.pack.js"></script>-->
-
 <script>
 
   var examples = [
     "C(H('','\n\
-        div.container\n\
-          h1#hello Hello H template!\n\
-          a[href=https://www.marpple.com] www.marpple.com\n\
-          h3[style=\"color:red\"] 나는 한정판이다.'));",
+    div\n\
+      h1#hello Hello H template!\n\
+      a[href=https://www.marpple.com] Marpple Go!\n\
+      h3[style=\"color:red\"] 나는 한정판이다.'));",
     "C(H('','\n\
-        p\n\
-          |동해물과 백두산이\n\
-          |마르고 닳도록\n\
-        p.\n\
-          이 기상과 이 맘으로\n\
-          충성을 다하여\n\
-        span 오구야'));",
+    textarea\n\
+      |동해물과 백두산이\n\
+      |마르고 닳도록\n\
+    textarea.\n\
+      \n\
+      애국가를 입력해주세요.\n\
+    span 오구야'));",
     "C(person, H('user','\n\
           div.!{user.company}!\n\
             h3 My name is {{user.name}}\n\
@@ -48,60 +45,74 @@
             h4 I am honest.\n\
             '));",
     "C(songs, H('songs', '\n\
-          h3 Sing Street OST\n\
-          ul\n\
-            {{{C(songs, ', function (songs) {\n\
-              return _.map(songs, function (song, i) {\n\
-                return '<li>' + (i + 1) + '. ' + song + '</li>';\n\
-              }).join('');\n\
-            }, ')}}}'))",
+      h3 Sing Street OST\n\
+      ul\n\
+        {{{C(songs, ', function (songs) {*\\n\
+          return _.map(songs, function (song, i) {*\\n\
+            return '<li>' + (i + 1) + '. ' + song + '</li>';*\\n\
+          }).join('');*\\n\
+        }, ')}}}'))",
+    "C(songs, H('songs', '\n\
+      h3 Sing Street OST\n\
+      ul\n\
+        !{C(songs, ', H.each('song, i', '\n\
+        li {{i+1}}. {{song}}'), ')}!'))",
     "C(post, S('p', \"update posts set body = '{{p.body}}' where id = {{p.id}};\"))"
   ];
 
-
   var ex_ary = [
     {
-      class: "basic",
       title: "Basic",
       detail: "id, class, attribute",
       comment: "`H` 함수를 사용하여 id와 class 등 다양한 속성을 지정할 수 있습니다."
     },
     {
-      class: "paragraph",
       title: "Paragraph",
       detail: "`.` 혹은 `|` 사용하기",
       comment: "`.` 혹은 `|` 를 사용하여 개행을 포함한 문단을 작성할 수 있습니다."
     },
     {
-      class: "data",
       title: "Data",
       detail: "`!{}!`, `<<>>`, `<<<>>>`",
       comment: "`!{}!`, `<<>>`, `<<<>>>`을 사용하여 데이터를 치환할 수 있습니다.",
       data: "var person = { name: 'Cojamm', age: 32, company: 'marpple', comment:'<em>하이</em>' };"
     },
     {
-      class: "comments",
       title: "Comments",
       detail: "`//`, `/* */`",
       comment: "`//`와 `/* */`를 사용하여 주석 처리를 할 수 있습니다."
     },
     {
-      class: "function",
-      title: "Function",
+      title: "Function1",
       detail: "",
-      comment: "",
-      data: "var songs = [\
-              'The Riddle Of The Model',\
-              'Up',\
-              'To Find You',\
-              'A Beautiful Sea',\
-              'Drive It Like You Stole It',\
-              'Up (Bedroom Mix)',\
-              'Girls',\
-              'Brown Shoes'];"
+      comment: "`!{}!`, `<<>>`, `<<<>>>`을 사용하여 함수를 실행할 수 있습니다.",
+      data:
+"var songs = [*\\n\
+    'The Riddle Of The Model',*\\n\
+    'Up',*\\n\
+    'To Find You',*\\n\
+    'A Beautiful Sea',*\\n\
+    'Drive It Like You Stole It',*\\n\
+    'Up (Bedroom Mix)',*\\n\
+    'Girls',*\\n\
+    'Brown Shoes' ];"
     },
     {
-      class: "s",
+      title: "Function2",
+      detail: "`H.each`",
+      comment: "",
+      data:
+"var songs = [*\\n\
+    'The Riddle Of The Model',*\\n\
+    'Up',*\\n\
+    'To Find You',*\\n\
+    'A Beautiful Sea',*\\n\
+    'Drive It Like You Stole It',*\\n\
+    'Up (Bedroom Mix)',*\\n\
+    'Girls',*\\n\
+    'Brown Shoes' ];"
+    },
+    {
       title: "S",
       detail: "",
       comment: "`S` 함수는 `H` 템플릿 함수와 비슷하나, SQL문과 같은 일반 문자열을 다룰 때 사용 할 수 있습니다.",
@@ -112,54 +123,86 @@
   C([H('','\
     div.container#try_H\
       h1 TRY H\
-      div.set_sections\
-        h4 Settings\
-        div.settings\
-          div#tab_set\
-            label Select TAB size\
-            form.tab_size\
-              input[type=radio name="tab" value=2 checked] 2\
-              input[type=radio name="tab" value=4] 4\
-          div#css_set\
-            label Select Library\
-            form.library\
-              input[type=checkbox value=bootstrap] Bootstrap\
-              input[type=checkbox value=jqeury] jQuery\
-        div#about_this_page\
-          h5 Try H 활용법\
-          p `Ctrl + Enter`로 실행할 수 있습니다.\
       div.try_sections\
         {{{C(ex_ary, ', H.each('ex', '\
-        div.section.!{ex.class}!\
+        div.section.!{ex.title}!#_!{ex.title}!\
           div.section_header\
-            h3 {{ex.title}} <small>{{ex.detail}}</small>\
-            p {{ex.comment}}\
-          div.section_body.row.!{ex.class}!\
-            div.col-md-6.s_test\
-              h4 Test Code\
-                button.btn.btn-sm.btn-success.run_btn.!{ex.class}!#!{ex.class}! Run\
-              textarea.input.data[!{!!ex.data ? void 0 : hidden}!] {{ex.data}}\
+            h2 {{ex.title}} <span class=detail>{{ex.detail}}</span>\
+            p \
+              |{{ex.comment}}\
+          div.section_body.!{ex.title}!\
+            div.s_test\
+              h3 Test Code\
+                button.btn.run_btn[title="Ctrl + Enter"].!{ex.title}!#!{ex.title}! Run\
+              textarea.input.data[!{ex.data ? void 0 : "hidden"}!] {{ex.data}}\
               textarea.input.code **here**\
-            div.col-md-6.s_result\
-              h4 Results\
+            div.s_result\
+              h3 Results\
               div.output.dom\
         '), ')}}}\
+    div.left\
+      div.sidebar\
+        div.link\
+          ul\            li\
+              a[href=#_Basic] Basic\
+            li \
+              a[href=#_Paragraph] Paragraph\
+            li \
+              a[href=#_Data] Data\
+            li \
+              a[href=#_Comments] Comments\
+            li \
+              a[href=#_Function1] Function1\
+            li \
+              a[href=#_Function2] Function2\
+            li \
+              a[href=#_S] S\
+        div.setting\
+          ul\
+            li TAB size\
+              form.tab_size\
+                input#tab2[type=radio name="tab" value=2 checked]\
+                  label[for=tab2] 2\
+                input#tab4[type=radio name="tab" value=4]\
+                  label[for=tab4] 4\
+            li\
+            li\
+              button.btn["disabled"] Run \
+              <small> `(Ctrl + Enter)`</small>\
+        div.attr_info\
+          ul \
+            b Color Sheet\
+            li\
+            li.border-red .border-red\
+            li.border-yellow .border-yellow\
+            li.border-blue .border-blue\
+            li.border-green .border-green\
+            li\
+            li.bg-red .bg-red\
+            li.bg-yellow .bg-yellow\
+            li.bg-blue .bg-blue\
+            li.bg-green .bg-green\
+            li\
+            li#txt-white #txt-white\
+            li#txt-black #txt-black\
     '),
+
     function(v) { // 이쁘게 출력
       var i = 0;
-      return v.replace(/(&#x60;|`)(.*?)(&#x60;|`)/g, "<code>$2</code>")
+      return v.replace(/(&#x60;|`)(.*?)\1/g, "<code class='chip'>$2</code>")
               .replace(/&lt;&lt;&lt;(.*?)&gt;&gt;&gt;/g,'{{{$1}}}').replace(/&lt;&lt;(.*?)&gt;&gt;/g,'{{$1}}')
-              .replace(/\*\*here\*\*/g, function() { return examples[i++]; }).replace(/(\n)/g, '\\$1');
+              .replace(/\*\*here\*\*/g, function() { return examples[i++].replace(/(\n)/g, '\\$1'); })
+              .replace(/\*\\n/g, "\n");
     },
     $,
     B.M('appendTo', 'body')]);
 
-  $('.tab_size').on('click', function(e) {                              // tab_size 변경 할 때에도 output 형태 업그레이드 해줘야 !!
+  $('.tab_size').on('change', function(e) {                              // tab_size 변경 할 때에도 output 형태 업그레이드 해줘야 !!
     H.TAB_SIZE = C.parseInt($(':radio[name="tab"]:checked').val());
 
     C.each($('.section'), function(s) {
-      var $input = $(s).find('.input');
-      $input.val($input.val().replace(/ {2,}/g, function(m) {
+      var $code = $(s).find('.input.code');
+      $code.val($code.val().replace(/ {2,}/g, function(m) {
         return H.TAB_SIZE == 4 ? m.replace(/  /g, "    ") : m.replace(/    /g, "  ");
       }));
     });
@@ -167,19 +210,22 @@
     console.log(H.TAB_SIZE + "%c tab 설정 완료!", "color:green;");
   });
 
+
   $('.run_btn').on('click', function(e) {
 
     var $section = $('.section' + '.' + e.target.id);
-    var data = $section.find('.input.data').val().replace(/\n/g, '');
-    var code = $section.find('.input.code').val().replace(/\n/g, ''); // 이것 땜에 paragraph 적용 안되는 거!!!
+    var data = $section.find('.input.data').val(),
+        code = $section.find('.input.code').val().replace(/;$/, "");
 
     try {
-      $section.find('.dom')[0].innerHTML = (new Function(data + "; return " + code))();
+      $section.find('.dom')[0].innerHTML = (new Function(data + "; return (" + code + ");"))();
+      console.log(e.target.id + "%c 코드 실행!", "color:green;");
+      $section.find('.dom')[0].style.border = "2px solid #1abc9c";
     } catch (e) {
-      console && console.error && console.error('Syntax Error...')
+      console && console.error && console.error('Syntax Error...');
+      $section.find('.dom')[0].innerHTML = e;
+      $section.find('.dom')[0].style.border = "2px solid #e74c3c";
     }
-
-    console.log(e.target.id + "%c 코드 실행!", "color:green;");
   }).click();
 
 
@@ -211,14 +257,172 @@
 
   $('#try_H .input').keyup(function(e) { delete keys[e.which]; });
   $(document).keyup(function(e) { delete keys[e.which]; });
+</script>
 
 
-//  $(document).ready(function() {
-//    $('.input').each(function(i, block) {
-//      hljs.highlightBlock(block);
+
+
+
+
+
+
+
+<script>
+
+  function a() {
+    return "asdf";
+    sdfsd
+  }
+
+//  // 우리 코드 css 적용하는거
+//  var $container = $('.container');
+//  var $left = $('.left');
+//  var $sections = $container.find('.section');
+//
+//  $('.chip').css({
+//    'padding': '2px 4px',
+//    'font-size': '90%',
+//    'color': '#c7254e',
+//    'background-color': '#f9f2f4',
+//    'border-radius': '4px',
+//    'font-family': 'Menlo, "Bitstream Vera Sans Mono", "DejaVu Sans Mono", Monaco, Consolas, monospace'
+//  });
+//
+//  $('.btn').css({
+//    'font-size': '13px',
+//    'padding': '7px',
+//    'color': '#fff',
+//    'background-color': '#5cb85c',
+//    'border-style': 'none',
+//    'border-radius': '10%',
+//    'outline': 'none',
+//    'box-shadow': '#ccc 1px 3px 3px'
+//  });
+//
+//
+//  /*
+//    left
+//  */
+//  $left.css({
+//    'position': 'fixed',
+//    'left': '0',
+//    'top': '65px',
+//    'bottom': '0',
+//    'width': '250px'
+//  });
+//  $left.find('.link, .setting').css({
+//    'margin': '0 auto auto 30px',
+//    'background-color': 'white',
+//    'box-shadow': '#ccc 0 0 3px'
+//  });
+//  $left.find('ul').css({
+//    'font-size': '17px',
+//    'list-style': 'none',
+//    'padding': '15px 0'
+//  });
+//  $left.find('li').css({
+//    'padding': '5px',
+//    'padding-left': '20px'
+//  });
+//  $left.find('a').css({
+//    'color': 'black',
+//    'text-decoration': 'none'
+//  });
+//  $left.find('.tab_size').css({
+//    'margin-left': '20px',
+//    'display': 'inline-block'
+//  });
+//
+//  $left.find('.link li').hover(function() {
+//    $(this).css('background-color', 'whitesmoke');
+//  }, function() {
+//    $(this).css('background-color', 'white');
+//  });
+//
+//
+//
+//  /*
+//   container
+//  */
+//  $container.css({
+//    'position': 'absolute',
+//    'bottom': '0',
+//    'top': '0',
+//    'left': '0',
+//    'right': '0',
+//    'margin': '0',
+//    'padding-left': '280px',
+//    'overflow': 'auto'
+//  });
+//  $container.find('.btn').hover(function() {
+//    $(this).css({
+//      'background-color': '#449d44',
+//      'box-shadow': '#ccc 0px 0px 0px'
+//    });
+//  }, function() {
+//    $(this).css({
+//      'background-color': '#5cb85c',
+//      'box-shadow': '#ccc 1px 3px 3px'
 //    });
 //  });
+//
+//  $sections.css({
+//    'padding': '5px 20px 5px 20px',
+//    'margin': '0 30px 10px 0',
+//    'box-shadow': '#ccc 0 0 3px',
+//    'background-color': 'white',
+//    'max-width': '1000px',
+//    'overflow': 'auto'
+//  });
+//
+//  $sections.find('.detail').css({
+//    'font-size': '65%',
+//    'color': '#777'
+//  });
+//
+//
+//  $sections.find('.s_test, s_result').css({
+//    'display': 'inline-block'
+//  });
+//
+//  $sections.find('.s_result').css({
+//    'float': 'right',
+//    'width': '45%'
+//  });
+//  $sections.find('.s_test').css({
+//    'float': 'left',
+//    'width': '54%'
+//  });
+//  $sections.find('.s_test h3').css({
+//    'padding-right': '20px'
+//  });
+//
+//  $sections.find('.input').css({
+//    'cursor': 'text',
+//    'font-size': '15px',
+//    'font-family': 'Menlo, "Bitstream Vera Sans Mono", "DejaVu Sans Mono", Monaco, Consolas, monospace',
+//    'width': '95%',
+//    'margin': '0',
+//    'color': 'whitesmoke',
+//    'background-color': '#333333',
+//    'resize': 'vertical'
+//  });
+//
+//  $sections.find('.data').css('height', '100px');
+//  $sections.find('.code').css({
+//    'white-space': 'nowrap',
+//    'height': '280px'
+//  });
+//  $sections.find('.run_btn').css('float', 'right');
+//
+//  $sections.find('.dom').css({
+//    'width': '95%',
+//    'margin': '0',
+//    'min-height': '280px',
+//    'border': '1px solid #ccc'
+//  });
 </script>
+
 
 <script>
 //  function TAB() { return "( {" + H.TAB_SIZE + "}|\\t)"; }; // "( {4}|\\t)"
