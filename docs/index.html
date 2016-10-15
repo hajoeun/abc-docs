@@ -12,6 +12,8 @@
 <script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
 <script src="//rawgit.com/marpple/abc-functional-javascript/master/example/js/underscore.js"></script>
 <script src="lib/javascript/highlight.pack.js"></script>
+<!--<script src="abc.all.js"></script>-->
+
 <script>
   /*Functions List variable declaration*/
   var funcs = _.filter(_.keys(F), function(val) { return val !== 'F' && val !== 'G' });
@@ -121,18 +123,18 @@
         },
         set : {
           title : 'set',
-          usage : 'B.set(key, value)',
+          usage : 'B.set(key, value) -> f',
           egs : [{
-            ds: '`B.set`은 뭐하는거야?',
+            ds: '`B.set`은 key, value로 이루어진 객체를 만드는 함수를 만듭니다. (이 함수에 또다른 객체를 넣어 실행하면 그 함수에 추가됩니다.)-원본바',
             cd: '\
                   |-----------------------------------\
                   |-----------------------------------'}]
         },
         extend : {
           title : 'extend',
-          usage : 'B.extend(args...)',
+          usage : 'B.extend(args.../*object...?*/) (이 함수에 다른요소가 더해질 객체(target)를 넣음)',
           egs : [{
-            ds: '`B.extend`은 뭐하는거야?',
+            ds: '`B.extend`은 객체들의 키와 값을 추가하는 함수를 만듭니다.',
             cd: '\
                   |-----------------------------------\
                   |-----------------------------------'}]
