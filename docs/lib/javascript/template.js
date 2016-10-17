@@ -22,7 +22,7 @@ var examples = [
         '));",
   "C(H('','\n\
           h3 I am smart.\n\
-//            h3 I am dummy.\n\
+//          h3 I am dummy.\n\
           h3 I like cheeseburger\n\
 /*          h3 and pizza\n\
           h3 and chicken\n\
