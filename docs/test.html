@@ -3,28 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <title>TEST PAGE for TRY H</title>
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="lib/stylesheet/template_style.css">
-  <link rel="stylesheet" href="lib/stylesheet/codemirror.css">
 </head>
 <body>
 
-<div class="container">
-  <form action="">
-    <textarea name="" id="first" cols="30" rows="10"></textarea>
-  </form>
-</div>
-<script src="//rawgit.com/marpple/abc-functional-javascript/master/etc/abc.all.js"></script>
+<script src="//rawgit.com/marpple/abc-functional-javascript/master/abc.js"></script>
 <script src="//rawgit.com/marpple/abc-functional-javascript/master/example/js/underscore.js"></script>
 <script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
-<!--<script src="highlight.pack.js"></script>-->
-<script src="lib/javascript/codemirror.js"></script>
 <script>
 
-  var myTextArea = document.getElementById('first');
-  var myCodeMirror = CodeMirror(function(elt) {
-    myTextArea.parentNode.replaceChild(elt, myTextArea);
-  }, {value: myTextArea});
+  C(greeting, B.all(
+    function(str) { console.log(str +' , Bonjour.'); },
+    function(str) { console.log(str +' , Nihao.'); },
+    function(str) { console.log(str +' , 안녕하세요.'); }));
+
 
 </script>
 </body>
