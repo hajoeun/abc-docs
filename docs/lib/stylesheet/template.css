@@ -27,7 +27,6 @@ body {
 
 .container > .try_sections > .section > .section_body > .s_test .run_btn {
   float: right;
-  margin-right: 4%;
 }
 
 .container > .try_sections > .section > .section_body > .s_test .btn:hover {
@@ -99,7 +98,6 @@ body > .left > .sidebar {
 .left > .sidebar > .setting > ul > li > .tab_size > input:checked + label {
   background-color: whitesmoke;
   box-shadow: #ccc 1px 1px 1px;
-  /*color: #5cb85c;*/
 }
 
 
@@ -113,7 +111,6 @@ body > .left > .sidebar {
 
 .left > .sidebar> .attr_info > ul {
   background-color: #d8d8d8;
-  /*background-color: #bdc3c7;*/
   text-align: center;
 }
 
@@ -157,31 +154,33 @@ body > .container {
 
 .container > .try_sections > .section > .section_body > .s_test {
   float: left;
-  width: 54%;
+  width: 51%;
   display: inline-block; /*s_result 와 함께 바꾸기*/
 }
 .container > .try_sections > .section > .section_body > .s_result {
   float: right;
-  width: 45%;
+  width: 47%;
   display: inline-block; /*s_test 와 함께 바꾸기*/
 }
 
 .container > .try_sections > .section > .section_body > .s_test > .input {
-  cursor: text;
-  font-size: 15px;
-  font-family: Menlo, "Bitstream Vera Sans Mono", "DejaVu Sans Mono", Monaco, Consolas, monospace;
-  width: 95%;
-  margin: 0;
-  color: whitesmoke;
-  background-color: #333333;
-  resize: vertical;
+  /*cursor: text;*/
+  /*font-size: 15px;*/
+  /*font-family: Menlo, "Bitstream Vera Sans Mono", "DejaVu Sans Mono", Monaco, Consolas, monospace;*/
+  /*width: 95%;*/
+  /*margin: 0;*/
+  /*color: whitesmoke;*/
+  /*background-color: #333333;*/
+  /*resize: vertical;*/
 }
 .container > .try_sections > .section > .section_body > .s_test > .data {
   height: 100px;
+  margin-bottom: 10px;
 }
 .container > .try_sections > .section > .section_body > .s_test > .code {
   white-space: nowrap;
-  height: 280px;
+  min-height: 250px;
+  margin-bottom: 10px;
 }
 
 .container > .try_sections > .section > .section_body > .s_result > .dom {
