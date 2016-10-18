@@ -940,7 +940,7 @@ var section_data = {
         egs : [{
           ds: '`C.add`는 모든 값의 합을 구합니다.',
           cd: '\
-                  |var res = C.iadd(1,2,3);\
+                  |var res = C.add(1,2,3);\
                   |console.log(res); // 6'}]
       },
 
@@ -950,7 +950,7 @@ var section_data = {
         egs : [{
           ds: '`C.sub`는 첫번째 값에서 나머지 값들를 뺀 결과를 구합니다.',
           cd: '\
-                  |var res = C.isub(10,3,2,1);\
+                  |var res = C.sub(10,3,2,1);\
                   |console.log(res); // 4'}]
       },
 
