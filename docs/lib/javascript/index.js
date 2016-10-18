@@ -325,27 +325,26 @@ var section_data = {
       },
       uniq : {
         title : 'uniq',
-        usage : 'findIndex(), find_index(), find_i()',
+        usage : 'B.uniq(iteratee)',
         egs : [{
           ds: '',
           cd: "\
-                  |\
-                  |\
-          "}]
+                  |var res = C([1,2,2,2,3,3,4,5,5], B.uniq(function(val) { return val+10; }));\
+                  |console.log(res); //[1,2,3,4,5]"}]
       },
       tap : {
         title : 'tap',
-        usage : 'findIndex(), find_index(), find_i()',
+        usage : 'B.tap(iteratee..)',
         egs : [{
           ds: '',
           cd: "\
-                  |\
-                  |\
-          "}]
+                  |var res = C([10,20,30], [function(ary) { console.log(ary); return ary; },\
+                  |_________________________B.tap(function(a) { console.log(a); /*return ary[0]*/}),\
+                  |_________________________function(a) { console.log(a); return a; }]);"}]
       },
       boomerang : {
         title : 'boomerang',
-        usage : 'findIndex(), find_index(), find_i()',
+        usage : 'B.boomerang()',
         egs : [{
           ds: '',
           cd: "\
