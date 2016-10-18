@@ -10,7 +10,7 @@ var section_data = {
   A : {
     func : {
       title : 'A',
-      usage : 'A()',
+      usage : 'A([args...], function), A([args...], [function...])',
       egs : [{
         ds: '`A`는 `apply`와 비슷합니다. 배열이나 객체를 사용할 수 있습니다.',
         cd: '\
@@ -36,7 +36,7 @@ var section_data = {
   B : {
     func : {
       title : 'B',
-      usage : 'B(args..., function)',
+      usage : 'B(args..., function), B(args..., [functions...])',
       egs : [{
         ds: '`B`는 `this`를 제외한 `bind`라고 생각하면 쉽습니다. 혹은 underscore의 `_.partial`과 유사합니다.',
         cd: '\
@@ -376,7 +376,7 @@ var section_data = {
         title : 'delay',
         usage : 'B.delay(function, time)',
         egs : [{
-          ds: '',
+          ds: 'sa',
           cd: "\
                   |var delay1s = B.delay(1000)\
                   |delay1s(function() { console.log('Hi~'); }) // 1초 후에 \"Hi~\" 출력"}]
@@ -385,15 +385,36 @@ var section_data = {
         title : 'notice',
         usage : 'B.notice(), B.noti(), B.Noti()',
         egs : [{
-          ds: '',
+          ds: 'ss',
           cd: "\
                   |\
                   |\
           "}]
-      },
+      }
 
     }
   },
+  C : {
+    func : {
+      title : 'C',
+      usage : 'C(args..., function), A(args..., [function...])',
+      egs : [{
+        ds: '`C`는 this를 제외한 `call`이라고 생각하면 쉽습니다.',
+        cd: '\
+                  |function minus(a, b) {\
+                  |__return a - b; \
+                  |}\
+                  |\
+                  |var r1 = A(20,10, minus);\
+                  |console.log(r1); // 10'}]
+    },
+    methods: {
+
+
+
+    }
+  },
+
   H : {
     func : {
       title : 'H',
@@ -500,14 +521,13 @@ function section_bulider(temp_section) {
 
     return ['\
             div.outer_section#'+key+'\
-              h3.func_title '+func.title+' \
-                small '+func.usage+'\
-              p '+func.egs[0].ds+'\
-              pre\
-                '+func.egs[0].cd+'\
-              p '+func.egs[1].ds+'\
-              pre\
-                '+func.egs[1].cd]
+              h3.func_title '+func.title+'\
+                small ' + func.usage
+    + _.map(func.egs, function(obj) {
+      return  '\
+              p ' + obj.ds + '\
+              pre ' + obj.cd;
+    }).join('')]
       .concat(_.map(methods, function(method) {
         return ['\
               div.inner_section#'+key+'_'+method.title+'\
@@ -522,6 +542,13 @@ function section_bulider(temp_section) {
       })).join('');
   });
 }
+
+
+
+
+
+
+
 
 function replace_(str) {
   return str.replace(/\|(_+)/g, function(m, u) { return "|" + u.replace(/_/g, '&nbsp;'); }).replace(/`(.*?)`/g, '<code>$1</code>');
