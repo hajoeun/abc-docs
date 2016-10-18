@@ -1,7 +1,3 @@
-/**
- * Created by marpple on 2016. 10. 17..
- */
-
 /*Functions List variable declaration*/
 var funcs = _.filter(_.keys(F), function(val) { return val !== 'F' && val !== 'G' });
 
@@ -121,7 +117,7 @@ var section_data = {
         title : 'extend',
         usage : 'B.extend(object...) (이 함수에 다른요소가 더해질 객체(target)를 넣음)',
         egs : [{
-          ds: '`B.extend`은 객체들의 키와 값을 추가하는 함수를 만듭니다.',
+          ds: '`B.extend`은 객체들의 키와 값을 추가(확장)하는 함수를 만듭니다.',
           cd: "\
                   |var user = { name: 'JE'};\
                   |C(user, B.extend({ age: 27 }));\
@@ -409,8 +405,270 @@ var section_data = {
                   |console.log(r1); // 10'}]
     },
     methods: {
-
-
+      isArguments :
+      {
+        title : 'isArguments',
+        usage : 'C.isArguments(object)',
+        egs : [{
+          ds: "`C.isArguments`는 arguments 객체를 판별하는 함수입니다.",
+          cd: "\
+                  |(function() { return C.isArguments(arguments); })([1,2,3]) // true\
+                  |\
+                  |C.isArguments([1,2,3]) // false"}]
+      },
+      isFunction :
+      {
+        title : 'isFunction',
+        usage : 'C.isFunction(object)',
+        egs : [{
+          ds: "`C.isFunction`은 함수를 판별하는 함수입니다.",
+          cd: "\
+                  |C.isFunction(C.map) // true"}]
+      },
+      isString :
+      {
+        title : 'isString',
+        usage : 'C.isString(object), C.is_string(object)',
+        egs : [{
+          ds: "`C.isString`은 문자열을 판별하는 함수입니다.",
+          cd: "\
+                  |C.isString('Hello ABC!') // true"}]
+      },
+      isNumber :
+      {
+        title : 'isNumber',
+        usage : 'C.isNumber(object)',
+        egs : [{
+          ds: "`C.isNumber`는 숫자를 판별하는 함수입니다.",
+          cd: "\
+                  |C.isNumber(10 * 2) // true"}]
+      },
+      isDate :
+      {
+        title : 'isDate',
+        usage : 'C.isDate(object)',
+        egs : [{
+          ds: "`C.isDate`는 날짜 객체를 판별하는 함수입니다.",
+          cd: "\
+                  |C.isDate(new Date()) // true"}]
+      },
+      isRegExp :
+      {
+        title : 'isRegExp',
+        usage : 'C.isRegExp(object)',
+        egs : [{
+          ds: "`C.isRegExp`는 정규표현식을 판별하는 함수입니다.",
+          cd: "\
+                  |C.isRegExp(/.*?/) // true"}]
+      },
+      isError :
+      {
+        title : 'isError',
+        usage : 'C.isError(object)',
+        egs : [{
+          ds: "`C.isError`는 에러 객체를 판별하는 함수입니다.",
+          cd: "\
+                  |try { \
+                  |__throw new TypeError('Syntax error');\
+                  |} catch (e) {\
+                  |__C.isError(e); // true\
+                  |}"}]
+      },
+      isObject :
+      {
+        title : 'isObject',
+        usage : 'C.isObject(object), C.is_object(object)',
+        egs : [{
+          ds: "`C.isObject`는 객체를 판별하는 함수입니다.",
+          cd: "\
+                  |C.isObject({}); // true\
+                  |C.isObject(123); // false"}]
+      },
+      has:
+      {
+        title : 'has',
+        usage : 'C.has(object, key)',
+        egs : [{
+          ds: "`C.has`는 객체가 특정 키를 가지고 있는지 판별하는 함수입니다.",
+          cd: "\
+                  |C.has({a:10, b:20, c:30}, 'b'); // true\
+                  |C.has({a:10, b:20, c:30}, 'd'); // false"}]
+      },
+      keys:
+      {
+        title : 'keys',
+        usage : 'C.keys(object)',
+        egs : [{
+          ds: "`C.keys`는 객체가 가진 키들을 배열로 반환하는 함수입니다.",
+          cd: "\
+                  |var res = C.keys({a:10, b:20, c:30});\
+                  |console.log(res); // ['a', 'b', 'c']"}]
+      },
+      isArrayLike:
+      {
+        title : 'isArrayLike',
+        usage : 'C.isArrayLike(list), C.is_array_like(list)',
+        egs : [{
+          ds: "`C.isArrayLike`는 유사 배열을 판별하는 함수입니다.",
+          cd: "\
+                  |(function() { return C.isArrayLike(arguments); })(1, 2, 3) // true\
+                  |C.isArrayLike([1, 2, 3]); // true\
+                  |C.isArrayLike({a: 1, b: 2}); // false"}]
+      },
+      rest:
+      {
+        title : 'rest',
+        usage : 'C.rest(array)',
+        egs : [{
+          ds: "`C.rest`는 배열에서 첫번째 요소를 제외한 나머지 값을 반환하는 함수입니다.",
+          cd: "\
+                  |var res = C.rest([1, 2, 3, 4]);\
+                  |console.log(res); // [2, 3, 4]"}]
+      },
+      values:
+      {
+        title : 'values',
+        usage : 'C.values(object)',
+        egs : [{
+          ds: "`C.values`는 객체가 가지는 프로퍼티 값을 배열로 반환하는 함수입니다.",
+          cd: "\
+                  |var res = C.values({ name: 'HA', age: 25, gender: 'F' });\
+                  |console.log(res); // ['HA', 25, 'F']"}]
+      },
+      toArray:
+      {
+        title : 'toArray',
+        usage : 'C.toArray(list), C.to_array(list)',
+        egs : [{
+          ds: "`C.toArray`는 arguments 객체를 배열로 변환하는 함수입니다.",
+          cd: "\
+                  |(function(){ return C.toArray(arguments).slice(1); })(1, 2, 3, 4) // [2, 3, 4]"}]
+      },
+      object:
+      {
+        title : 'object',
+        usage : 'C.object(list, list)',
+        egs : [{
+          ds: "`C.object`는 배열을 객체로 변환하는 함수입니다.",
+          cd: "\
+                  |C.object(['a','b','c'], [1, 2, 3]); // {a: 1, b: 2, c: 3}"}]
+      },
+      escape:
+      {
+        title : 'escape',
+        usage : 'C.escape(string)',
+        egs : [{
+          ds: "`C.escape`는 특수한 문자열을 엔티티 값으로 치환하는 함수입니다.",
+          cd: "\
+                  |var res = C.escape('HA & JE');\
+                  |console.log(res); // 'HA &amp; JE'"}] // HTML에 그리면 'HA & JE'로 나옴..
+      },
+      uniqueId:
+      {
+        title : 'uniqueId',
+        usage : 'C.uniqueId(string), C.unique_id(string)',
+        egs : [{
+          ds: "`C.uniqueId`는 유니크한 아이디 값을 생성하는 함수입니다.",
+          cd: "\
+                  |var res = C.uniqueId('mp_');\
+                  |console.log(res); // mp_4"}]
+      },
+      isArray:
+      {
+        title : 'isArray',
+        usage : 'C.isArray(object), C.is_array(object)',
+        egs : [{
+          ds: "`C.isArray`는 배열을 판별하는 함수입니다.",
+          cd: "\
+                  |(function() { return C.isArray(arguments); })(1, 2, 3) // false\
+                  |C.isArray([1, 2, 3]) // true"}]
+      },
+      wrapArray:
+      {
+        title : 'wrapArray',
+        usage : 'C.wrapArray(value), C.wrap_arr(value)',
+        egs : [{
+          ds: "`C.wrapArray`는 매개변수를 배열로 감싸 반환하는 함수입니다.",
+          cd: "\
+                  |var res = C.wrapArray({a: 1, b: 2, c: 3});\
+                  |console.log(res); // [{a: 1, b: 2, c: 3}]"}]
+      },
+      lambda:
+      {
+        title : 'lambda',
+        usage : 'C.lambda(string)',
+        egs : [{
+          ds: "`C.lambda`는 문자열로 람다 함수(화살표 함수)를 생성하여 반환하는 함수입니다.",
+          cd: "\
+                  |var add10 = C.lambda('x => x + 10');\
+                  |var res = add10(4);\
+                  |console.log(res); // 14"}]
+      },
+      extend:
+      {
+        title : 'extend',
+        usage : 'C.extend(object, sources...)',
+        egs : [{
+          ds: "`C.extend`는 첫번째 매개변수로 전달된 객체에 소스로 전달된 객체를 덧붙여 객체를 확장하는 함수입니다.",
+          cd: "\
+                  |var res = C.extend({a:10}, {b:20}, {c:20, d:30});\
+                  |console.log(res); // {a: 10, b: 20, c: 20, d: 30}"}]
+      },
+      defaults:
+      {
+        title : 'defaults',
+        usage : 'C.defaults(object, sources...)',
+        egs : [{
+          ds: "`C.defaults`는 원본 객체의 값을 변경하지 않고 객체를 확장하는 함수입니다.",
+          cd: "\
+                  |var res = C.defaults({a:10}, {b:20}, {a:20, c:30});\
+                  |console.log(res); // {a: 10, b: 20, c: 30}"}]
+      },
+      clone:
+      {
+        title : 'clone',
+        usage : 'C.clone(object)',
+        egs : [{
+          ds: "`C.clone`는 얕은 복사로 객체의 사본을 만드는 함수입니다.",
+          cd: "\
+                  |var user1 = { name: 'JE', age: 27 };\
+                  |var user2 = C.clone(user1);\
+                  |user2.name = 'HA'\
+                  |console.log(user1.name, user2.name); // 'JE' 'HA'"}]
+      },
+      method:
+      {
+        title : 'method',
+        usage : 'C.method(object, string)',
+        egs : [{
+          ds: "`C.method`는 객체가 가진 메소드를 실행하는 함수입니다.",
+          cd: "\
+                  |var user1 = { name: 'HA', sayName: function() { console.log(this.name); } };\
+                  |C.method(user1, 'sayName'); // HA"}]
+      },
+      args:
+      {
+        title : 'args',
+        usage : 'C.args(value...)',
+        egs : [{
+          ds: "`C.args`는 arguments 객체를 반환하는 함수입니다.",
+          cd: "\
+                  |var res = C.args(1, 2, 3);\
+                  |console.log(res); // [1, 2, 3]"}]
+      },
+      arr_or_args_to_arr: // 이름에 통일성이 없는데...
+      {
+        title : 'arr_or_args_to_arr',
+        usage : 'C.arr_or_args_to_arr(list)',
+        egs : [{
+          ds: "`C.arr_or_args_to_arr`는 배열 혹은 arguments 객체를 배열로 변환하는 함수입니다.",
+          cd: "\
+                  |var res1 = (function(arr) { return C.arr_or_args_to_arr(arr); })([1, 2, 3]);\
+                  |console.log(res1); // [1, 2, 3]\
+                  |\
+                  |var res2 = (function(arr) { return C.arr_or_args_to_arr(arguments); })([1, 2, 3]);\
+                  |console.log(res2); // [[1, 2, 3]]"}]
+      },
 
     }
   },
@@ -544,12 +802,6 @@ function section_bulider(temp_section) {
 }
 
 
-
-
-
-
-
-
 function replace_(str) {
   return str.replace(/\|(_+)/g, function(m, u) { return "|" + u.replace(/_/g, '&nbsp;'); }).replace(/`(.*?)`/g, '<code>$1</code>');
 }
@@ -587,7 +839,7 @@ $('#search').keyup(function(e) {
 
 // focus effect
 $('#list_bar li a').on('click', function(e) {
-  var $section = $(e.target.href.match(/#([A-Z])(_([a-z]+))?/)[0]);
+  var $section = $(e.target.href.match(/#[A-Z](_[_\w]*)?/)[0]);
 
   (function() {
     if (!$section[0].style.boxShadow) $section[0].style.boxShadow = "#ccc 0 0 1px";
