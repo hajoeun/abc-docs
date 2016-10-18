@@ -250,7 +250,7 @@ var section_data = {
       },
       filter : {
         title : 'filter',
-        usage : 'B.filter(iteratee)',
+        usage : 'B.filter(predicate)',
         egs : [{
           ds: '`B.filter`는 list를 순회하며 조건에 맞는 요소만 추출하는 함수를 만듭니다.',
           cd: "\
@@ -265,7 +265,7 @@ var section_data = {
       },
       reject : {
         title : 'reject',
-        usage : 'B.reject(iteratee)',
+        usage : 'B.reject(predicate)',
         egs : [{
           ds: '`B.reject`는 list를 순회하며 조건에 맞는 요소를 제외하고 나머지를 추출하는 함수를 만듭니다.',
           cd: "\
@@ -274,9 +274,9 @@ var section_data = {
       },
       find : {
         title : 'find',
-        usage : 'B.find(iteratee)',
+        usage : 'B.find(predicate)',
         egs : [{
-          ds: '`B.find`는 list를 순회하며 조건에 맞는 값 하나를 반환하는 함수를 만듭니다.',
+          ds: '`B.find`는 list를 순회하며 조건에 맞는 값 하나를 찾아 반환하는 함수를 만듭니다.',
           cd: "\
                   |var res = C(users, B.find(function(val) { return val.age === 32; }));\
                   |console.log(res); // { name: 'CJ', age: 32 }"}]
@@ -288,7 +288,7 @@ var section_data = {
           ds: '`B.findKey`는 특정 값을 가지고 있는 키를 반환하는 함수를 만듭니다.',
           cd: "\
                   |var obj = { name: 'JE', age: 27 }\
-                  |C(obj, B.findKey(function(val) { return val == 'JE'; })); // 'JE'"}]
+                  |C(obj, B.findKey(function(val) { return val == 'JE'; })); // 'name'"}]
       },
       findIndex : {
         title : 'findIndex',
@@ -327,7 +327,7 @@ var section_data = {
         title : 'uniq',
         usage : 'B.uniq(iteratee)',
         egs : [{
-          ds: '',
+          ds: '`B.uniq`는 iteratee 결과가 유일한 값을 가지는 요소들을 배열 형태로 반환하는 함수를 만듭니다.',
           cd: "\
                   |var res = C([1,2,2,2,3,3,4,5,5], B.uniq(function(val) { return val+10; }));\
                   |console.log(res); //[1,2,3,4,5]"}]
@@ -412,8 +412,374 @@ var section_data = {
 
 
 
+
+
+
+
+
+      flatten : {
+        title : 'flatten',
+        usage : 'C.flatten(array, option?, index?)',
+        egs : [{
+          ds: '`C.flatten`는 배열 안의 값을 펼쳐 단일 배열을 반환합니다. option true로 주는 경우, 1회만 flatten을 실행합니다.',
+          cd: "\
+                  |var r1 = C.flatten([1, [2, 3, [4]]])\
+                  |console.log(r1); // [1, 2, 3, 4]\
+                  |var r2 = C.flatten([1, [2, 3, [4]]], true)\
+                  |console.log(r2); // [1, 2, 3, [4]]"}]
+      },
+
+      each : {
+        title : 'each',
+        usage : 'C.each(list, iteratee)',
+        egs : [{
+          ds: '`C.each`는 list를 순회하며 iteratee함수를 실행합니다.',
+          cd: "\
+                  |var res = C.each([1, 2, 3], function(val) { console.log(val); }); // 1, 2, 3\
+                  |console.log(res); // [1, 2, 3]"}]
+      },
+      map : {
+        title : 'map',
+        usage : 'C.map(list, iteratee)',
+        egs : [{
+          ds: '`C.each`는 list를 순회하며 iteratee함수를 실행하고, 그 결과를 배열로 반환합니다..',
+          cd: "\
+                  |function add10(val) { return val + 10; }\
+                  |var res = C.map([1, 2, 3], add10);\
+                  |console.log(res); // [11, 12, 13]"}]
+      },
+      reduce : {
+        title : 'reduce',
+        usage : 'C.reduce(list, iteratee)',
+        egs : [{
+          ds: '`C.reduce`는 list를 순회하며 iteratee함수를 실행하고, 단일 값으로 합친 결과를 반환합니다.',
+          cd: "\
+                  |var res = C.reduce([1,2,3,4,5], function(memo, val) { return memo + val; })\
+                  |console.log(res); // 15"}]
+      },
+      filter : {
+        title : 'filter',
+        usage : 'C.filter(list, predicate)',
+        egs : [{
+          ds: '`C.filter`는 list를 순회하며 조건에 맞는 요소만 추출하여 배열로 반환합니다.',
+          cd: "\
+                  |var users = [{ name: 'CJ', age: 32 },\
+                  |_____________{ name: 'PJ', age: 28 },\
+                  |_____________{ name: 'C.', age: 32 },\
+                  |_____________{ name: 'HA', age: 25 },\
+                  |_____________{ name: 'JE', age: 27 },\
+                  |_____________{ name: 'JM', age: 32 }]\
+                  |var res = C.filter(users, function(val) { return val.age > 30; });\
+                  |console.log(res); // [{ name: 'CJ', age: 32 }, { name: 'C.', age: 32 }, { name: 'JM', age: 32 }]"}]
+      },
+      reject : {
+        title : 'reject',
+        usage : 'C.reject(list, predicate)',
+        egs : [{
+          ds: '`C.reject`는 list를 순회하며 조건에 맞는 요소를 제외하고 나머지를 추출하여 반환합니다.',
+          cd: "\
+                  |var res = C.reject(users, function(val) { return val.age > 30; });\
+                  |console.log(res); // [{ name: 'PJ', age: 28 }, { name: 'HA', age: 25 }, { name: 'JE', age: 27 }]"}]
+      },
+      find : {
+        title : 'find',
+        usage : 'C.find(list, predicate)',
+        egs : [{
+          ds: '`C.find`는 list를 순회하며 조건에 맞는 값 하나를 찾아 반환합니다.',
+          cd: "\
+                  |var res = C.find(users, function(val) { return val.age === 32; });\
+                  |console.log(res); // { name: 'CJ', age: 32 }"}]
+      },
+      findKey : {
+        title : 'findKey',
+        usage : 'findKey(list, predicate), find_key(list, predicate)',
+        egs : [{
+          ds: '`C.findKey`는 특정 값을 가지고 있는 키를 반환합니다.',
+          cd: "\
+                  |var obj = { name: 'JE', age: 27 }\
+                  |C.findKey(obj, function(val) { return val == 'JE'; }); // 'name'"}]
+      },
+      findIndex : {
+        title : 'findIndex',
+        usage : 'findIndex(list, predicate), find_index(list, predicate), find_i(list, predicate)',
+        egs : [{
+          ds: '`C.findIndex`는 특정 값을 가지고 있는 인덱스를 반환합니다.',
+          cd: "\
+                  |var ary = [10, 20, 30]\
+                  |C.findIndex(ary, function(val) { return val == 30; }); // 2"}]
+      },
+      some : {
+        title : 'some',
+        usage : 'C.some(list, predicate)',
+        egs : [{
+          ds: '`C.some`은 특정 조건에 부합하는 값이 하나라도 존재하는지 판단하여 true/false를 반환합니다.',
+          cd: "\
+                  |var res1 = C.some([1,2,3,4], function(val) { return val%2 == 0; });\
+                  |console.log(res1); // true\
+                  |\
+                  |var res2 = C.some([1,3,5,7,9], function(val) { return val%2 == 0; });\
+                  |console.log(res2); // false"}]
+      },
+      every : {
+        title : 'every',
+        usage : 'C.every(list, predicate)',
+        egs : [{
+          ds: '`C.every`는 모든 요소가 특정 조건에 부합하는지 판단하여 true/false를 반환합니다.',
+          cd: "\
+                  |var res1 = C.every([1,2,3,4], function(val) { return val%2 == 0; });\
+                  |console.log(res1); // false\
+                  |\
+                  |var res2 = C.every([2,4,6,8], function(val) { return val%2 == 0; });\
+                  |console.log(res2); // true"}]
+      },
+      uniq : {
+        title : 'uniq',
+        usage : 'C.uniq(list, iteratee)',
+        egs : [{
+          ds: '`C.uniq`는 iteratee 결과가 유일한 값을 가지는 요소들을 배열 형태로 반환합니다.',
+          cd: "\
+                  |var res = C.uniq([1,2,2,2,3,3,4,5,5], function(val) { return val+10; });\
+                  |console.log(res); //[1,2,3,4,5]"}]
+      },
+
+      add : {
+        title : 'add',
+        usage : 'C.add(value...), C.add([value...])',
+        egs : [{
+          ds: '`C.add`는 모든 값의 합을 구합니다.',
+          cd: '\
+                  |var res = C.iadd(1,2,3);\
+                  |console.log(res); // 6'}]
+      },
+
+      sub : {
+        title : 'sub',
+        usage : 'C.sub(value...), C.sub([value...])',
+        egs : [{
+          ds: '`C.sub`는 첫번째 값에서 나머지 값들를 뺀 결과를 구합니다.',
+          cd: '\
+                  |var res = C.isub(10,3,2,1);\
+                  |console.log(res); // 4'}]
+      },
+
+      mod : {
+        title : 'mod',
+        usage : 'C.mod([value...])',
+        egs : [{
+          ds: '`C.mod`는 첫번째 값에서 다음 값을 나눈 나머지를 반환합니다.',
+          cd: ''}]
+      },
+
+      mul : {
+        title : 'mul',
+        usage : 'C.mul([value...])',
+        egs : [{
+          ds: '`C.mul`는 모든 값의 곱을 구합니다.',
+          cd: ''}]
+      },
+
+      div : {
+        title : 'div',
+        usage : 'C.div([value...])',
+        egs : [{
+          ds: '`C.not`는 첫번째 값에서 다음 값을 나눈 결과를 반환합니다.',
+          cd: ''}]
+      },
+
+      parseInt : {
+        title : 'parseInt',
+        usage : 'C.parseInt(data)',
+        egs : [{
+          ds: '`C.parseInt`는 데이터를 숫자 형태로 변환합니다.',
+          cd: '\
+                  |var res = C.parseInt("123") + 2;\
+                  |console.log(res); // 125'}]
+      },
+      parseIntAll : {
+        title : 'parseIntAll',
+        usage : 'C.parseIntAll(data...), C.parseIntAll([data...])',
+        egs : [{
+          ds: '`C.C.parseIntAll`은 data들을 숫자 형태로 변환한 결과를 배열로 반환합니다.',
+          cd: '\
+                  |var res = C.parseIntAll("123", "43", "15");\
+                  |console.log(res); // [123, 43, 15]'}]
+      },
+
+      iadd : {
+        title : 'iadd',
+        usage : 'C.iadd(value...), C.iadd([value...])',
+        egs : [{
+          ds: '`C.iadd`는 value를 숫자로 변환 후, 모든 값의 합을 구합니다.',
+          cd: '\
+                  |var res = C.iadd("100px","20px");\
+                  |console.log(res); // 120'}]
+      },
+      isub : {
+        title : 'isub',
+        usage : 'C.isub(value...), C.isub([value...])',
+        egs : [{
+          ds: '`C.isub`는 value를 숫자로 변환 후, 첫번째 값에서 나머지 값을 뺀 결과를 구합니다.',
+          cd: '\
+                  |var res = C.isub("100px","30px");\
+                  |console.log(res); // 70'}]
+      },
+
+      not : {
+        title : 'not',
+        usage : 'C.not(value)',
+        egs : [{
+          ds: '`C.not`는 falsy 값(0, false, null, undefined, "" 등)인 것을 판별합니다.',
+          cd: '\
+                  |var r1 = C.not([100, 2]);\
+                  |var r2 = C.not(undefined);\
+                  |console.log(r1, r2); // false, true'}]
+      },
+
+      nnot : {
+        title : 'nnot',
+        usage : 'C.nnot(value)',
+        egs : [{
+          ds: '`C.nnot`는 falsy 값(0, false, null, undefined, "" 등)이 아닌 것을 판별합니다.',
+          cd: '\
+                  |var r1 = C.nnot([100, 2]);\
+                  |var r2 = C.nnot(undefined);\
+                  |console.log(r1, r2); // true, false'}]
+      },
+
+      and : {
+        title : 'and',
+        usage : 'C.and(data...), C.and([data...])',
+        egs : [{
+          ds: '`C.and`는 data가 모두 true값을 의미하는지 팔별합니다.',
+          cd: '\
+                  |var r1 = C.and(10, "foo", true);\
+                  |var r2 = C.and(10, "bar", 0);\
+                  |console.log(r1, r2); // true false'}]
+      },
+
+      or : {
+        title : 'or',
+        usage : 'C.or(data...), C.or([data...])',
+        egs : [{
+          ds: '`C.or`는 data 중 하나라도 true값을 의미하는지 판별합니다.',
+          cd: '\
+                  |var r1 = C.or(10, "foo", undefined);\
+                  |var r2 = C.or(0, "", null);\
+                  |console.log(r1, r2); // true false'}]
+      },
+
+      eq : {
+        title : 'eq',
+        usage : 'C.eq(data...), C.eq([data...])',
+        egs : [{
+          ds: '`C.eq`는 data값이 모두 하나로 일치하는 판별합니다. ( == 비교 )',
+          cd: ''}]
+      },
+      neq : {
+        title : 'neq',
+        usage : 'C.neq(data...), C.neq([data...])',
+        egs : [{
+          ds: '`C.neq`는 data값이 모두 하나로 일치하지 않는지 판별합니다. ( != 비교 )',
+          cd: ''}]
+      },
+      seq : {
+        title : 'seq',
+        usage : 'C.seq(data...), C.seq([data...])',
+        egs : [{
+          ds: '`C.seq`는 data값이 모두 하나로 일치하는 판별합니다. ( === 비교 )',
+          cd: ''}]
+      },
+
+      sneq : {
+        title : 'sneq',
+        usage : 'C.sneq(data...), C.sneq([data...])',
+        egs : [{
+          ds: '`C.sneq`는 data값이 모두 하나로 일치하지 않는지 판별합니다. ( !== 비교 )',
+          cd: ''}]
+      },
+
+      log : {
+        title : 'log',
+        usage : 'C.log(data...)',
+        egs : [{
+          ds: '`C.log`는 data를 로그창에 출력합니다. console.log와 똑같은 역할을 합니다.',
+          cd: '\
+                  |var val = "출력해 주세요";\
+                  |C.log(val); // 출력해 주세요\
+                  |console.log(val); // 출력해 주세요'}]
+      },
+      error : {
+        title : 'error',
+        usage : 'C.error(message)',
+        egs : [{
+          ds: '`C.error`는 message를 로그창에 에러 타입으로 출력합니다. console.error와 똑같은 역할을 합니다.',
+          cd: '\
+                  |var err = "에러입니다!";\
+                  |C.error(err); // 에러입니다!\
+                  |console.error(err); // 에러입니다!'}]
+      },
+      hi : {
+        title : 'hi',
+        usage : 'C.hi(datas...)',
+        egs : [{
+          ds: '`C.hi`는 data를 로그창에 차례대로 출력한 후, 다음 함수에게 반환합니다.(파이프라인 중, 테스트 함수로 유용합니다.)',
+          cd: '\
+                  |var res = C(101, 201, 300, [C.hi, \
+                  |________________function(a, b, c) { \
+                  |___________________console.log("출력", a, b, c); }]); // 101 201 300\
+                  |console.log(res); // 101, 201, 300'}]
+      },
+
+      notice : {
+        title : 'notice',
+        usage : 'C.notice(), C.noti(), C.Noti',
+        egs : [{
+          ds: '`B.args`는 인덱스 값에 맞춰 매개변수의 값을 반환하는 함수를 만듭니다.',
+          cd: '\
+                  |var arg0 = B.args(0);\
+                  |var r1 = arg0(10, 20, 30);\
+                  |console.log(r1); // 10'}]
+      },
+      removeByIndex : {
+        title : 'removeByIndex',
+        usage : 'C.removeByIndex(index), C.remove_by_index(index)',
+        egs : [{
+          ds: '`C.removeByIndex`는 배열 중 인덱스에 해당하는 값을 제거합니다.',
+          cd: '\
+                  |var ary = [10, 20, 30, 40];\
+                  |C.removeByIndex(ary, 2);\
+//                  |var res = C.removeByIndex(ary, 2);\
+//                  |console.log(res); // 2\
+                  |console.log(ary); // [10, 20, 40]'}]
+      },
+      test : {
+        title : 'test',
+        usage : 'C.test()',
+        egs : [{
+          ds: '`C.test`는 ',
+          cd: '\
+                  |var arg0 = B.args(0);\
+                  |var r1 = arg0(10, 20, 30);\
+                  |console.log(r1); // 10'}]
+      },
+      toMR : {
+        title : 'toMR',
+        usage : 'C.toMR([args...])',
+        egs : [{
+          ds: '`C.toMR`은 배열로 감싸진 매개변수들을 펼쳐서 리턴(multi-return)합니다.',
+          cd: '\
+                  |var ary = [11, 12, 13]\
+                  |C(ary, [ C.toMR, \
+                  |_________function(a, b, c) { console.log(a, b, c); } ])// 11, 12, 13'}]
+      }
     }
   },
+
+
+
+
+
+
 
   H : {
     func : {
@@ -453,8 +819,8 @@ var section_data = {
                   |function() {\
                   |__return arguments;\
                   |}"}, {
-          ds : "이렇게도 사용할 수 있습니다.",
-          cd : "\
+          ds: "이렇게도 사용할 수 있습니다.",
+          cd: "\
                   |function() {\
                   |__return arguments[0];\
                   |}"}]
@@ -511,6 +877,39 @@ C([
   B.M('appendTo', 'div#H .func_title small')
 ]);
 
+///*General functions*/
+//function section_bulider(temp_section) {
+//  return _.map(_.keys(temp_section), function(key) {
+//
+//    var section_values = _.values(temp_section[key]);
+//    var func = section_values[0],
+//      methods = section_values[1];
+//
+//    return ['\
+//            div.outer_section#'+key+'\
+//              h3.func_title '+func.title+'\
+//                small ' + func.usage
+//    + _.map(func.egs, function(obj) {
+//      return  '\
+//              p ' + obj.ds + '\
+//              pre ' + obj.cd;
+//    }).join('')]
+//      .concat(_.map(methods, function(method) {
+//        return ['\
+//              div.inner_section#'+key+'_'+method.title+'\
+//                h4.method_title '+key+'.'+method.title+' \
+//                  small '+method.usage]
+//          .concat(_.map(method.egs, function(eg) {
+//            return ['\
+//                p '+eg.ds+'\
+//                pre.prettyprint\
+//                  '+eg.cd]
+//          })).join('');
+//      })).join('');
+//  });
+//}
+
+
 /*General functions*/
 function section_bulider(temp_section) {
   return _.map(_.keys(temp_section), function(key) {
@@ -523,10 +922,10 @@ function section_bulider(temp_section) {
             div.outer_section#'+key+'\
               h3.func_title '+func.title+'\
                 small ' + func.usage
-    + _.map(func.egs, function(obj) {
+    + _.map(func.egs, function(eg) {
       return  '\
-              p ' + obj.ds + '\
-              pre ' + obj.cd;
+              p ' + eg.ds + (eg.cd ? '\
+              pre ' + eg.cd : '');
     }).join('')]
       .concat(_.map(methods, function(method) {
         return ['\
@@ -535,15 +934,13 @@ function section_bulider(temp_section) {
                   small '+method.usage]
           .concat(_.map(method.egs, function(eg) {
             return ['\
-                p '+eg.ds+'\
+                p '+eg.ds+ (eg.cd ? '\
                 pre.prettyprint\
-                  '+eg.cd]
+                  '+eg.cd : '')]
           })).join('');
       })).join('');
   });
 }
-
-
 
 
 
