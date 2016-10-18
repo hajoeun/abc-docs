@@ -61,7 +61,10 @@ var ex_ary = [
     title: "Data",
     detail: "`!{}!`, `<<>>`, `<<<>>>`",
     comment: "`!{}!`, `<<>>`, `<<<>>>`을 사용하여 데이터를 치환할 수 있습니다.",
-    data: "var person = { name: 'Cojamm', age: 32, company: 'marpple', comment:'<em>하이</em>' };"
+    data: "var person = { name: 'Cojamm',*\\n\
+               age: 32,*\\n\
+               company: 'marpple',*\\n\
+               comment:'<em>하이</em>' };"
   },
   {
     title: "Comments",

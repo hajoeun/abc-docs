@@ -164,28 +164,26 @@ body > .container {
 }
 
 .container > .try_sections > .section > .section_body > .s_test > .input {
-  /*cursor: text;*/
-  /*font-size: 15px;*/
-  /*font-family: Menlo, "Bitstream Vera Sans Mono", "DejaVu Sans Mono", Monaco, Consolas, monospace;*/
-  /*width: 95%;*/
-  /*margin: 0;*/
-  /*color: whitesmoke;*/
-  /*background-color: #333333;*/
-  /*resize: vertical;*/
 }
+
 .container > .try_sections > .section > .section_body > .s_test > .data {
-  height: 100px;
+  height: auto;
   margin-bottom: 10px;
 }
 .container > .try_sections > .section > .section_body > .s_test > .code {
   white-space: nowrap;
-  min-height: 250px;
   margin-bottom: 10px;
+}
+
+.container > .try_sections > .section > .section_body > .s_test > .code .CodeMirror-scroll {
+  min-height: 200px;
+  height: auto;
 }
 
 .container > .try_sections > .section > .section_body > .s_result > .dom {
   width: 95%;
   margin: 0;
-  min-height: 280px;
+  min-height: 194px;
+  height: auto;
   border: 2px solid #ccc;
 }
