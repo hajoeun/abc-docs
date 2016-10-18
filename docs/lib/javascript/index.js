@@ -776,10 +776,37 @@ var section_data = {
       select:
       {
         title : 'select',
-        usage : 'C.select(start, selector), C.sel(start, selector)',
+        usage : 'C.select(object, string), C.sel(object, string)',
         egs : [{
-          ds: "`C.select`는..?",
-          cd: ""}]
+          ds: "`C.select`는 객체의 탐색을 쉽게 만들어주는 함수입니다. 탐색의 대상이 되는 객체와 탐색의 경로가 되는 문자열을 인자로 받습니다.",
+          cd: "\
+                  |var users = [\
+                  |__{\
+                  |____id: 1,\
+                  |____name: 'BJ',\
+                  |____post_count: 2,\
+                  |____posts: [\
+                  |______{ id: 2, body: '하이2', comments: [{ id: 1, body: '코멘트1' }, { id: 2, body: '코멘트2' }] },\
+                  |______{ id: 1, body: '하이', comments: [{ id: 3, body: '코멘트3' }] },\
+                  |______{ id: 4, body: '하이4', comments: [{ id: 4, body: '코멘트4' }, { id: 5, body: '코멘트5' }] }\
+                  |____]\
+                  |__},\
+                  |__{\
+                  |____id: 2,\
+                  |____name: 'PJ',\
+                  |____post_count: 1,\
+                  |____posts: [\
+                  |______{ id: 3, body: '하이3', comments: [] }\
+                  |____]\
+                  |__}\
+                  |];\
+                  |console.log(\
+                  |C.select(users, '0 -> name'), // BJ\
+                  |C.select(users, '($.id==2) -> name'), // PJ\
+                  |C.select(users, '($.id==2) -> posts -> 0 -> body'), // 하이3\
+                  |C.select(users, '($.post_count>1) -> posts -> ($.comments.length > 1)')\
+                  |// { id: 2, body: '하이2', comments: [{ id: 1, body: '코멘트1' }, { id: 2, body: '코멘트2' }] }\
+                  |);"}]
       },
 
     }
