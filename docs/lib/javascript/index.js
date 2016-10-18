@@ -1332,33 +1332,33 @@ $('#search').keyup(function(e) {
 
 // focus effect
 $('#list_bar li a').on('click', function(e) {
-  var $section = $(e.target.href.match(/#[A-Z](_[_\w]*)?/)[0]);
+  var $section = $(e.target.href.match(/#[A-Z]\$?(_\w+)?$/)[0]);
 
-  (function() {
-    if (!$section[0].style.boxShadow) $section[0].style.boxShadow = "#ccc 0 0 1px";
+  if ($section[0])
+    (function() {
+      if (!$section[0].style.boxShadow) $section[0].style.boxShadow = "#ccc 0 0 1px";
 
-    var depth = parseInt($section[0].style.boxShadow.match(/([0-9]*)px$/)[1]) + 5;
+      var depth = C.iadd($section[0].style.boxShadow.match(/([0-9]*)px$/)[1], 5);
 
-    // shadow on
-    if (depth < 70) {
-      $section.css('box-shadow', ' #ccc 0 0 '+ depth +'px');
-      _.delay(arguments.callee, 30);
-    }
-    else {
-      $section.css('box-shadow', '#ccc 0 0 '+ depth +'px');
-      // shadow off
-      (function() {
-        var depth = parseInt($section[0].style.boxShadow.match(/([0-9]*)px$/)[1]) - 10;
-        if (depth > 0) {
-          $section.css('box-shadow', '#ccc 0 0 '+ depth +'px');
-          _.delay(arguments.callee, 30);
-        } else {
-          $section.css('box-shadow', '#ccc 0 0 0px');
-        }
-      })();
-    }
-  })();
-
+      // shadow on
+      if (depth < 70) {
+        $section.css('box-shadow', ' #ccc 0 0 '+ depth +'px');
+        _.delay(arguments.callee, 30);
+      }
+      else {
+        $section.css('box-shadow', '#ccc 0 0 '+ depth +'px');
+        // shadow off
+        (function() {
+          var depth = C.isub($section[0].style.boxShadow.match(/([0-9]*)px$/)[1], 10);
+          if (depth > 0) {
+            $section.css('box-shadow', '#ccc 0 0 '+ depth +'px');
+            _.delay(arguments.callee, 30);
+          } else {
+            $section.css('box-shadow', '#ccc 0 0 0px');
+          }
+        })();
+      }
+    })();
 });
 
 
