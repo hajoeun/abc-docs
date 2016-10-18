@@ -61,7 +61,10 @@ var ex_ary = [
     title: "Data",
     detail: "`!{}!`, `<<>>`, `<<<>>>`",
     comment: "`!{}!`, `<<>>`, `<<<>>>`을 사용하여 데이터를 치환할 수 있습니다.",
-    data: "var person = { name: 'Cojamm', age: 32, company: 'marpple', comment:'<em>하이</em>' };"
+    data: "var person = { name: 'Cojamm',*\\n\
+               age: 32,*\\n\
+               company: 'marpple',*\\n\
+               comment:'<em>하이</em>' };"
   },
   {
     title: "Comments",
@@ -251,43 +254,12 @@ $(document).ready(function() {
     try {
       dom.html((new Function(data + "; return (" + code + ");"))());
       console.log(e.target.id + "%c 코드 실행!", "color:green;");
-      dom.css("border", "3px solid #1abc9c").animate({ backgroundColor:'#1abc9c' }, 900, function(){ $(this)[0].style.borderColor = "#ccc"; });
+      dom.css("border", "3px solid #1abc9c").animate({ borderColor:'#1abc9c' }, 900, function(){ $(this).css("borderColor", "#ccc"); });
     } catch (e) {
       dom.html(e).css('border', '3px solid #e74c3c');
       console && console.error && console.error('Syntax Error...');
     }
   }).click();
-
-
-  $('#list_bar li a').on('click', function(e) {
-    var $section = $(e.target.href.match(/#([A-Z])(_([a-z]+))?/)[0]);
-
-    (function() {
-      if (!$section[0].style.boxShadow) $section[0].style.boxShadow = "#ccc 0 0 1px";
-
-      var depth = parseInt($section[0].style.boxShadow.match(/([0-9]*)px$/)[1]) + 5;
-
-      // shadow on
-      if (depth < 70) {
-        $section.css('box-shadow', ' #ccc 0 0 '+ depth +'px');
-        _.delay(arguments.callee, 30);
-      }
-      else {
-        $section.css('box-shadow', '#ccc 0 0 '+ depth +'px');
-        // shadow off
-        (function() {
-          var depth = parseInt($section[0].style.boxShadow.match(/([0-9]*)px$/)[1]) - 10;
-          if (depth > 0) {
-            $section.css('box-shadow', '#ccc 0 0 '+ depth +'px');
-            _.delay(arguments.callee, 30);
-          } else {
-            $section.css('box-shadow', '#ccc 0 0 0px');
-          }
-        })();
-      }
-    })();
-
-  });
 
   function TAB() { return "( {" + H.TAB_SIZE + "}|\\t)"; };
   function TABS() { return TAB() + "+"; };
