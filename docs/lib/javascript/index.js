@@ -669,6 +669,118 @@ var section_data = {
                   |var res2 = (function(arr) { return C.arr_or_args_to_arr(arguments); })([1, 2, 3]);\
                   |console.log(res2); // [[1, 2, 3]]"}]
       },
+      val:
+      {
+        title : 'val',
+        usage : 'C.val(object, key), C.v(object, string)',
+        egs : [{
+          ds: "`C.val`은 객체가 가진 키에 맞는 프로퍼티를 반환하는 함수입니다.",
+          cd: "\
+                  |var user1 = { name: 'HA', age: 25 };\
+                  |var res = C.val(user1, 'name');\
+                  |console.log(res); // 'HA'"}]
+      },
+      argsN:
+      {
+        title : 'argsN',
+        usage : 'C.args0(values...), C.args1(values...), C.args2(values...), C.args3(values...), C.args4(values...)',
+        egs : [{
+          ds: "`C.argsN`은 인자로 전달 받은 값들 중 N-1번째에 해당하는 값을 반환하는 함수입니다.",
+          cd: "\
+                  |var res0 = C.args0(10, 20, 30);\
+                  |console.log(res0); // 10\
+                  |\
+                  |var res2 = C.args2(10, 20, 30);\
+                  |console.log(res2); // 30"}]
+      },
+      set:
+      {
+        title : 'set',
+        usage : 'C.set(object, key, value | function)',
+        egs : [{
+          ds: "`C.set`은 새로운 키와 값을 객체에 추가하는 함수입니다.",
+          cd: "\
+                  |var student1 = { name: 'JE' };\
+                  |C.set(student1, 'score', 80); \
+                  |console.log(student1) // { name: 'JE', score: 80 }\
+                  |\
+                  |C.set(student1, 'grade', function(obj) { return obj.score > 90 ? 'A' : 'B';}); \
+                  |console.log(student1) // { name: 'JE', score: 80, grade: 'B' }"}]
+      },
+      unset:
+      {
+        title : 'unset',
+        usage : 'C.unset(object, key)',
+        egs : [{
+          ds: "`C.unset`은 객체에서 특정 키의 프로퍼티를 삭제하는 함수입니다.",
+          cd: "\
+                  |var student1 = { name: 'JE', score: 80, grade: 'B' };\
+                  |C.set(student1, 'grade'); \
+                  |console.log(student1) // { name: 'JE', score: 80, grade: undefined }"}]
+      },
+      remove:
+      {
+        title : 'remove',
+        usage : 'C.remove(array, value)',
+        egs : [{
+          ds: "`C.remove`는 배열에서 원하는 값을 삭제하는 함수입니다.",
+          cd: "\
+                  |var nums = [10, 20, 30, 40];\
+                  |C.remove(nums, 30); \
+                  |console.log(nums) // [10, 20, 40]"}]
+      },
+      pop:
+      {
+        title : 'pop',
+        usage : 'C.pop(array)',
+        egs : [{
+          ds: "`C.pop`은 배열에서 마지막 요소를 삭제하는 함수입니다.",
+          cd: "\
+                  |var nums = [10, 20, 30, 40];\
+                  |C.pop(nums); \
+                  |console.log(nums) // [10, 20, 30]"}]
+      },
+      shift:
+      {
+        title : 'shift',
+        usage : 'C.shift(array)',
+        egs : [{
+          ds: "`C.shift`은 배열에서 처음 요소를 삭제하는 함수입니다.",
+          cd: "\
+                  |var nums = [10, 20, 30, 40];\
+                  |C.shift(nums); \
+                  |console.log(nums) // [20, 30, 40]"}]
+      },
+      push:
+      {
+        title : 'push',
+        usage : 'C.push(array, value | function)',
+        egs : [{
+          ds: "`C.push`는 배열의 마지막에 새로운 요소를 추가하는 함수입니다.",
+          cd: "\
+                  |var nums = [10, 20, 30];\
+                  |C.push(nums, 40); \
+                  |console.log(nums) // [10, 20, 30, 40]"}]
+      },
+      unshift:
+      {
+        title : 'unshift',
+        usage : 'C.unshift(array, value | function)',
+        egs : [{
+          ds: "`C.unshift`는 배열의 처음에 새로운 요소를 추가하는 함수입니다.",
+          cd: "\
+                  |var nums = [20, 30, 40];\
+                  |C.unshift(nums, 10); \
+                  |console.log(nums) // [10, 20, 30, 40]"}]
+      },
+      select:
+      {
+        title : 'select',
+        usage : 'C.select(start, selector), C.sel(start, selector)',
+        egs : [{
+          ds: "`C.select`는..?",
+          cd: ""}]
+      },
 
     }
   },
