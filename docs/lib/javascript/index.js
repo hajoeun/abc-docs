@@ -1219,8 +1219,64 @@ var section_data = {
                   |______li _{i+1}_. _{song}_'), ')}}}'));"}]
       }
     }
+  },
+
+  S : {
+    func : {
+      title : "S",
+      usage : "S('var name...', source)",
+      egs : [{
+        ds: "`S`는 source를 data 값에 따라 동적으로 치환하는 함수를 만듭니다. 데이터베이스 쿼리문을 생성할 때 유용합니다.",
+        cd: "\
+                  |var p_id = 5, p_body = 'I like it.'\
+                  |var res = C(p_body, p_id, S('body, id', 'update posts set body = \"_{body}_\" where id = _{id}_;'));\
+                  |console.log(res); // update posts set body = \"I like it.\" where id = 5; "}]},
+
+    method: {
+      each : {
+        title : "each",
+        usage : "S.each('var name...', iterate source)",
+        egs : [{
+          ds: "`S.each`는 source를 data값에 따라 동적으로 치환하는 함수를 만듭니다.",
+          cd: "\
+                  |var ary = [1, 9, 13];\
+                  |var res = C(ary, S.each('id', 'delete from Posts where id = _{id}_; '))\
+                  |console.log(res); // delete from Posts where id = 1; delete from Posts where id = 9; delete from Posts where id = 13; "
+        }]
+      }
+    }
+
+  },
+
+  X : {
+    func : {
+      title : "X",
+      usage : "B(args.., X, args..., function)",
+      egs : [{
+        ds: "`X`는 함수를 bind 할 때, 나중에 받을 인자의 자리를 지정해 줍니다.",
+        cd: "\
+                  |function minus(a, b) { return a-b; }\
+                  |var f = B(X, 5, minus)\
+                  |var res = f(15);\
+                  |console.log(res); // 10"}]
+    },
+    method: {
+      this: {
+        title : "this",
+        usage : "X.this(), X.context()",
+        egs : [{
+          ds: "`X.this`는 X객체의 this(context)를 반환합니다.",
+          cd: ""}]
+      }
+    }
+
   }
+
+
 };
+
+
+
 
 console.time();
 /*HTML Rendering*/
