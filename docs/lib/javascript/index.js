@@ -1,5 +1,5 @@
 /*Functions List variable declaration*/
-var funcs = _.filter(_.keys(F), function(val) { return val !== 'F' && val !== 'G' });
+var funcs = C.filter(C.keys(F), function(val) { return val !== 'F' && val !== 'G' });
 
 /*Section Data declaration*/
 var section_data = {
@@ -1241,7 +1241,7 @@ C(funcs, [H('funcs','\
             h4\
               a[href=#!{func}!] !{func}!\
             ul.method_list.!{func}!\
-              {{{C(_.keys(G[func]), func, ', H.each("method, k, l, func", '\
+              {{{C(C.keys(G[func]), func, ', H.each("method, k, l, func", '\
               li[data=!{method}!]\
                 a[href=#!{func}!_!{method}!] !{method}!'), ')}}}'
 ),')}}}\
@@ -1271,13 +1271,13 @@ C([
   $,
   B.M('appendTo', 'div#H .func_title small')
 ]);
-
 console.timeEnd();
+
 /*General functions*/
 function section_bulider(temp_section) {
-  return _.map(_.keys(temp_section), function(key) {
+  return C.map(C.keys(temp_section), function(key) {
 
-    var section_values = _.values(temp_section[key]);
+    var section_values = C.values(temp_section[key]);
     var func = section_values[0],
       methods = section_values[1];
 
@@ -1285,17 +1285,17 @@ function section_bulider(temp_section) {
             div.outer_section#'+key+'\
               h3.func_title '+func.title+'\
                 small ' + func.usage
-    + _.map(func.egs, function(eg) {
+    + C.map(func.egs, function(eg) {
       return  '\
               p ' + eg.ds + (eg.cd ? '\
               pre.javascript ' + eg.cd : '');
     }).join('')]
-      .concat(_.map(methods, function(method) {
+      .concat(C.map(methods, function(method) {
         return ['\
               div.inner_section#'+key+'_'+method.title+'\
                 h4.method_title '+key+'.'+method.title+' \
                   small '+method.usage]
-          .concat(_.map(method.egs, function(eg) {
+          .concat(C.map(method.egs, function(eg) {
             return ['\
                 p '+eg.ds+ (eg.cd ? '\
                 pre.javascript\
@@ -1306,8 +1306,7 @@ function section_bulider(temp_section) {
 }
 
 function replace_(str) {
-  return str.replace(/\|(_+)/g, function(m, u) { return "|" + u.replace(/_/g, '&nbsp;'); })
-        .replace(/`(.*?)`/g, '<code>$1</code>').replace(/(\n)/g, '\\$1');
+  return str.replace(/\|(_+)/g, function(m, u) { return "|" + u.replace(/_/g, '&nbsp;'); }).replace(/`(.*?)`/g, '<code>$1</code>').replace(/(\n)/g, '\\$1');
 }
 
 function update_section_list(str) {
@@ -1315,20 +1314,20 @@ function update_section_list(str) {
 
   var reg = new RegExp(str, "i");
 
-  var $func_li = _.filter($('ul.func_list > li'), function(func){
+  var $func_li = C.filter($('ul.func_list > li'), function(func){
     return $(func).attr('data').match(reg) ? !$('ul.func_list li').show() : true;
   });
 
-  var res = _.map($func_li, function(li) { //메소드 조사
+  var res = C.map($func_li, function(li) { //메소드 조사
     var $li = $(li);
     return li.innerText.match(reg) ? (function() {
       $li.show();
       return $li.children('ul')[0].childNodes; })() : $li.hide();
   });
 
-  _.each(res, function(li) {
+  C.each(res, function(li) {
     if (li) {
-      _.each(li, function (inner_li) { return inner_li.innerText.match(reg) ? $(inner_li).show() : $(inner_li).hide(); });
+      C.each(li, function (inner_li) { return inner_li.innerText.match(reg) ? $(inner_li).show() : $(inner_li).hide(); });
     }
 
   });
@@ -1361,7 +1360,7 @@ $(document).ready(function() {
       // shadow on
       if (depth < 70) {
         $section.css('box-shadow', ' #ccc 0 0 '+ depth +'px');
-        _.delay(arguments.callee, 30);
+        setTimeout(arguments.callee, 30);
       }
       else {
         $section.css('box-shadow', '#ccc 0 0 '+ depth +'px');
@@ -1370,7 +1369,7 @@ $(document).ready(function() {
           var depth = C.isub($section[0].style.boxShadow.match(/([0-9]*)px$/)[1], 10);
           if (depth > 0) {
             $section.css('box-shadow', '#ccc 0 0 '+ depth +'px');
-            _.delay(arguments.callee, 30);
+            setTimeout(arguments.callee, 30);
           } else {
             $section.css('box-shadow', '#ccc 0 0 0px');
           }
