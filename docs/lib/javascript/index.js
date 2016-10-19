@@ -1179,7 +1179,7 @@ var section_data = {
                   |____h1#hello Hello H template!\n\
                   |____a[href=https://www.marpple.com] Marpple Go!\n\
                   |____h3[style=\"color:red\"] 나는 한정판이다.'));"}, {
-        ds : "이렇게도 사용할 수 있습니다.",
+        ds : "데이터를 다룰 수 있습니다.",
         cd : "\
                   |C({ name: 'HA' }, H('user','\n\
                   |____________div\n\
@@ -1219,6 +1219,67 @@ var section_data = {
                   |______li _{i+1}_. _{song}_'), ')}}}'));"}]
       }
     }
+  },
+
+  J : {
+    func : {
+      title : 'J',
+      usage : 'J(value)',
+      egs : [{
+        ds: "`J`는 특정 값만 반환하는 함수를 만듭니다.",
+        cd: "\
+                  |var just10 = J(10);\
+                  |console.log(just10()); // 10"}]
+    },
+    methods: {
+      true :
+      {
+        title : 'true',
+        usage : 'J.true(), J.t()',
+        egs : [{
+          ds: "`J.true`는 무조건 true를 반환합니다.",
+          cd: "\
+                  |J.true(); // true"}]
+      },
+      false :
+      {
+        title : 'false',
+        usage : 'J.false(), J.f()',
+        egs : [{
+          ds: "`J.false`는 무조건 false를 반환합니다.",
+          cd: "\
+                  |J.false(); // false"}]
+      },
+      noop :
+      {
+        title : 'noop',
+        usage : 'J.noop(), J.u()',
+        egs : [{
+          ds: "`J.noop`는 무조건 undefined를 반환합니다.",
+          cd: "\
+                  |J.noop(); // undefined"}]
+      }
+    }
+  },
+
+   MR: {
+    func : {
+      title : 'MR',
+      usage : 'MR(value...)',
+      egs : [{
+        ds: "`MR`는 복수의 값을 반환합니다.(Multi Return)",
+        cd: "\
+                  |A([1,2,3],\
+                  |______[\
+                  |________function(a, b, c) {\
+                  |__________return MR(a, b + c);\
+                  |________},\
+                  |________function(x, y) {\
+                  |__________console.log(x, y); // 1, 5\
+                  |________}\
+                  |______]);"}]
+    },
+    methods: {}
   }
 };
 
