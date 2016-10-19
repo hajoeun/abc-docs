@@ -1174,42 +1174,49 @@ var section_data = {
       egs : [{
         ds: "`H`는 HTML 템플릿을 쉽게 만들 수 있도록 돕습니다.",
         cd: "\
-                  |function() {\
-                  |__return arguments;\
-                  |}"}, {
+                  |C(H('','\
+                  |__div\
+                  |____h1#hello Hello H template!\
+                  |____a[href=https://www.marpple.com] Marpple Go!\
+                  |____h3[style=\"color:red\"] 나는 한정판이다.'));"}, {
         ds : "이렇게도 사용할 수 있습니다.",
         cd : "\
-                  |function() {\
-                  |__return arguments[0];\
-                  |}"}]
+                  |C({ name: 'HA' }, H('user','\
+                  |____________div\
+                  |______________p.user_name _{user.name}_'));"}]
     },
     methods: {
       TAB_SIZE :
       {
         title : 'TAB_SIZE',
-        usage : 'H.TAB_SIZE()',
+        usage : 'H.TAB_SIZE(size)',
         egs : [{
-          ds: "이 함수는 ~하는 함수 입니다.",
+          ds: "`H.TAB_SIZE`는 템플릿을 작성할 때 사용될 탭의 크기를 설정하는 함수입니다. (default: 2)",
           cd: "\
-                  |function() {\
-                  |__return arguments;\
-                  |}"}]
+                  |H.TAB_SIZE(4); // 탭 사이즈 4는 스페이스 4개와 같습니다."}]
       },
       each :
       {
         title : 'each',
-        usage : 'H.each()',
+        usage : 'H.each(\'data\', \'template\')',
         egs : [{
-          ds: "이 `H.each`함수는 ~하는 함수 입니다.",
+          ds: "`H.each`는 반복되는 템플릿 패턴을 쉽게 표현하기 위한 함수입니다.",
           cd: "\
-                  |function() {\
-                  |__return arguments;\
-                  |}"}, {
-          ds: "이렇게도 사용할 수 있습니다.",
-          cd: "\
-                  |function() {\
-                  |__return arguments[0];\
-                  |}"}]
+                  |var songs = [\
+                  |________'The Riddle Of The Model',\
+                  |________'Up',\
+                  |________'To Find You',\
+                  |________'A Beautiful Sea',\
+                  |________'Drive It Like You Stole It',\
+                  |________'Up (Bedroom Mix)',\
+                  |________'Girls',\
+                  |________'Brown Shoes' ];\
+                  |\
+                  |C(songs, H('songs', '\
+                  |____h3 Sing Street OST\
+                  |____ul\
+                  |______!{C(songs, ', H.each('song, i', '\
+                  |______li _{i+1}_. _{song}_'), ')}!'));"}] // 왜 여긴 하이라이트가 안 생기고.. {{}}를 따로 처리해줘야 함..
       }
     }
   }
@@ -1233,7 +1240,7 @@ C(funcs, [H('funcs','\
             h4\
               a[href=#!{func}!] !{func}!\
             ul.method_list.!{func}!\
-              {{{C(_.keys(!{func}!), "!{func}!", ', H.each("method, k, l, func", '\
+              {{{C(_.keys(G[func]), func, ', H.each("method, k, l, func", '\
               li[data=!{method}!]\
                 a[href=#!{func}!_!{method}!] !{method}!'), ')}}}'
 ),')}}}\
@@ -1278,7 +1285,7 @@ function section_bulider(temp_section) {
     + _.map(func.egs, function(eg) {
       return  '\
               p ' + eg.ds + (eg.cd ? '\
-              pre ' + eg.cd : '');
+              pre.javascript ' + eg.cd : '');
     }).join('')]
       .concat(_.map(methods, function(method) {
         return ['\
@@ -1288,7 +1295,7 @@ function section_bulider(temp_section) {
           .concat(_.map(method.egs, function(eg) {
             return ['\
                 p '+eg.ds+ (eg.cd ? '\
-                pre.prettyprint\
+                pre.javascript\
                   '+eg.cd : '')]
           })).join('');
       })).join('');

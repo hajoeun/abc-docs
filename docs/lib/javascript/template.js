@@ -260,13 +260,10 @@ $(document).ready(function() {
     try {
       dom.html((new Function(data + "; return (" + code + ");"))());
       console.log(e.target.id + "%c 코드 실행!", "color:green;");
-      console.log(code);
-
       dom.css("border", "3px solid #1abc9c").animate({ borderColor:'#1abc9c' }, 900, function(){ $(this).css("borderColor", "#ccc"); });
     } catch (e) {
       dom.html(e).css('border', '3px solid #e74c3c');
       console && console.error && console.error('Syntax Error...');
-      console.log(code);
     }
   }).click();
 
