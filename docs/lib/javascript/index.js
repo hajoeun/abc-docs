@@ -1174,15 +1174,15 @@ var section_data = {
       egs : [{
         ds: "`H`는 HTML 템플릿을 쉽게 만들 수 있도록 돕습니다.",
         cd: "\
-                  |C(H('','\
-                  |__div\
-                  |____h1#hello Hello H template!\
-                  |____a[href=https://www.marpple.com] Marpple Go!\
+                  |C(H('','\n\
+                  |__div\n\
+                  |____h1#hello Hello H template!\n\
+                  |____a[href=https://www.marpple.com] Marpple Go!\n\
                   |____h3[style=\"color:red\"] 나는 한정판이다.'));"}, {
         ds : "이렇게도 사용할 수 있습니다.",
         cd : "\
-                  |C({ name: 'HA' }, H('user','\
-                  |____________div\
+                  |C({ name: 'HA' }, H('user','\n\
+                  |____________div\n\
                   |______________p.user_name _{user.name}_'));"}]
     },
     methods: {
@@ -1212,16 +1212,17 @@ var section_data = {
                   |________'Girls',\
                   |________'Brown Shoes' ];\
                   |\
-                  |C(songs, H('songs', '\
-                  |____h3 Sing Street OST\
-                  |____ul\
-                  |______!{C(songs, ', H.each('song, i', '\
-                  |______li _{i+1}_. _{song}_'), ')}!'));"}] // 왜 여긴 하이라이트가 안 생기고.. {{}}를 따로 처리해줘야 함..
+                  |C(songs, H('songs', '\n\
+                  |____h3 Sing Street OST\n\
+                  |____ul\n\
+                  |______{{{C(songs, ', H.each('song, i', '\n\
+                  |______li _{i+1}_. _{song}_'), ')}}}'));"}]
       }
     }
   }
 };
 
+console.time();
 /*HTML Rendering*/
 C(funcs, [H('funcs','\
     div.bar#bar_wrapper\
@@ -1256,9 +1257,10 @@ C(funcs, [H('funcs','\
     div.container\
       div#section_container\
           {{{C(G.sections = section_bulider(section_data), ', H.each("section", "\
-           div {{{H('', replace_(section))()}}}\
+           div !{replace_(section)}!\
           "), ')}}}\
     '),
+  function(v) { return v.replace(/_\{(.*?)\}_/g, '{{$1}}').replace(/_\{\{(.*?)\}\}_/g, '{{{$1}}}').replace(/!_(.*?)_!/g, '!{$1}!'); },
   $,
   B.M('appendTo', 'body')]);
 
@@ -1270,6 +1272,7 @@ C([
   B.M('appendTo', 'div#H .func_title small')
 ]);
 
+console.timeEnd();
 /*General functions*/
 function section_bulider(temp_section) {
   return _.map(_.keys(temp_section), function(key) {
@@ -1303,7 +1306,8 @@ function section_bulider(temp_section) {
 }
 
 function replace_(str) {
-  return str.replace(/\|(_+)/g, function(m, u) { return "|" + u.replace(/_/g, '&nbsp;'); }).replace(/`(.*?)`/g, '<code>$1</code>');
+  return str.replace(/\|(_+)/g, function(m, u) { return "|" + u.replace(/_/g, '&nbsp;'); })
+        .replace(/`(.*?)`/g, '<code>$1</code>').replace(/(\n)/g, '\\$1');
 }
 
 function update_section_list(str) {

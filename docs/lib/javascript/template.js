@@ -225,7 +225,7 @@ $(document).ready(function() {
     });
   }
 
-  $('.tab_size').on('change', function(e) {                              // tab_size 변경 할 때에도 output 형태 업그레이드 해줘야 !!
+  $('.tab_size').on('change', function(e) {
     H.TAB_SIZE = C.parseInt($(':radio[name="tab"]:checked').val());
 
     var $code_inputs = $('.section_body .s_test > .code');
