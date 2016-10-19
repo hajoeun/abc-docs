@@ -5,6 +5,7 @@ var examples = [
     h1#hello Hello H template!\n\
     a[href=https://www.marpple.com] Marpple Go!\n\
     h3[style=\"color:red\"] 나는 한정판이다.'));",
+
   "C(H('','\n\
   textarea\n\
     |동해물과 백두산이\n\
@@ -13,6 +14,7 @@ var examples = [
     \n\
     애국가를 입력해주세요.\n\
   span 오구야'));",
+
   "C(person, H('user','\n\
         div.!{user.company}!\n\
           h3 My name is {{user.name}}\n\
@@ -20,6 +22,7 @@ var examples = [
           h5 {{user.comment}}\n\
           h5 {{{user.comment}}}\n\
         '));",
+
   "C(H('','\n\
           h3 I am smart.\n\
 //          h3 I am dummy.\n\
@@ -30,6 +33,7 @@ var examples = [
           h3 and.. every food*/\n\
           h4 I am honest.\n\
           '));",
+
   "C(songs, H('songs', '\n\
     h3 Sing Street OST\n\
     ul\n\
@@ -38,11 +42,13 @@ var examples = [
           return '<li>' + (i + 1) + '. ' + song + '</li>';*\\n\
         }).join('');*\\n\
       }, ')}}}'));",
+
   "C(songs, H('songs', '\n\
     h3 Sing Street OST\n\
     ul\n\
       !{C(songs, ', H.each('song, i', '\n\
       li {{i+1}}. {{song}}'), ')}!'));",
+
   "C(post, S('p', \"update posts set body = '{{p.body}}' where id = {{p.id}};\"));"
 ];
 
@@ -247,17 +253,20 @@ $(document).ready(function() {
 
     var $section = $('.section' + '.' + e.target.id);
 
-    var data = $section.find('.s_test > .data').text(),
-        code = $section.find('.s_test > .code').text().replace(/;\s*$/, ""),
-        dom = $section.find('.s_result > .dom');
+    var data = $section.find('.s_test > .data .CodeMirror-scroll .CodeMirror-code').text(),
+      code = $section.find('.s_test > .code .CodeMirror-scroll .CodeMirror-code').text().replace(/;\s*$/, ""),
+      dom = $section.find('.s_result > .dom');
 
     try {
       dom.html((new Function(data + "; return (" + code + ");"))());
       console.log(e.target.id + "%c 코드 실행!", "color:green;");
+      console.log(code);
+
       dom.css("border", "3px solid #1abc9c").animate({ borderColor:'#1abc9c' }, 900, function(){ $(this).css("borderColor", "#ccc"); });
     } catch (e) {
       dom.html(e).css('border', '3px solid #e74c3c');
       console && console.error && console.error('Syntax Error...');
+      console.log(code);
     }
   }).click();
 
@@ -267,12 +276,12 @@ $(document).ready(function() {
   /*Key event handler*/
   key_event();
   function key_event() {
-    var keys = {};
+    var key_cache = {};
     $('.s_test > .data textarea, .s_test > .code textarea').keydown(function(e) {
       var T = H.TAB_SIZE == 2 ? "  " : "    ";
 
-      keys[e.which] = true;
-      if (keys[9]) { // tab was pressed
+      key_cache[e.which] = true;
+      if (key_cache[9]) { // tab was pressed
         var start = this.selectionStart;
         var end = this.selectionEnd;
 
@@ -283,13 +292,13 @@ $(document).ready(function() {
 
         this.selectionStart = this.selectionEnd = start + H.TAB_SIZE;
         e.preventDefault();
-      } else if (keys[13] && keys[17]) {
+      } else if (key_cache[13] && key_cache[17]) {
         $(e.target.parentNode.parentNode.parentNode).find('.run_btn').click();
-        delete keys[13]; delete keys[17];
+        delete key_cache[13]; delete key_cache[17];
       }
 
     });
-    $('.s_test > .data textarea, .s_test > .code textarea').keyup(function(e) { delete keys[e.which]; });
-    $(document).keyup(function(e) { delete keys[e.which]; });
+    $('.s_test > .data textarea, .s_test > .code textarea').keyup(function(e) { delete key_cache[e.which]; });
+    $(document).keyup(function(e) { delete key_cache[e.which];  console.log(key_cache, e.which, e.keyCode); });
   }
 });
