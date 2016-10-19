@@ -1233,7 +1233,7 @@ C(funcs, [H('funcs','\
             h4\
               a[href=#!{func}!] !{func}!\
             ul.method_list.!{func}!\
-              {{{C(_.keys(!{func}!), "!{func}!", ', H.each("method, k, l, func", '\
+              {{{C(_.keys(G[func]), func, ', H.each("method, k, l, func", '\
               li[data=!{method}!]\
                 a[href=#!{func}!_!{method}!] !{method}!'), ')}}}'
 ),')}}}\

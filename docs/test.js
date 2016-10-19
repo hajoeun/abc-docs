@@ -1210,3 +1210,16 @@ var section_data = {
     }
   }
 };
+
+
+
+(new Function("var a = 'aaa'; console.log(a); (new Function('console.log(a)'))()"))();
+
+
+var a = "zzz";
+function foo() {
+  var a = "dfsdf";
+  (new Function("var a = 'aaa'; console.log(a); (new Function('console.log(a)'))()"))();
+
+}
+
