@@ -111,7 +111,7 @@ var ex_ary = [
     title: "S",
     detail: "",
     comment: "`S` 함수는 `H` 템플릿 함수와 비슷하나, SQL문과 같은 일반 문자열을 다룰 때 사용 할 수 있습니다.",
-    data: "var post = {id: 5, body: 'foo bar'}"
+    data: "var post = {id: 5, body: 'foo bar'};"
   }
 ];
 
@@ -225,14 +225,15 @@ $(document).ready(function() {
     });
   }
 
-  $('.tab_size').on('change', function(e) {
-    H.TAB_SIZE = C.parseInt($(':radio[name="tab"]:checked').val());
+  var user_tab_size = 2;
+  $('.setting > ul > li > .tab_size').on('change', function(e) {
+    user_tab_size = C.parseInt($(':radio[name="tab"]:checked').val());
 
     var $code_inputs = $('.section_body .s_test > .code');
 
     C.each($code_inputs, function(code_input) {
-      var code = C.reduce($(code_input).find('pre.CodeMirror-line'), function(m, v) { return m + v.innerText }, '');
-      code = H.TAB_SIZE == 4 ? code.replace(/  /g, "    ") : code.replace(/    /g, "  ");
+      var code = $(code_input).find('.CodeMirror-scroll .CodeMirror-code').text();
+      code = user_tab_size == 4 ? code.replace(/  /g, "    ") : code.replace(/    /g, "  ");
 
       CodeMirror(function(elt) {
         elt.className += " input code";
@@ -246,28 +247,30 @@ $(document).ready(function() {
     });
 
     key_event();
-    console.log(H.TAB_SIZE + "%c tab 설정 완료!", "color:green;");
+    console.log(user_tab_size + "%c tab 설정 완료!", "color:green;");
   });
 
   $('.run_btn').on('click', function(e) {
 
-    var $section = $('.section' + '.' + e.target.id);
+    var $section = $('.section' + '.' + e.target.id),
+      $data = $section.find('.s_test > .input.data .CodeMirror-scroll .CodeMirror-code'),
+      $code = $section.find('.s_test > .input.code .CodeMirror-scroll .CodeMirror-code'),
+      $dom = $section.find('.s_result > .dom');
 
-    var data = $section.find('.s_test > .data .CodeMirror-scroll .CodeMirror-code').text(),
-      code = $section.find('.s_test > .code .CodeMirror-scroll .CodeMirror-code').text().replace(/;\s*$/, ""),
-      dom = $section.find('.s_result > .dom');
+    var data = $data.text() ? $data[0].innerText : "",
+      code = $code[0].innerText.replace(/;\s*$/, "");
 
     try {
-      dom.html((new Function(data + "; return (" + code + ");"))());
+      $dom.html((new Function(data + "; return (" + code + ");"))());
       console.log(e.target.id + "%c 코드 실행!", "color:green;");
-      dom.css("border", "3px solid #1abc9c").animate({ borderColor:'#1abc9c' }, 900, function(){ $(this).css("borderColor", "#ccc"); });
+      $dom.css("border", "3px solid #1abc9c").animate({ borderColor:'#1abc9c' }, 900, function(){ $(this).css("borderColor", "#ccc"); });
     } catch (e) {
-      dom.html(e).css('border', '3px solid #e74c3c');
+      $dom.html(e).css('border', '3px solid #e74c3c');
       console && console.error && console.error('Syntax Error...');
     }
   }).click();
 
-  function TAB() { return "( {" + H.TAB_SIZE + "}|\\t)"; };
+  function TAB() { return "( {" + user_tab_size + "}|\\t)"; };
   function TABS() { return TAB() + "+"; };
 
   /*Key event handler*/
@@ -275,7 +278,7 @@ $(document).ready(function() {
   function key_event() {
     var key_cache = {};
     $('.s_test > .data textarea, .s_test > .code textarea').keydown(function(e) {
-      var T = H.TAB_SIZE == 2 ? "  " : "    ";
+      var T = user_tab_size == 2 ? "  " : "    ";
 
       key_cache[e.which] = true;
       if (key_cache[9]) { // tab was pressed
@@ -287,7 +290,7 @@ $(document).ready(function() {
 
         $this.val(value.substring(0, start) + T + value.substring(end));
 
-        this.selectionStart = this.selectionEnd = start + H.TAB_SIZE;
+        this.selectionStart = this.selectionEnd = start + user_tab_size;
         e.preventDefault();
       } else if (key_cache[13] && key_cache[17]) {
         $(e.target.parentNode.parentNode.parentNode).find('.run_btn').click();
@@ -296,6 +299,6 @@ $(document).ready(function() {
 
     });
     $('.s_test > .data textarea, .s_test > .code textarea').keyup(function(e) { delete key_cache[e.which]; });
-    $(document).keyup(function(e) { delete key_cache[e.which];  console.log(key_cache, e.which, e.keyCode); });
+    $(document).keyup(function(e) { delete key_cache[e.which]; });
   }
 });
