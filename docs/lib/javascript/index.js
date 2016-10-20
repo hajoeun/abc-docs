@@ -953,7 +953,6 @@ var section_data = {
                   |var res = C.sub(10,3,2,1);\
                   |console.log(res); // 4'}]
       },
-
       mod : {
         title : 'mod',
         usage : 'C.mod([value...])',
@@ -1221,6 +1220,68 @@ var section_data = {
     }
   },
 
+
+  J : {
+    func : {
+      title : 'J',
+        usage : 'J(value)',
+        egs : [{
+        ds: "`J`는 특정 값만 반환하는 함수를 만듭니다.",
+        cd: "\
+                    |var just10 = J(10);\
+                    |console.log(just10()); // 10"}]
+    },
+    methods: {
+      true :
+      {
+        title : 'true',
+          usage : 'J.true(), J.t()',
+        egs : [{
+        ds: "`J.true`는 무조건 true를 반환합니다.",
+        cd: "\
+                    |J.true(); // true"}]
+      },
+      false :
+      {
+        title : 'false',
+          usage : 'J.false(), J.f()',
+        egs : [{
+        ds: "`J.false`는 무조건 false를 반환합니다.",
+        cd: "\
+                    |J.false(); // false"}]
+      },
+      noop :
+      {
+        title : 'noop',
+          usage : 'J.noop(), J.u()',
+        egs : [{
+        ds: "`J.noop`는 무조건 undefined를 반환합니다.",
+        cd: "\
+                    |J.noop(); // undefined"}]
+      }
+    }
+  },
+
+  MR: {
+    func : {
+      title : 'MR',
+        usage : 'MR(value...)',
+        egs : [{
+        ds: "`MR`는 복수의 값을 반환합니다.(Multi Return)",
+        cd: "\
+                    |A([1,2,3],\
+                    |______[\
+                    |________function(a, b, c) {\
+                    |__________return MR(a, b + c);\
+                    |________},\
+                    |________function(x, y) {\
+                    |__________console.log(x, y); // 1, 5\
+                    |________}\
+                    |______]);"}]
+    },
+    methods: {}
+  },
+
   S : {
     func : {
       title : "S",
@@ -1272,66 +1333,36 @@ var section_data = {
 
   },
 
-  J : {
-    func : {
-      title : 'J',
-      usage : 'J(value)',
-      egs : [{
-        ds: "`J`는 특정 값만 반환하는 함수를 만듭니다.",
-        cd: "\
-                  |var just10 = J(10);\
-                  |console.log(just10()); // 10"}]
-    },
-    methods: {
-      true :
-      {
-        title : 'true',
-        usage : 'J.true(), J.t()',
-        egs : [{
-          ds: "`J.true`는 무조건 true를 반환합니다.",
-          cd: "\
-                  |J.true(); // true"}]
-      },
-      false :
-      {
-        title : 'false',
-        usage : 'J.false(), J.f()',
-        egs : [{
-          ds: "`J.false`는 무조건 false를 반환합니다.",
-          cd: "\
-                  |J.false(); // false"}]
-      },
-      noop :
-      {
-        title : 'noop',
-        usage : 'J.noop(), J.u()',
-        egs : [{
-          ds: "`J.noop`는 무조건 undefined를 반환합니다.",
-          cd: "\
-                  |J.noop(); // undefined"}]
-      }
-    }
-  },
 
-   MR: {
+
+
+
+
+
+
+
+  IF : {
     func : {
-      title : 'MR',
-      usage : 'MR(value...)',
+      title : "IF",
+      usage : "IF([condition...], [function...]), IF().ELSE(), IF().ELSEIF().ELSE()",
       egs : [{
-        ds: "`MR`는 복수의 값을 반환합니다.(Multi Return)",
+        ds: "`X`는 함수를 bind 할 때, 나중에 받을 인자의 자리를 지정해 줍니다.",
         cd: "\
-                  |A([1,2,3],\
-                  |______[\
-                  |________function(a, b, c) {\
-                  |__________return MR(a, b + c);\
-                  |________},\
-                  |________function(x, y) {\
-                  |__________console.log(x, y); // 1, 5\
-                  |________}\
-                  |______]);"}]
+                  |C(5, 0,\
+                  |__IF(I, f1 // function I(v) { return v; }\
+                  |__).ELSEIF(function(a, b) {\
+                  |____return a < b \
+                  |____},\
+                  |____function(a, b) {\
+                  |______console.log(a);\
+                  |____}\
+                  |__).ELSE(f2));\
+                  |// f1"}]
     },
-    methods: {}
+    method: {}
+
   }
+
 };
 
 console.time();
@@ -1424,25 +1455,31 @@ function replace_(str) {
 function update_section_list(str) {
   if (!str) return $('#list_bar li').show();
 
-  var reg = new RegExp(str, "i");
+  var reg = new RegExp(str, "i"); // 우리는 정규표현식으로 검색해도 검색 됨 ^0^
 
   var $func_li = C.filter($('ul.func_list > li'), function(func){
-    return $(func).attr('data').match(reg) ? !$('ul.func_list li').show() : true;
+    return $(func).attr('data').match(reg) ? !$('ul.func_list > li').show() : true;
   });
 
-  var res = C.map($func_li, function(li) { //메소드 조사
+  var res = C.filter($func_li, function(li) {
     var $li = $(li);
-    return li.innerText.match(reg) ? (function() {
-      $li.show();
-      return $li.children('ul')[0].childNodes; })() : $li.hide();
+    if (!li.innerText.match(reg)) return !$li.hide();
+
+    return $li.show();
   });
+
 
   C.each(res, function(li) {
-    if (li) {
-      C.each(li, function (inner_li) { return inner_li.innerText.match(reg) ? $(inner_li).show() : $(inner_li).hide(); });
-    }
+    var $li = $(li);
+    var $methods = $li.children('.method_list').children('li');
 
+    C.each($methods, function(m) {
+      console.log(m);
+      console.log(m.innerText);
+      m.innerText.match(reg) ? $(m).show() : $(m).hide();
+    })
   });
+
 }
 
 
@@ -1460,7 +1497,10 @@ $(document).ready(function() {
 
   // focus effect
   $('#list_bar li a').on('click', function(e) {
-    var $section = $(e.target.href.match(/#[A-Z]\$?(_\w+)?$/)[0]);
+
+    //console.log(e.target.href);
+    //var $section = $(e.target.href.match(/#[A-Z]+\$?(_\w+)?$/)[0]);
+    var $section = $(e.target.href.match(/#[\w]+\$?$/)[0]);
 
     if (!$section[0]) return;
 
