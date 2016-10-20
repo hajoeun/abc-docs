@@ -1360,7 +1360,7 @@ var section_data = {
       title : "ERR",
       usage : "ERR([condition...], [function...]), IF().ELSE(), IF().ELSEIF().ELSE()",
       egs : [{
-        ds: "`ERR`는 ",
+        ds: "`ERR`는 에러를 발생시킵니다.",
         cd: "\
                   |C([\
                   |__function() {\
@@ -1387,7 +1387,7 @@ var section_data = {
       title : "CATCH",
       usage : "throw ~ CATCH(function), ERR ~ CATCH(function)",
       egs : [{
-        ds: "`CATCH`는 ",
+        ds: "`CATCH`는 throw 혹은 ERR가 있을 경우에 실행합니다.",
         cd: "\
                   |C([\
                   |__function () {\
