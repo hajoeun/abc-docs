@@ -1474,8 +1474,6 @@ function update_section_list(str) {
     var $methods = $li.children('.method_list').children('li');
 
     C.each($methods, function(m) {
-      console.log(m);
-      console.log(m.innerText);
       m.innerText.match(reg) ? $(m).show() : $(m).hide();
     })
   });
