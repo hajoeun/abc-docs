@@ -1221,6 +1221,7 @@ var section_data = {
   },
 
 
+
   J : {
     func : {
       title : 'J',
@@ -1262,6 +1263,22 @@ var section_data = {
     }
   },
 
+  I: {
+    func : {
+      title : 'I',
+      usage : 'I(value)',
+      egs : [{
+        ds: "`I`는 value를 반환합니다.",
+        cd: "\
+                    |I(\"Hello\"); // \"Hello\"\
+                    |C({ name: 'HA', age: 25 }, [\
+                    |____________________________IF(I, function(obj) { console.log(\"Hello, \" + obj.name); }\
+                    |____________________________).ELSE(function(obj) { console.log(\"nothing...\") })\
+                    |__________________________]);"}]
+    },
+    methods: {}
+  },
+
   MR: {
     func : {
       title : 'MR',
@@ -1278,6 +1295,22 @@ var section_data = {
                     |__________console.log(x, y); // 1, 5\
                     |________}\
                     |______]);"}]
+    },
+    methods: {}
+  },
+
+  P: {
+    func : {
+      title : 'P',
+      usage : 'P(function)',
+      egs : [{
+        ds: "`P`는 underscorejs의 `_.partial`이 간소화된 버전의 함수입니다.",
+        cd: "\
+                    |function add(x, y) { return x + y; }\
+                    |var add10 = P(add, 10);\
+                    |add10(5); // 15\
+                    |var sub10 = P(\"(x, y) => y - x\", 10);\
+                    |sub10(20); // 10"}]
     },
     methods: {}
   },
@@ -1332,13 +1365,6 @@ var section_data = {
     }
 
   },
-
-
-
-
-
-
-
 
 
   IF : {
@@ -1523,7 +1549,6 @@ $(document).ready(function() {
   $('pre.javascript').dblclick(function(e) {
     var cp = document.createElement('textarea');
     cp.value = e.target.innerText;
-
     e.target.appendChild(cp).select();
     document.execCommand('copy');
     cp.remove();
