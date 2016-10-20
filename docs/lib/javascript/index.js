@@ -1461,23 +1461,17 @@ function update_section_list(str) {
     return $(func).attr('data').match(reg) ? !$('ul.func_list > li').show() : true;
   });
 
-  var res = C.filter($func_li, function(li) {
+  C.filter($func_li, function(li) {
     var $li = $(li);
     if (!li.innerText.match(reg)) return !$li.hide();
 
-    return $li.show();
-  });
-
-
-  C.each(res, function(li) {
-    var $li = $(li);
     var $methods = $li.children('.method_list').children('li');
-
     C.each($methods, function(m) {
       m.innerText.match(reg) ? $(m).show() : $(m).hide();
-    })
-  });
+    });
 
+    return $li.show();
+  });
 }
 
 
