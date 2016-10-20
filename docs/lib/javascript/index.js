@@ -1522,4 +1522,13 @@ $(document).ready(function() {
     })();
   });
 
+  $('pre.javascript').dblclick(function(e) {
+    var cp = document.createElement('textarea');
+    cp.value = e.target.innerText;
+
+    e.target.appendChild(cp).select();
+    document.execCommand('copy');
+    cp.remove();
+  });
+
 });
