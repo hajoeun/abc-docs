@@ -1221,7 +1221,6 @@ var section_data = {
   },
 
 
-
   J : {
     func : {
       title : 'J',
@@ -1366,6 +1365,79 @@ var section_data = {
 
   },
 
+  CB : {
+    func : {
+      title : "CB",
+      usage : "CB(function...)",
+      egs : [{
+        ds: "`CB`는 C 안에서 callback 함수를 생성하여 마지막 인자로 넘긴 후 값을 받으면 다음 함수로 전달합니다.",
+        cd: "\
+                  |function sum(a, b, cb) {\
+                  |__setTimeout(function () {\
+                  |____cb(a+b);\
+                  |__}, 1000);\
+                  |}\
+                  |C(5, 10, [\
+                  |__CB(sum),\
+                  |__function(r) {\
+                  |____console.log(r); // 15\
+                  |__}\
+                  |])"}]
+    },
+    method: {}
+  },
+
+  ERR : {
+    func : {
+      title : "ERR",
+      usage : "ERR([condition...], [function...]), IF().ELSE(), IF().ELSEIF().ELSE()",
+      egs : [{
+        ds: "`ERR`는 에러를 발생시킵니다.",
+        cd: "\
+                  |C([\
+                  |__function() {\
+                  |____console.log(1);\
+                  |__},\
+                  |__function() {\
+                  |____console.log(2);\
+                  |____return ERR(2);\
+                  |__},\
+                  |__function() {\
+                  |____console.log(3);\
+                  |__},\
+                  |__CATCH(function(e) {\
+                  |____console.log(4, e);\
+                  |__}),\
+                  |__function() {\
+                  |____console.log(5);\
+                  |__}])"}]},
+    method: {}
+  },
+
+  CATCH : {
+    func : {
+      title : "CATCH",
+      usage : "throw ~ CATCH(function), ERR ~ CATCH(function)",
+      egs : [{
+        ds: "`CATCH`는 throw 혹은 ERR가 있을 경우에 실행합니다.",
+        cd: "\
+                  |C([\
+                  |__function () {\
+                  |____console.log(1);\
+                  |__},\
+                  |__function () {\
+                  |____console.log(2);\
+                  |____throw 2;\
+                  |__},\
+                  |__function () {\
+                  |____console.log(3);\
+                  |__},\
+                  |__CATCH(function (e) {\
+                  |____console.log(4);\
+                  |__})])"}]
+    },
+    method: {}
+  },
 
   IF : {
     func : {
@@ -1549,6 +1621,7 @@ $(document).ready(function() {
   $('pre.javascript').dblclick(function(e) {
     var cp = document.createElement('textarea');
     cp.value = e.target.innerText;
+
     e.target.appendChild(cp).select();
     document.execCommand('copy');
     cp.remove();
