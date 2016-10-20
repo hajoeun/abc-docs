@@ -1,5 +1,5 @@
 /*Functions List variable declaration*/
-var funcs = _.filter(_.keys(F), function(val) { return val !== 'F' && val !== 'G' });
+var funcs = C.filter(C.keys(F), function(val) { return val !== 'F' && val !== 'G' });
 
 /*Section Data declaration*/
 var section_data = {
@@ -1179,7 +1179,7 @@ var section_data = {
                   |____h1#hello Hello H template!\n\
                   |____a[href=https://www.marpple.com] Marpple Go!\n\
                   |____h3[style=\"color:red\"] 나는 한정판이다.'));"}, {
-        ds : "이렇게도 사용할 수 있습니다.",
+        ds : "데이터를 다룰 수 있습니다.",
         cd : "\
                   |C({ name: 'HA' }, H('user','\n\
                   |____________div\n\
@@ -1270,13 +1270,69 @@ var section_data = {
       }
     }
 
+  },
+
+  J : {
+    func : {
+      title : 'J',
+      usage : 'J(value)',
+      egs : [{
+        ds: "`J`는 특정 값만 반환하는 함수를 만듭니다.",
+        cd: "\
+                  |var just10 = J(10);\
+                  |console.log(just10()); // 10"}]
+    },
+    methods: {
+      true :
+      {
+        title : 'true',
+        usage : 'J.true(), J.t()',
+        egs : [{
+          ds: "`J.true`는 무조건 true를 반환합니다.",
+          cd: "\
+                  |J.true(); // true"}]
+      },
+      false :
+      {
+        title : 'false',
+        usage : 'J.false(), J.f()',
+        egs : [{
+          ds: "`J.false`는 무조건 false를 반환합니다.",
+          cd: "\
+                  |J.false(); // false"}]
+      },
+      noop :
+      {
+        title : 'noop',
+        usage : 'J.noop(), J.u()',
+        egs : [{
+          ds: "`J.noop`는 무조건 undefined를 반환합니다.",
+          cd: "\
+                  |J.noop(); // undefined"}]
+      }
+    }
+  },
+
+   MR: {
+    func : {
+      title : 'MR',
+      usage : 'MR(value...)',
+      egs : [{
+        ds: "`MR`는 복수의 값을 반환합니다.(Multi Return)",
+        cd: "\
+                  |A([1,2,3],\
+                  |______[\
+                  |________function(a, b, c) {\
+                  |__________return MR(a, b + c);\
+                  |________},\
+                  |________function(x, y) {\
+                  |__________console.log(x, y); // 1, 5\
+                  |________}\
+                  |______]);"}]
+    },
+    methods: {}
   }
-
-
 };
-
-
-
 
 console.time();
 /*HTML Rendering*/
@@ -1297,7 +1353,7 @@ C(funcs, [H('funcs','\
             h4\
               a[href=#!{func}!] !{func}!\
             ul.method_list.!{func}!\
-              {{{C(_.keys(G[func]), func, ', H.each("method, k, l, func", '\
+              {{{C(C.keys(G[func]), func, ', H.each("method, k, l, func", '\
               li[data=!{method}!]\
                 a[href=#!{func}!_!{method}!] !{method}!'), ')}}}'
 ),')}}}\
@@ -1327,13 +1383,13 @@ C([
   $,
   B.M('appendTo', 'div#H .func_title small')
 ]);
-
 console.timeEnd();
+
 /*General functions*/
 function section_bulider(temp_section) {
-  return _.map(_.keys(temp_section), function(key) {
+  return C.map(C.keys(temp_section), function(key) {
 
-    var section_values = _.values(temp_section[key]);
+    var section_values = C.values(temp_section[key]);
     var func = section_values[0],
       methods = section_values[1];
 
@@ -1341,17 +1397,17 @@ function section_bulider(temp_section) {
             div.outer_section#'+key+'\
               h3.func_title '+func.title+'\
                 small ' + func.usage
-    + _.map(func.egs, function(eg) {
+    + C.map(func.egs, function(eg) {
       return  '\
               p ' + eg.ds + (eg.cd ? '\
               pre.javascript ' + eg.cd : '');
     }).join('')]
-      .concat(_.map(methods, function(method) {
+      .concat(C.map(methods, function(method) {
         return ['\
               div.inner_section#'+key+'_'+method.title+'\
                 h4.method_title '+key+'.'+method.title+' \
                   small '+method.usage]
-          .concat(_.map(method.egs, function(eg) {
+          .concat(C.map(method.egs, function(eg) {
             return ['\
                 p '+eg.ds+ (eg.cd ? '\
                 pre.javascript\
@@ -1362,8 +1418,7 @@ function section_bulider(temp_section) {
 }
 
 function replace_(str) {
-  return str.replace(/\|(_+)/g, function(m, u) { return "|" + u.replace(/_/g, '&nbsp;'); })
-        .replace(/`(.*?)`/g, '<code>$1</code>').replace(/(\n)/g, '\\$1');
+  return str.replace(/\|(_+)/g, function(m, u) { return "|" + u.replace(/_/g, '&nbsp;'); }).replace(/`(.*?)`/g, '<code>$1</code>').replace(/(\n)/g, '\\$1');
 }
 
 function update_section_list(str) {
@@ -1371,20 +1426,20 @@ function update_section_list(str) {
 
   var reg = new RegExp(str, "i");
 
-  var $func_li = _.filter($('ul.func_list > li'), function(func){
+  var $func_li = C.filter($('ul.func_list > li'), function(func){
     return $(func).attr('data').match(reg) ? !$('ul.func_list li').show() : true;
   });
 
-  var res = _.map($func_li, function(li) { //메소드 조사
+  var res = C.map($func_li, function(li) { //메소드 조사
     var $li = $(li);
     return li.innerText.match(reg) ? (function() {
       $li.show();
       return $li.children('ul')[0].childNodes; })() : $li.hide();
   });
 
-  _.each(res, function(li) {
+  C.each(res, function(li) {
     if (li) {
-      _.each(li, function (inner_li) { return inner_li.innerText.match(reg) ? $(inner_li).show() : $(inner_li).hide(); });
+      C.each(li, function (inner_li) { return inner_li.innerText.match(reg) ? $(inner_li).show() : $(inner_li).hide(); });
     }
 
   });
@@ -1417,7 +1472,7 @@ $(document).ready(function() {
       // shadow on
       if (depth < 70) {
         $section.css('box-shadow', ' #ccc 0 0 '+ depth +'px');
-        _.delay(arguments.callee, 30);
+        setTimeout(arguments.callee, 30);
       }
       else {
         $section.css('box-shadow', '#ccc 0 0 '+ depth +'px');
@@ -1426,7 +1481,7 @@ $(document).ready(function() {
           var depth = C.isub($section[0].style.boxShadow.match(/([0-9]*)px$/)[1], 10);
           if (depth > 0) {
             $section.css('box-shadow', '#ccc 0 0 '+ depth +'px');
-            _.delay(arguments.callee, 30);
+            setTimeout(arguments.callee, 30);
           } else {
             $section.css('box-shadow', '#ccc 0 0 0px');
           }

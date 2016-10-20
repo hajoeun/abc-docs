@@ -38,7 +38,7 @@ var examples = [
     h3 Sing Street OST\n\
     ul\n\
       {{{C(songs, ', function (songs) {*\\n\
-        return _.map(songs, function (song, i) {*\\n\
+        return C.map(songs, function (song, i) {*\\n\
           return '<li>' + (i + 1) + '. ' + song + '</li>';*\\n\
         }).join('');*\\n\
       }, ')}}}'));",
@@ -231,7 +231,7 @@ $(document).ready(function() {
     var $code_inputs = $('.section_body .s_test > .code');
 
     C.each($code_inputs, function(code_input) {
-      var code = _.reduce($(code_input).find('pre.CodeMirror-line'), function(m, v) { return m + v.innerText }, '');
+      var code = C.reduce($(code_input).find('pre.CodeMirror-line'), function(m, v) { return m + v.innerText }, '');
       code = H.TAB_SIZE == 4 ? code.replace(/  /g, "    ") : code.replace(/    /g, "  ");
 
       CodeMirror(function(elt) {
