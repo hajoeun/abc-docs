@@ -1463,7 +1463,7 @@ function update_section_list(str) {
 
   C.each($func_li, function(li) {
     var $li = $(li);
-    if (!li.innerText.match(reg)) return !$li.hide();
+    if (!li.innerText.match(reg)) return $li.hide();
 
     var $methods = $li.children('.method_list').children('li');
     C.each($methods, function(m) {
@@ -1490,8 +1490,6 @@ $(document).ready(function() {
   // focus effect
   $('#list_bar li a').on('click', function(e) {
 
-    //console.log(e.target.href);
-    //var $section = $(e.target.href.match(/#[A-Z]+\$?(_\w+)?$/)[0]);
     var $section = $(e.target.href.match(/#[\w]+\$?$/)[0]);
 
     if (!$section[0]) return;
