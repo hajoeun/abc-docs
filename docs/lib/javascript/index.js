@@ -1461,7 +1461,7 @@ function update_section_list(str) {
     return $(func).attr('data').match(reg) ? !$('ul.func_list > li').show() : true;
   });
 
-  C.filter($func_li, function(li) {
+  C.each($func_li, function(li) {
     var $li = $(li);
     if (!li.innerText.match(reg)) return !$li.hide();
 
